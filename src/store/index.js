@@ -1,10 +1,10 @@
 import UserStore from './userStore'
-import AppStore from './appStore'
+import TodoStore from './todoStore'
 
 class Store {
   constructor () {
     this.userStore = new UserStore()
-    this.todoStore = new AppStore()
+    this.todoStore = new TodoStore()
   }
 }
 

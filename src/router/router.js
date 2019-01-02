@@ -1,7 +1,7 @@
 import React from 'react'
 import { Route, Switch, BrowserRouter as Router } from 'react-router-dom'
 import AppRoutes from './app'
-import { Login } from 'src/pages/Login'
+import Login from 'pages/Login'
 
 const host = ''
 const Routes = () => (

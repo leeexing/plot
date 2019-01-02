@@ -26,7 +26,7 @@ class Login extends Component {
     return (
       <div className="app-login">
         <div className="app-login-wrap">
-          <h1 className="app-login-header">豆瓣登录</h1>
+          <h1 className="app-login-header">源数据管理平台</h1>
           <Form onSubmit={this.handleSubmit} className="login-form">
             <FormItem
               label="账号"
@@ -53,7 +53,7 @@ class Login extends Component {
               })(
                 <Checkbox>下次自动登录</Checkbox>
               )}
-              <a className="login-form-forgot" href="#">忘记密码了</a>
+              <a className="login-form-forgot" href="/">忘记密码了</a>
               <Button type="primary" htmlType="submit" className="login-form-button">
                 登录
               </Button>

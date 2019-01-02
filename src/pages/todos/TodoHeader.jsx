@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import { Input } from 'antd'
+import { observer } from 'mobx-react'
 
+@observer
 class TodoHeader extends Component {
   handleKeyUp (e) {
     if (e.keyCode === 13) {
@@ -9,11 +11,12 @@ class TodoHeader extends Component {
         return
       }
       let newTodoItem = {
-        text: value,
-        isDone: false
+        id: Math.random(),
+        title: value,
+        isFinished: false
       }
-      e.target.value = ''
       this.props.addTodo(newTodoItem)
+      e.target.value = ''
     }
   }
   render () {

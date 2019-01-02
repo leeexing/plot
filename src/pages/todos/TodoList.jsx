@@ -1,26 +1,22 @@
 import React, { Component } from 'react'
 import {  } from 'antd'
 import TodoItem from './TodoItem'
+import { observer } from 'mobx-react'
 
+@observer
 class TodoMain extends Component {
 
   render () {
-    if (this.props.todos.length === 0) {
-      return (
-        <div className="todo-empty">恭喜你，目前没有待办任务</div>
-      )
-    } else {
-      return (
-        <ul className="todo-main">
-          {
-            this.props.todos.map((todo, index) => {
-              // !{...this.props} 用来传递TodoMain的todos属性和delete、change方法
-              return <TodoItem text={todo.text} isDone={todo.isDone} time={todo.time} index={index} {...this.props} key={index}/>
-            })
-          }
-        </ul>
-      )
-    }
+    return (
+      <ul className="todo-main">
+        {
+          this.props.todos.map((todo, index) => {
+            // !{...this.props} 用来传递TodoMain的todos属性和delete、change方法
+            return <TodoItem todo={todo} toggleTodo={this.props.toggleTodo} deleteTodo={this.props.deleteTodo} key={index}/>
+          })
+        }
+      </ul>
+    )
   }
 }
 
