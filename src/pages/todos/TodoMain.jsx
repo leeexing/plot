@@ -9,23 +9,25 @@ import './todo.less'
 @inject('todoStore')
 @observer
 class Todo extends Component {
-  constructor (props) {
-    super(props)
-    this.state = {}
-  }
   componentDidMount() {
     console.log(this.props.todoStore)
+    // this.props.todoStore.getTodos()
+    this.props.todoStore.fetchAsyncTodos()
   }
   render () {
+    let {todos, addTodo, toggleTodo, deleteTodo} = this.props.todoStore
+    // let {finishAllTodos, clearTodos} = this.props.todoStore
     return (
       <div className="m-todo">
         <Card
           title="Todo List"
           style={{width: '50%'}}
         >
-          <TodoHeader addTodo={this.props.todoStore.addTodo}/>
-          <TodoList todos={this.props.todoStore.todoList} toggleTodo={this.props.todoStore.toggleTodo} deleteTodo={this.props.todoStore.deleteTodo} />
+          <TodoHeader addTodo={addTodo}/>
+          <TodoList todos={todos} toggleTodo={toggleTodo} deleteTodo={deleteTodo} />
           <TodoFooter/>
+          {/* 另外一种写法，通过inject注入的方式获取相应的属性 */}
+          {/* <TodoFooter finishAllTodos={finishAllTodos} remainingTodos={this.props.todoStore.remainingTodos} clearTodos={clearTodos} /> */}
         </Card>
       </div>
     )

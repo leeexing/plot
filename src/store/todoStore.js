@@ -1,4 +1,5 @@
-import { observable, action, computed } from 'mobx'
+import { computed, observable, action, runInAction } from 'mobx'
+import api from '@/api'
 
 class TodoStore {
   @observable todos = [
@@ -9,12 +10,12 @@ class TodoStore {
     }
   ]
 
-  @computed get todoList () {
-    return this.todos
-  }
-
   @computed get remainingTodos () {
     return this.todos.filter(item => !item.isFinished).length
+  }
+
+  @computed get isAllChecked () {
+    return this.todos.filter(item => item.isFinished).length === this.todos.length
   }
 
   @action.bound
@@ -44,6 +45,40 @@ class TodoStore {
   @action('待办事项全部完成')
   finishAllTodos = () => {
     this.todos.forEach(item => (item.isFinished = true))
+  }
+
+  // -异步处理逻辑
+  @action
+  getTodos () {
+    api.fetchTodos().then(action('获取todos列表', res => {
+      console.log(res)
+      let newTodos = res.data.tenements.map(item => {
+        let obj = {
+          id: Math.random(),
+          title: item.Name,
+          isFinished: false
+        }
+        return obj
+      })
+      console.log(newTodos)
+      this.todos = [...this.todos, ...newTodos]
+    }))
+  }
+
+  // -新式的写法
+  @action
+  fetchAsyncTodos = async () => {
+    let data = await api.fetchTodos()
+    runInAction('更新todos列表', () => {
+      this.todos = data.data.tenements.map(item => {
+        let obj = {
+          id: Math.random(),
+          title: item.Name,
+          isFinished: false
+        }
+        return obj
+      })
+    })
   }
 }
 

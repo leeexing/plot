@@ -1,30 +1,17 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { Button, Checkbox } from 'antd'
 import { observer } from 'mobx-react'
 
-@observer
-class TodoItem extends Component {
-  handleChange (todo) {
-    // let isFinished = !this.props.todo.isFinished
-    // this.props.todo.isFinished = isFinished
-    this.props.toggleTodo(todo)
-  }
-  handleDelete () {
-    this.props.deleteTodo(this.props.todo.id)
-  }
-  render () {
-    let className = this.props.todo.isFinished ? 'finished' : ''
-    return (
-      <li className="todo-item">
-        <Checkbox checked={this.props.todo.isFinished} onChange={this.handleChange.bind(this, this.props.todo)}/>
-        <div>
-          <span className="todo-time">{this.props.time}</span>
-          <span className={className + ' task'}>{this.props.todo.title}</span>
-        </div>
-        <Button className="todo-item-delete" ref="delButton" type="danger" size="small" onClick={this.handleDelete.bind(this, this.props.todo.id)}>删除</Button>
-      </li>
-    )
-  }
-}
+// 需要习惯编写无状态函数的方式申明的组件
+const TodoItem = observer((props) => (
+  <li className="todo-item">
+    <Checkbox checked={props.todo.isFinished} onChange={props.toggleTodo.bind(this, props.todo)}/>
+    <div>
+      <span className="todo-time">{props.time}</span>
+      <span className={props.todo.isFinished ? 'finished' : ''}>{props.todo.title}</span>
+    </div>
+    <Button className="todo-item-delete" ref="delButton" type="danger" size="small" onClick={props.deleteTodo.bind(this, props.todo.id)}>删除</Button>
+  </li>
+))
 
 export default TodoItem

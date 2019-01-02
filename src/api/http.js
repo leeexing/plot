@@ -9,7 +9,7 @@ import { message } from 'antd'
 
 // !创建axios实例
 const service = axios.create({
-  baseURL: 'http://localhost:5280',
+  baseURL: 'http://localhost:5280/v1',
   timeout: 5000
 })
 

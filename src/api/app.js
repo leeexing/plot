@@ -4,10 +4,10 @@ export default {
     login (data) {
         return http.post('/api/login', data)
     },
-    todos (data) {
-        return http.get('/api/todos', data)
+    fetchTodos (data) {
+        return http.get('/api/tenement', data)
     },
-    todo (id, data) {
+    fetchTodo (id, data) {
         return http.put('/api/todo' + id, data)
     }
 }
