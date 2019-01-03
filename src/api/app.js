@@ -9,5 +9,9 @@ export default {
     },
     fetchTodo (id, data) {
         return http.put('/api/todo' + id, data)
+    },
+    // -以下为测试
+    testBlob (data, options) {
+        return http.post('/api/tenement/tbuser', data, options)
     }
 }

@@ -15,7 +15,6 @@ class HomePage extends Component {
   render () {
     return (
       <div className="app-home">
-        <h1>HomePage</h1>
         <Row gutter={16}>
           <Col span={16}>
             <Skeleton active paragraph={{ rows: 8 }}/>

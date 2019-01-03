@@ -1,16 +1,20 @@
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { Input, Popover } from 'antd'
+import { Avatar, Input, Menu, Icon, Dropdown } from 'antd'
 import { Link } from 'react-router-dom'
-import { withRouter } from 'react-router'
-import 'styles/navBar.less'
+import './style.less'
 
-const appContent = (
-  <div className="douban-app">
-    <img className="app-logo" src="https://img3.doubanio.com/f/frodo/144e6fb7d96701944e7dbb1a9bad51bdb1debe29/pics/app/logo.png" alt=""/>
-    <h3>豆瓣</h3>
-    <img className="app-qr" src="https://img3.doubanio.com/f/frodo/cb278672a7ed5e611bd06d07592cf865a3f5cd91/pics/app/pin.png" alt=""/>
-  </div>
+
+const menu = (
+  <Menu>
+    <Menu.Item key="0">
+      <a href="http://www.alipay.com/">1st menu item</a>
+    </Menu.Item>
+    <Menu.Item key="1">
+      <a href="http://www.taobao.com/">2nd menu item</a>
+    </Menu.Item>
+    <Menu.Divider />
+    <Menu.Item key="3">3rd menu item</Menu.Item>
+  </Menu>
 )
 
 class NavBar extends Component {
@@ -21,71 +25,26 @@ class NavBar extends Component {
       current: 'home',
       navItems: [
         {
-          name: '豆瓣',
+          name: 'NUCTECH',
           path: '/home'
         },{
-          name: '读书',
+          name: '安培云',
           path: '/study'
-        },{
-          name: '电影',
-          path: '/film'
-        },{
-          name: '音乐',
-          path: '/'
-        },{
-          name: '同城',
-          path: '/local'
-        },{
-          name: '小组',
-          path: '/group'
-        },{
-          name: '阅读',
-          path: '/reading'
-        },{
-          name: 'FM',
-          path: '/fm'
-        },{
-          name: '时间',
-          path: '/404'
-        },{
-          name: '豆品',
-          path: '/todo'
-        },{
-          name: '更多',
-          path: '/todoredux'
-        },
+        }
       ],
       navSecondItems: [
         {
-          name: '音乐人',
-          path: 'musician'
+          name: '文件上传',
+          path: '/'
         }, {
-          name: '潮潮豆瓣音乐周',
+          name: '文件下载',
           path: 'musicweek'
         }, {
-          name: '金羊毛计划',
+          name: '消息盒子',
           path: 'plan'
         }, {
-          name: '专题',
-          path: '/topics'
-        },{
-          name: '排行榜',
-          path: '/chart'
-        }, {
-          name: '分类浏览',
-          path: '/tags'
-        }, {
-          name:'乐评',
-          path: '/reviews'
-        }, {
-          name: '豆瓣FM',
-          path: 'doubanfm'
-        }, {
-          name: '歌单',
-          path: '/songlist'
-        }, {
-          name: '阿比鹿音乐奖',
-          path: '/awards'
+          name: 'todo',
+          path: '/todo'
         }
       ]
     }
@@ -97,17 +56,19 @@ class NavBar extends Component {
   render () {
     let hasNoLogin = (
       <div className="nav-info">
-        <Link to="/login">登录</Link>
-        <Link to="/register">注册</Link>
+        <Dropdown overlay={menu} trigger={['click']}>
+          <span className="ant-dropdown-link" style={{display: 'inline-block', 'height': '38px'}}>
+            <Avatar style={{ backgroundColor: '#87d068' }} icon="user" />
+            <Icon type="down" size="24" />
+          </span>
+        </Dropdown>
       </div>
     )
 
     let hasLogin = (
       <div className="nav-info">
-        <Link to="/reminder">提醒</Link>
-        <Link to="/doumail">豆邮</Link>
-        <a onClick={this.logout.bind(this)}>退出</a>
-        {/* <Link to="/login" onClick={this.logout.bind(this)}>退出</Link> */}
+        <Link to="/reminder">NUCTECH</Link>
+        <Link to="/doumail">安培云</Link>
       </div>
     )
     return (
@@ -123,11 +84,6 @@ class NavBar extends Component {
             </ul>
           </div>
           <div className="nav-others">
-            <div className="nav-doubanapp">
-              <Popover content={appContent} placement="bottom">
-                <Link to="/doubanapp">下载豆瓣客户端</Link>
-              </Popover>
-            </div>
             {
               this.state.isSignIn ? hasLogin : hasNoLogin
             }
@@ -136,11 +92,11 @@ class NavBar extends Component {
         <div className="app-nav-search">
           <div className="nav-wrap">
             <div className="nav-logo">
-              <Link to="/">豆瓣音乐</Link>
+              <Link to="/">源数据平台</Link>
             </div>
             <div className="nav-search">
             <Input.Search
-              placeholder="唱片名、表演者、条码、ISRC"
+              placeholder="图片、消息"
               enterButton
               style={{width: 500}}
               onSearch={value => console.log(value)}
@@ -164,10 +120,4 @@ class NavBar extends Component {
   }
 }
 
-let mapStateToProps = ({userInfo}) => {
-  return {
-    hasLogin: userInfo['hasLogin']
-  }
-}
-
-export default withRouter(connect(mapStateToProps, null)(NavBar))
+export default NavBar

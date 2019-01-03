@@ -10,9 +10,13 @@ import './todo.less'
 @observer
 class Todo extends Component {
   componentDidMount() {
+    console.groupCollapsed('%c这里有几个`mobx`异步修改数据的方法', 'color: rgb(135, 208, 104)')
     console.log(this.props.todoStore)
+    console.groupEnd()
+    // this.props.todoStore.testBlob()
     // this.props.todoStore.getTodos()
-    this.props.todoStore.fetchAsyncTodos()
+    // this.props.todoStore.fetchAsyncTodos()
+    this.props.todoStore.fetchFlowTodos()
   }
   render () {
     let {todos, addTodo, toggleTodo, deleteTodo} = this.props.todoStore

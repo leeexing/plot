@@ -10,7 +10,7 @@ const TodoItem = observer((props) => (
       <span className="todo-time">{props.time}</span>
       <span className={props.todo.isFinished ? 'finished' : ''}>{props.todo.title}</span>
     </div>
-    <Button className="todo-item-delete" ref="delButton" type="danger" size="small" onClick={props.deleteTodo.bind(this, props.todo.id)}>删除</Button>
+    <Button className="todo-item-delete" ref="delButton" type="danger" size="small" onClick={props.deleteTodo.bind(this, props.todo)}>删除</Button>
   </li>
 ))
 

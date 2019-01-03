@@ -11,11 +11,7 @@ class Login extends Component {
       if (!err) {
         console.log('Received values of form: ', values)
       }
-      console.log(
-        this.props
-      )
-      // store.dispatch({type: 'LOGIN'})
-      // this.props.history.push('/')
+      this.props.history.push('/todo')
     })
   }
   componentDidMount () {
@@ -62,7 +58,7 @@ class Login extends Component {
           <div className="third-part">
             第三方登录:
             <Icon type="wechat" theme="outlined" />
-            <Icon type="weibo" theme="outlined" />
+            <Icon type="slack" theme="outlined" />
           </div>
         </div>
       </div>

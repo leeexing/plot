@@ -1,11 +1,11 @@
 import UserStore from './userStore'
 import TodoStore from './todoStore'
 
-class Store {
+class RootStore {
   constructor () {
     this.userStore = new UserStore()
     this.todoStore = new TodoStore()
   }
 }
 
-export default new Store()
+export default new RootStore()
