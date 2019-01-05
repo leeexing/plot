@@ -153,6 +153,13 @@ class TodoStore {
     let blob = new Blob([JSON.stringify(data, null, 2)], {type: 'application/json'})
     let formData = new FormData()
     formData.append('equipmentDataFile', blob)
+    let reader = new FileReader()
+    reader.readAsBinaryString(blob)
+    reader.onload = e => {
+      if (e.target.readyState === FileReader.DONE) {
+        console.log(e.target)
+      }
+    }
     console.log(blob)
     api.testBlob(formData, {contentType: 'file'}).then(res => {
       console.log(res)

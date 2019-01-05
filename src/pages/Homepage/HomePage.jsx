@@ -10,7 +10,6 @@ class HomePage extends Component {
     }
   }
   componentDidMount () {
-    console.log(99)
   }
   render () {
     return (

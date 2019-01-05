@@ -7,13 +7,13 @@ import './style.less'
 const menu = (
   <Menu>
     <Menu.Item key="0">
-      <a href="http://www.alipay.com/">1st menu item</a>
+      <a href="/">个人消息</a>
     </Menu.Item>
     <Menu.Item key="1">
-      <a href="http://www.taobao.com/">2nd menu item</a>
+      <a href="/login">个人中心</a>
     </Menu.Item>
     <Menu.Divider />
-    <Menu.Item key="3">3rd menu item</Menu.Item>
+    <Menu.Item key="3">退出登录</Menu.Item>
   </Menu>
 )
 
@@ -34,16 +34,16 @@ class NavBar extends Component {
       ],
       navSecondItems: [
         {
+          name: '在线标图',
+          path: 'plan'
+        }, {
           name: '文件上传',
           path: '/'
         }, {
           name: '文件下载',
           path: 'musicweek'
         }, {
-          name: '消息盒子',
-          path: 'plan'
-        }, {
-          name: 'todo',
+          name: '待办事项',
           path: '/todo'
         }
       ]
@@ -57,11 +57,12 @@ class NavBar extends Component {
     let hasNoLogin = (
       <div className="nav-info">
         <Dropdown overlay={menu} trigger={['click']}>
-          <span className="ant-dropdown-link" style={{display: 'inline-block', 'height': '38px'}}>
-            <Avatar style={{ backgroundColor: '#87d068' }} icon="user" />
+          <span className="ant-dropdown-link" style={{display: 'inline-block', 'height': '30px'}}>
+            admin
             <Icon type="down" size="24" />
           </span>
         </Dropdown>
+        <Avatar style={{ backgroundColor: '#87d068' }} icon="user" />
       </div>
     )
 
@@ -89,7 +90,7 @@ class NavBar extends Component {
             }
           </div>
         </div>
-        <div className="app-nav-search">
+        {/* <div className="app-nav-search">
           <div className="nav-wrap">
             <div className="nav-logo">
               <Link to="/">源数据平台</Link>
@@ -103,7 +104,7 @@ class NavBar extends Component {
             />
             </div>
           </div>
-        </div>
+        </div> */}
         <div className="app-nav-secondary">
           <div className="nav-wrap">
             <ul>
