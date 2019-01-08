@@ -1,21 +1,28 @@
 import React, { Component } from 'react'
 import { Form, Icon, Input, Button, Checkbox } from 'antd'
+import { inject, observer } from 'mobx-react'
+import api from '@/api'
+import Auth from '@/util/auth'
 import './style.less'
 
 const FormItem = Form.Item
 
+@inject('userStore')
+@observer
 class Login extends Component {
   handleSubmit = (e) => {
     e.preventDefault()
     this.props.form.validateFields((err, values) => {
       if (!err) {
         console.log('Received values of form: ', values)
+        api.loginByThirdpart(values).then(res => {
+          console.log(res)
+          Auth.setToken(res.data.accessToken)
+          this.props.userStore.login(res.data)
+          this.props.history.push('/')
+        }).catch(console.log)
       }
-      this.props.history.push('/todo')
     })
-  }
-  componentDidMount () {
-    // console.log(store.getState())
   }
   render () {
     const { getFieldDecorator } = this.props.form

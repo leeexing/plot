@@ -16,6 +16,7 @@
     "semi": [2, "never"],
     "no-console": "off",
     "strict": ["error", "global"],
-    "curly": "warn"
+    "curly": "warn",
+    "anchor-is-valid": 0
   }
 }

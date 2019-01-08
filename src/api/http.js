@@ -4,7 +4,7 @@
 import axios from 'axios'
 import qs from 'qs'
 import { message } from 'antd'
-// import { getToken } from '@/util/auth'
+import Auth from '@/util/auth'
 // import router from '../router'
 
 // !创建axios实例
@@ -14,15 +14,15 @@ const service = axios.create({
 })
 
 // !请求拦截
-// service.interceptors.request.use(config => {
-//   let userTicket = getToken()
-//   if (userTicket) {
-//     config.headers.Authorization = `Bearer ${getToken()}`
-//   }
-//   return config
-// }, error => {
-//   return Promise.reject(error)
-// })
+service.interceptors.request.use(config => {
+  let userTicket = Auth.getToken()
+  if (userTicket) {
+    config.headers.Authorization = `Bearer ${Auth.getToken()}`
+  }
+  return config
+}, error => {
+  return Promise.reject(error)
+})
 
 // !响应拦截
 service.interceptors.response.use(response => {
