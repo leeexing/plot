@@ -2,21 +2,32 @@ import React, { Component } from 'react'
 import { Menu, Icon } from 'antd'
 import logoMd from 'assets/logo-md.png'
 import logoMini from 'assets/logo-mini.png'
+import { Link } from 'react-router-dom'
 
 const SubMenu = Menu.SubMenu
 
 
 class MenuBar extends Component {
-  state = {
-    collapsed: false,
-  }
 
+  constructor (props) {
+    super(props)
+    this.state = {
+      collapsed: false,
+    }
+  }
+  componentDidMount () {
+    console.log(this.props)
+  }
   toggleCollapsed = () => {
     this.setState({
       collapsed: !this.state.collapsed
     })
   }
-
+  onMenuClick = (key) => {
+    console.log(key)
+    console.log(this.props)
+    // this.props.history.push(key)
+  }
   render() {
     return (
       <div className="app-menu" style={{ width: this.state.collapsed ? 80 : 200 }}>
@@ -30,20 +41,26 @@ class MenuBar extends Component {
           <Icon type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'} />
         </Button> */}
         <Menu
+          onClick={this.onMenuClick}
           className="app-menu-list"
-          defaultSelectedKeys={['1']}
+          defaultSelectedKeys={['/']}
           mode="inline"
           inlineCollapsed={this.state.collapsed}
         >
-          <Menu.Item key="1">
+          <Menu.Item key="/" to="/">
+            <Icon type="appstore" />
+            <span>首页</span>
+            {/* <Link to="/" style={{display: 'inline', color: '#000'}}>首页</Link> */}
+          </Menu.Item>
+          <Menu.Item key="plot">
             <Icon type="pie-chart" />
             <span>标图</span>
           </Menu.Item>
-          <Menu.Item key="2">
+          <Menu.Item key="upload">
             <Icon type="desktop" />
             <span>图像上传</span>
           </Menu.Item>
-          <Menu.Item key="3">
+          <Menu.Item key="download">
             <Icon type="inbox" />
             <span>图像下载</span>
           </Menu.Item>

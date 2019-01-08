@@ -1,11 +1,14 @@
 /**
  * 封装http请求
  */
+import React from 'react'
 import axios from 'axios'
 import qs from 'qs'
 import { message } from 'antd'
 import Auth from '@/util/auth'
+import { Redirect } from 'react-router-dom'
 // import router from '../router'
+
 
 // !创建axios实例
 const service = axios.create({
@@ -37,11 +40,15 @@ service.interceptors.response.use(response => {
         console.log('%c ❗❗❗ 通过服务器进行权限限制 ', 'background:#f90;color:#555')
         // 也可以通过window.location.href='/login'; 区别是什么呢？vuex 里面的状态可以清除
         // router.push('/login')
+        window.location.href='/login'
+        // return <Redirect to={{pathname: '/login'}} /> // !react的写法就是不一样啊
+        // return Promise.reject(<Redirect to='/' />)
         return Promise.reject(error.response)
       case 500:
-        // router.push({name: 'serverError', params: {errorMessage: error}})
         message.error('Server Error')
-        return Promise.reject(error.response)
+        return (<Redirect to='/login' />)
+        // router.push({name: 'serverError', params: {errorMessage: error}})
+        // return Promise.reject(error.response)
       default:
         break
     }

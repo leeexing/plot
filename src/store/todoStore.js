@@ -1,51 +1,52 @@
-import { autorun, computed, observable, action, runInAction, trace, flow} from 'mobx'
+import { computed, observable, action, runInAction, flow} from 'mobx'
+// import { autorun, trace } from 'mobx'
 import api from '@/api'
 
-console.group('%c简单学习`Mobx`', 'color:#fa0')
-console.groupCollapsed('Mobx <observable.map>')
-let test = observable.map(
-  {
-    myname: 'leeing'
-  },
-  {
-    name: 'my map app' // -用于`spy`调试的名称. name 选项用来给数组一个友好的调试名称，用于 spy 或者 MobX 开发者工具
-  }
-)
-test.set('age', 24)
+// console.group('%c简单学习`Mobx`', 'color:#fa0')
+// console.groupCollapsed('Mobx <observable.map>')
+// let test = observable.map(
+//   {
+//     myname: 'leeing'
+//   },
+//   {
+//     name: 'my map app' // -用于`spy`调试的名称. name 选项用来给数组一个友好的调试名称，用于 spy 或者 MobX 开发者工具
+//   }
+// )
+// test.set('age', 24)
 
-console.log(test)
-console.log(test.toJS())
-console.log(test.toJSON())
-console.log(test.entries().next())
-test.intercept((change) => { // -拦截器
-  console.log(test.toJS(), change)
-  if (change.name === 'myname') {
-    return change
-  }
-  // test.set('myname',  data.newValue) // !这样会产出循环
-})
-test.set('myname', 'leecin')
-console.log(test.toJS())
-test.set('age', 23)
-console.log(test.toJS())
-console.groupEnd()
+// console.log(test)
+// console.log(test.toJS())
+// console.log(test.toJSON())
+// console.log(test.entries().next())
+// test.intercept((change) => { // -拦截器
+//   console.log(test.toJS(), change)
+//   if (change.name === 'myname') {
+//     return change
+//   }
+//   // test.set('myname',  data.newValue) // !这样会产出循环
+// })
+// test.set('myname', 'leecin')
+// console.log(test.toJS())
+// test.set('age', 23)
+// console.log(test.toJS())
+// console.groupEnd()
 
-console.groupCollapsed('Mobx <observable.box>')
-let cityName = observable.box('beijing', {name: 'my box'})
-let disposer = autorun(() => {
-  console.log(`%c 追踪调试：%s`, 'color: red', cityName.get())
-  trace()
-}, {name: 'autorun cityName'})
-console.log(cityName, disposer)
-console.log(cityName.get())
-cityName.set('Universe cener')
-console.log(cityName.get())
-disposer()
-cityName.set('Nuctech')
-console.log(cityName.get())
-console.groupEnd('')
+// console.groupCollapsed('Mobx <observable.box>')
+// let cityName = observable.box('beijing', {name: 'my box'})
+// let disposer = autorun(() => {
+//   console.log(`%c 追踪调试：%s`, 'color: red', cityName.get())
+//   trace()
+// }, {name: 'autorun cityName'})
+// console.log(cityName, disposer)
+// console.log(cityName.get())
+// cityName.set('Universe cener')
+// console.log(cityName.get())
+// disposer()
+// cityName.set('Nuctech')
+// console.log(cityName.get())
+// console.groupEnd('')
 
-console.groupEnd('简单学习Mobx')
+// console.groupEnd('简单学习Mobx')
 
 class TodoStore {
   @observable todos = [

@@ -4,19 +4,7 @@ import { Avatar, Menu, Icon, Dropdown } from 'antd'
 import { Link } from 'react-router-dom'
 
 
-const menu = (
-  <Menu>
-    <Menu.Item key="0">
-      <Link to="/todo">个人中心</Link>
-    </Menu.Item>
-    <Menu.Divider />
-    <Menu.Item key="1">
-      <Link to="/login">退出登录</Link>
-    </Menu.Item>
-  </Menu>
-)
-
-@inject('appStore')
+@inject('appStore', 'userStore')
 @observer
 class NavBar extends Component {
   constructor (props) {
@@ -36,14 +24,29 @@ class NavBar extends Component {
     }
   }
   componentDidMount () {
-    console.log(this.props.appStore.username)
-    console.log(this.props.appStore.rootStore.userStore)
+    // console.log(this.props.appStore.username)
+    // console.log(this.props.appStore.rootStore.userStore)
+  }
+  onClick = ({ key }) => {
+    if (key === 'logout') {
+      this.props.userStore.logout()
+      this.props.history.push('/login')
+    }
   }
   logout () {
     this.props.dispatch({type: 'LOGOUT'})
     this.props.history.push('/login')
   }
   render () {
+    const menu = (
+      <Menu onClick={this.onClick}>
+        <Menu.Item key="0">
+          <Link to="/todo">个人中心</Link>
+        </Menu.Item>
+        <Menu.Divider />
+        <Menu.Item key="logout">退出登录</Menu.Item>
+      </Menu>
+    )
     return (
       <nav className="app-nav">
         <div className="app-nav-bd">
@@ -58,7 +61,7 @@ class NavBar extends Component {
           <div className="nav-user">
             <Dropdown overlay={menu} trigger={['click']} placement="bottomRight">
               <span className="ant-dropdown-link">
-                {this.props.appStore.username || 'Nuctech'}
+                {this.props.userStore.username || 'Nuctech'}
                 <Icon type="down" size="24" style={{marginLeft: '5px'}} />
               </span>
             </Dropdown>

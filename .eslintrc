@@ -13,6 +13,7 @@
     }
   },
   "rules": {
+    "no-undef":"off",
     "semi": [2, "never"],
     "no-console": "off",
     "strict": ["error", "global"],
