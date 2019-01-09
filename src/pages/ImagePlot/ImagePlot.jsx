@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Icon, Pagination, Tooltip } from 'antd'
+import { Icon, Pagination, Tooltip, Skeleton } from 'antd'
 import api from '@/api'
 import './style.less'
 
@@ -43,8 +43,9 @@ class HomePage extends Component {
       <div className="app-home">
         <div className="image-content">
           <ul className="image-container">
-          {
-            this.state.imageList.map((item, index) => (
+          {this.state.imageList.length < 1
+           ? <Skeleton rows="8" />
+           : this.state.imageList.map((item, index) => (
               <li className="image-list" key={index}>
                 <div className="image-item">
                   <div className="image-operate">
@@ -65,10 +66,13 @@ class HomePage extends Component {
           </ul>
         </div>
         <div className="pagination">
-          <Pagination showQuickJumper defaultCurrent={this.state.currentPage}
-            defaultPageSize={20}
-            total={this.state.total}
-            onChange={this.onChange} />
+        {this.state.imageList.length < 1
+          ? null
+          : <Pagination showQuickJumper defaultCurrent={this.state.currentPage}
+              defaultPageSize={20}
+              total={this.state.total}
+              onChange={this.onChange} />
+        }
         </div>
       </div>
     )

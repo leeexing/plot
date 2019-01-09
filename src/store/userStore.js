@@ -21,7 +21,8 @@ class UserStore {
   @action('退出登录')
   logout = () => {
     this.isLogined = false
-    Auth.removeToekn()
+    Auth.removeToken()
+    Auth.removeToken('userInfo')
   }
 }
 

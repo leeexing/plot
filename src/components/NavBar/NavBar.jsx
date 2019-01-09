@@ -33,10 +33,6 @@ class NavBar extends Component {
       this.props.history.push('/login')
     }
   }
-  logout () {
-    this.props.dispatch({type: 'LOGOUT'})
-    this.props.history.push('/login')
-  }
   render () {
     const menu = (
       <Menu onClick={this.onClick}>

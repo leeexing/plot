@@ -5,14 +5,17 @@ import Cookies from 'js-cookie'
 import {TOKEN_KEY} from '@/api/config'
 
 class Token {
-  static getToken () {
-    return Cookies.get(TOKEN_KEY)
+  static getToken (key=TOKEN_KEY) {
+    return Cookies.get(key)
   }
-  static setToken (token) {
-    return Cookies.set(TOKEN_KEY, token, {expires: 1, path: '/'})
+  static setToken (token, key=TOKEN_KEY) {
+    return Cookies.set(key, token, {expires: 1, path: '/'})
   }
-  static removeToekn () {
-    return Cookies.remove(TOKEN_KEY)
+  static setTokenNoRemenber () {
+    return Cookies.set(key, token)
+  }
+  static removeToken (key=TOKEN_KEY) {
+    return Cookies.remove(key)
   }
 }
 

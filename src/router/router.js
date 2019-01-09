@@ -10,7 +10,7 @@ const Routes = () => (
     <React.Fragment>
       <Switch>
         <Route path={`/${host}login`} exact component={Login}/>
-        <Route path={`/${host}500`} component={ServerError}/>
+        <Route path={`/${host}500`} exact component={ServerError}/>
         <Route component={AppRoutes}/>
       </Switch>
     </React.Fragment>
