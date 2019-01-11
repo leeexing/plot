@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Icon, Pagination, Tooltip, Skeleton } from 'antd'
+import { Alert, Icon, Pagination, Tooltip, Skeleton } from 'antd'
 import api from '@/api'
 import './style.less'
 
@@ -40,7 +40,8 @@ class HomePage extends Component {
   }
   render () {
     return (
-      <div className="app-home">
+      <div className="m-image-plot">
+        <Alert message="点击图像进行在线标图" type="info" showIcon closable />
         <div className="image-content">
           <ul className="image-container">
           {this.state.imageList.length < 1

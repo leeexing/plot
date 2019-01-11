@@ -18,7 +18,7 @@ class Login extends Component {
         api.loginByThirdpart(values).then(res => {
           console.log(res)
           Auth.setToken(res.data.accessToken)
-          Auth.setToken(pick(['userName', 'userID', 'userType', nickName], res.data), 'userInfo')
+          Auth.setToken(pick(['userName', 'userID', 'userType', 'nickName'], res.data), 'userInfo')
           this.props.userStore.login(res.data)
           this.props.history.push('/')
         }).catch(console.log)
