@@ -50,7 +50,7 @@ service.interceptors.response.use(response => {
         routeSkip('/500')
         return Promise.reject(error.response)
       default:
-        break
+        return Promise.reject(error.response)
     }
   } else {
     routeSkip('/login')

@@ -3,6 +3,47 @@
 TOC
 
 1. mobx
+2. react-router
+
+## react-router
+
+> 如何在`axios`中进行路由跳转
+
+```js
+import { BrowserRouter } from 'react-router-dom'
+
+
+const router = new BrowserRouter()
+const routeSkip = path => {
+  router.history.push(path)
+  router.history.go()
+}
+
+service.interceptors.response.use(response => {
+  if (!response.data.result) {
+    return Promise.reject(response.data.msg)
+  }
+  return response
+}, error => {
+  if (error.response) {
+    switch (error.response.status) {
+      case 401:
+        console.log('%c ❗❗❗ 通过服务器进行权限限制 ', 'background:#f90;color:#555')
+        // console.log(router.history)
+        routeSkip('/login')
+        return Promise.reject(error.response)
+      case 500:
+        message.error('Server Error')
+        routeSkip('/500')
+        return Promise.reject(error.response)
+      default:
+        return Promise.reject(error.response)
+    }
+  } else {
+    routeSkip('/login')
+  }
+})
+```
 
 ## mobx
 
