@@ -6,6 +6,8 @@ import SparkMD5 from 'spark-md5'
 import Uploader from 'simple-uploader.js'
 import api from '@/api'
 import { kebabCase } from '@/util'
+import UploadList from './UploadList'
+import './style.less'
 
 
 const Dragger = Upload.Dragger
@@ -86,13 +88,11 @@ class ImageUpload extends Component {
     })
   }
   fileAdded (file) {
-    console.log(file)
     this.computeMD5(file)
-    // this.$emit(kebabCase(FILE_ADDED_EVENT), file)
-    // if (file.ignored) {
-    //   // is ignored, filter it
-    //   return false
-    // }
+    if (file.ignored) {
+      // is ignored, filter it
+      return false
+    }
   }
   filesAdded (files, fileList) {
     console.log(files, fileList)
@@ -241,17 +241,9 @@ class ImageUpload extends Component {
               <p className="ant-upload-text">点击或者拖拽文件进行上传</p>
               <p className="ant-upload-hint">支持单个或多个文件。打包文件请使用.zip格式</p>
             </Dragger> */}
-            <Button className="upload-btn" type="primary" ref="uploadBtn">上传</Button>
-            {this.state.fileList.length === 0
-              ? ''
-              : 'fsdf'
-              // : <List
-              //   size="large"
-              //   bordered
-              //   dataSource={this.state.fileList}
-              //   renderItem={item => (<List.Item>{item}</List.Item>)}
-              // ></List>
-            }
+            <Button className="upload-btn margin-top-10" type="primary" ref="uploadBtn">上传</Button>
+
+            <UploadList fileList={this.state.fileList}></UploadList>
           </Col>
         </Row>
       </div>
