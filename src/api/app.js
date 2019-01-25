@@ -35,6 +35,10 @@ export default {
     distributeImage (id, data) {
         return http.post('/api/image/distribute/' + id, data)
     },
+    // -图像上传
+    fetchUploadImageStatus (data) {
+        return http.get('/api/upload/image', data)
+    },
     // -以下为测试
     testBlob (data, options) {
         return http.post('/api/tenement/tbuser', data, options)

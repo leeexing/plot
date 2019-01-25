@@ -5,6 +5,7 @@ import axios from 'axios'
 import qs from 'qs'
 import { message } from 'antd'
 import Auth from '@/util/auth'
+import { baseURL } from './config'
 import { BrowserRouter } from 'react-router-dom'
 
 
@@ -16,7 +17,7 @@ const routeSkip = path => {
 
 // !创建axios实例
 const service = axios.create({
-  baseURL: 'http://localhost:5280/v1',
+  baseURL: baseURL + '/v1',
   timeout: 5000
 })
 
@@ -33,16 +34,17 @@ service.interceptors.request.use(config => {
 
 // !响应拦截
 service.interceptors.response.use(response => {
+  let msg = response.data.msg || response.data.error
   if (!response.data.result) {
-    return Promise.reject(response.data.msg)
+    message.warning(msg)
+    return Promise.reject(response.data)
   }
   return response
 }, error => {
   if (error.response) {
     switch (error.response.status) {
       case 401:
-        console.log('%c ❗❗❗ 通过服务器进行权限限制 ', 'background:#f90;color:#555')
-        // console.log(router.history)
+        console.log('通过服务器进行权限限制 ❗❗❗ ')
         routeSkip('/login')
         return Promise.reject(error.response)
       case 500:
@@ -57,11 +59,15 @@ service.interceptors.response.use(response => {
   }
 })
 
+const CONTENT_TYPE_JSON = 'application/json'
+const CONTENT_TYPE_FILE = 'multipart/form-data'
+const CONTENT_TYPE_FORM = 'application/x-www-form-urlencoded;charset=utf-8'
+
 export default {
   get (url, data = {}, options = {}) {
     let config = {
       params: data,
-      paramsSerializer: function (params) {
+      paramsSerializer: params => {
         return qs.stringify(params, {arrayFormat: 'brackets'})
       },
       ...options
@@ -69,18 +75,18 @@ export default {
     return new Promise((resolve, reject) => {
       service.get(url, config)
         .then(res => resolve(res.data))
-        .catch(err => reject(err))
+        .catch(reject)
     })
   },
   post (url, data = {}, options = {}) {
-    let contentType = 'application/json'
+    let contentType = CONTENT_TYPE_JSON
     switch (options.contentType) {
       case 'form':
         data = qs.stringify(data)
-        contentType = 'application/x-www-form-urlencoded;charset=utf-8'
+        contentType = CONTENT_TYPE_FORM
         break
       case 'file':
-        contentType = 'application/form-data'
+        contentType = CONTENT_TYPE_FILE
         break
       default:
         data = JSON.stringify(data)
@@ -94,13 +100,13 @@ export default {
     return new Promise((resolve, reject) => {
       service.post(url, data, config)
         .then(res => resolve(res.data))
-        .catch(err => reject(err))
+        .catch(reject)
     })
   },
   put (url, data = {}, options = {}) {
-    let contentType = 'application/json'
+    let contentType = CONTENT_TYPE_JSON
     if (options.contentType === 'form') {
-      contentType = 'application/x-www-form-urlencoded;charset=utf-8'
+      contentType = CONTENT_TYPE_FORM
       data = qs.stringify(data)
     } else {
       data = JSON.stringify(data)
@@ -113,13 +119,13 @@ export default {
     return new Promise((resolve, reject) => {
       service.put(url, data, config)
         .then(res => resolve(res.data))
-        .catch(err => reject(err))
+        .catch(reject)
     })
   },
   delete (url, data = {}, options = {}) {
-    let contentType = 'application/json'
+    let contentType = CONTENT_TYPE_JSON
     if (options.contentType === 'form') {
-      contentType = 'application/x-www-form-urlencoded;charset=utf-8'
+      contentType = CONTENT_TYPE_FORM
       data = qs.stringify(data)
     }
     let config = {
@@ -132,7 +138,7 @@ export default {
     return new Promise((resolve, reject) => {
       service.delete(url, config)
         .then(res => resolve(res.data))
-        .catch(err => reject(err))
+        .catch(reject)
     })
   }
 }
