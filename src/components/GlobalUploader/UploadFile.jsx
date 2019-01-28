@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
-import Uploader from 'simple-uploader.js'
 import { inject, observer } from 'mobx-react'
+import Uploader from 'simple-uploader.js'
 import { secondsToStr } from '@/util'
 
 const events = ['fileProgress', 'fileSuccess', 'fileComplete', 'fileError']
+
 
 @inject('appStore')
 @observer
@@ -235,11 +236,11 @@ class UploadFile extends Component {
           <div className="uploader-file-status">
           {
             status === "uploading"
-            ? <div className="X">
+            ? <div className="uploader-file-status-detail">
                 <span>{this.progressStyle().progress}</span>
                 <em>{this.formatedAverageSpeed()}</em>
                 {
-                  isInsert && <i>{this.formatedTimeRemaining()}</i>
+                  !isInsert && <i>{this.formatedTimeRemaining()}</i>
                 }
               </div>
             : <span>{this.statusText()}</span>

@@ -39,6 +39,9 @@ export default {
     fetchUploadImageStatus (data) {
         return http.get('/api/upload/image', data)
     },
+    mergeSimpleUpload (data) {
+        return http.post('/api/upload/merge', data)
+    },
     // -以下为测试
     testBlob (data, options) {
         return http.post('/api/tenement/tbuser', data, options)
