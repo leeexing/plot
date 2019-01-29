@@ -16,9 +16,9 @@ class ImagePlotDetail extends Component {
     api.fetchImageDetail(id).then(res => {
       console.log(res)
       this.setState({
-        imageData: res.data.originImage
+        imageData: res.data
       })
-      this.renderImage(res.data.originImage)
+      this.renderImage(res.data)
     }).catch(console.log)
   }
   getRenderOptions () {
