@@ -1,8 +1,12 @@
 import React, { Component } from 'react'
+import { inject, observer } from 'mobx-react'
 import { Alert, Icon, Pagination, Tooltip, Skeleton } from 'antd'
 import api from '@/api'
 import './style.less'
 
+
+@inject('appStore')
+@observer
 class HomePage extends Component {
   constructor (props) {
     super(props)
@@ -21,6 +25,7 @@ class HomePage extends Component {
       page: this.state.currentPage,
       limit: 20,
     }
+    // -其他请求获取图像标记列表
     api.fetchDRImages(data).then(res => {
       console.log(res)
       if (res.result) {
@@ -36,6 +41,16 @@ class HomePage extends Component {
   }
   plotImage (item) {
     console.log(item)
+    this.props.appStore.updateNavBreadcrumb([
+      {
+        path: '/plot',
+        breadcrumbName: '标图'
+      },
+      {
+        path: '/plotDetail',
+        breadcrumbName: '在线标图'
+      }
+    ])
     this.props.history.push('/plot/' + item._id)
   }
   render () {

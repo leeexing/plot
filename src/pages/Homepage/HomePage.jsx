@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-// import { Icon, Pagination, Tooltip } from 'antd'
+import { Card } from 'antd'
 import api from '@/api'
 import './style.less'
 
@@ -37,7 +37,16 @@ class HomePage extends Component {
   render () {
     return (
       <div className="app-home">
-        首页
+        <Card
+          hoverable
+          style={{ width: 240 }}
+          cover={<img alt="example" src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png" />}
+        >
+          <Card.Meta
+            title="在线标图素材一"
+            description="上传时间2019-02-20"
+          />
+        </Card>
       </div>
     )
   }

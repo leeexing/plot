@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
-import { Card } from 'antd'
 import { inject, observer } from 'mobx-react'
+import { Card } from 'antd'
+
 import TodoHeader from './TodoHeader'
 import TodoList from './TodoList'
 import TodoFooter from './TodoFooter'

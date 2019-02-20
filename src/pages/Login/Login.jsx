@@ -67,7 +67,7 @@ class Login extends Component {
           </Form>
           <div className="third-part">
             第三方登录:
-            <Icon type="wechat" theme="outlined" />
+            {/* <Icon type="wechat" theme="outlined" /> */}
             <Icon type="slack" theme="outlined" />
           </div>
         </div>

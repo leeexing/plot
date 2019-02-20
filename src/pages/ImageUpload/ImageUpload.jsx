@@ -13,6 +13,7 @@ class ImageUpload extends Component {
 
   componentWillUnmount () {
     this.props.appStore.toggleUploaderGlobal(true)
+    this.props.appStore.toggleUploaderMini(true)
   }
 
   render () {

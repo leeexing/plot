@@ -1,11 +1,27 @@
 import React, { Component } from 'react'
+import { inject, observer } from 'mobx-react'
 import { Menu, Icon } from 'antd'
 import logoMd from 'assets/logo-md.png'
 import logoMini from 'assets/logo-mini.png'
 
-const SubMenu = Menu.SubMenu
 
+const menuRoutes = [
+  {
+    path: '/',
+    breadcrumbName: '首页'
+  },
+  {
+    path: '/plot',
+    breadcrumbName: '标图'
+  },
+  {
+    path: '/upload',
+    breadcrumbName: '下载'
+  },
+]
 
+@inject('appStore')
+@observer
 class MenuBar extends Component {
   constructor (props) {
     super(props)
@@ -22,6 +38,8 @@ class MenuBar extends Component {
     })
   }
   onMenuClick = ({ key }) => {
+    let route = menuRoutes.filter(item => item.path === key)
+    this.props.appStore.updateNavBreadcrumb(route)
     this.props.history.push(key)
   }
   render() {
@@ -33,9 +51,6 @@ class MenuBar extends Component {
             : <img src={logoMd} alt="logo" />
           }
         </div>
-        {/* <Button type="primary" onClick={this.toggleCollapsed} style={{ marginBottom: 16 }}>
-          <Icon type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'} />
-        </Button> */}
         <Menu
           onClick={this.onMenuClick}
           className="app-menu-list"
@@ -55,22 +70,6 @@ class MenuBar extends Component {
             <Icon type="desktop" />
             <span>图像上传</span>
           </Menu.Item>
-          <Menu.Item key="/download">
-            <Icon type="inbox" />
-            <span>图像下载</span>
-          </Menu.Item>
-          <SubMenu key="sub1" title={<span><Icon type="mail" /><span>待开发</span></span>}>
-            <Menu.Item key="5">Option 5</Menu.Item>
-            <Menu.Item key="6">Option 6</Menu.Item>
-          </SubMenu>
-          <SubMenu key="sub2" title={<span><Icon type="appstore" /><span>待开发 2</span></span>}>
-            <Menu.Item key="9">Option 9</Menu.Item>
-            <Menu.Item key="10">Option 10</Menu.Item>
-            <SubMenu key="sub3" title="Submenu">
-              <Menu.Item key="11">Option 11</Menu.Item>
-              <Menu.Item key="12">Option 12</Menu.Item>
-            </SubMenu>
-          </SubMenu>
         </Menu>
       </div>
     )

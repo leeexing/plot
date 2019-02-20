@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { inject, observer }  from 'mobx-react'
 import { Avatar, Menu, Icon, Dropdown } from 'antd'
 import { Link } from 'react-router-dom'
+import NavBreadcrumb from './NavBreadcrumb'
 
 
 @inject('appStore', 'userStore')
@@ -46,13 +47,14 @@ class NavBar extends Component {
     return (
       <nav className="app-nav">
         <div className="app-nav-bd">
-          <div className="nav-items">
-            <ul>
+          <div className="nav-breadcrumb">
+            <NavBreadcrumb></NavBreadcrumb>
+            {/* <ul>
               {this.state.navItems.map((nav, index) =>
                   <li key={index}><Link to={nav.path}>{nav.name}</Link></li>
                 )
               }
-            </ul>
+            </ul> */}
           </div>
           <div className="nav-user">
             <Dropdown overlay={menu} trigger={['click']} placement="bottomRight">
