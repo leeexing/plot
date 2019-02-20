@@ -16,7 +16,7 @@ const menuRoutes = [
   },
   {
     path: '/upload',
-    breadcrumbName: '下载'
+    breadcrumbName: '图像上传'
   },
 ]
 

@@ -19,7 +19,7 @@ class ImageUpload extends Component {
   render () {
     return (
       <div className="m-image-upload">
-        <Alert message="请上传图片或者zip格式的打包文件" type="info" showIcon closable />
+        <Alert message="请上传zip格式的打包文件" type="info" showIcon closable />
       </div>
     )
   }

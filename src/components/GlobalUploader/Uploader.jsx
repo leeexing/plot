@@ -17,9 +17,11 @@ const UPLOAD_START_EVENT = 'uploadStart'
 const ACCEPT_CONFIG = {
   image: ['.png', '.jpg', '.jpeg', '.gif', '.bmp'],
   video: ['.mp4', '.rmvb', '.mkv', '.wmv', '.flv'],
-  document: ['.doc', '.docx', '.xls', '.xlsx', '.ppt', '.pptx', '.pdf', '.txt', '.tif', '.tiff', '.zip', '.rar'],
+  document: ['.zip', '.rar'],
+  // document: ['.doc', '.docx', '.xls', '.xlsx', '.ppt', '.pptx', '.pdf', '.txt', '.tif', '.tiff', '.zip', '.rar'],
   getAll () {
-    return [...this.image, ...this.video, ...this.document]
+    return [...this.document]
+    // return [...this.image, ...this.video, ...this.document]
   }
 }
 
@@ -211,7 +213,7 @@ class ImageUpload extends Component {
       })
     } else {
       // Bus.$emit('fileSuccess')
-      console.log('上传成功')
+      console.log('文件上传成功')
     }
   }
 

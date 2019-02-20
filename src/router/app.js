@@ -1,6 +1,7 @@
 import React from 'react'
 import { Route, Switch } from 'react-router-dom'
 import { BackTop } from 'antd'
+
 import Todo from 'pages/Todos'
 import MenuBar from 'components/MenuBar'
 import NavBar from 'components/NavBar'
@@ -10,6 +11,7 @@ import { ImagePlot, ImagePlotDetail } from 'pages/ImagePlot'
 import ImageUpload from 'pages/ImageUpload'
 import GlobalUploader from 'components/GlobalUploader'
 import ImageDownload from 'pages/ImageDownload'
+import GlobalMessage from 'components/GlobalMessage'
 
 const host = ''
 const Routes = (props) => (
@@ -30,6 +32,7 @@ const Routes = (props) => (
         <GlobalUploader/>
       </section>
     </main>
+    <GlobalMessage/>
     <BackTop/>
   </React.Fragment>
 )

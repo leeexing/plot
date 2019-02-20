@@ -9,7 +9,6 @@ import { inject, observer } from 'mobx-react'
 class NavBreadcrumb extends Component {
 
   render () {
-    console.log(this.props)
     const routes = this.props.appStore.navBreadcrumbRouters
     return (
       <Breadcrumb>
