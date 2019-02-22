@@ -43,6 +43,8 @@ class MenuBar extends Component {
     this.props.history.push(key)
   }
   render() {
+    let path = this.props.location.pathname
+    let selectKey = path === '/' ? '/' : '/' + path.split('/')[1]
     return (
       <div className="app-menu" style={{ width: this.state.collapsed ? 80 : 200 }}>
         <div className="logo-con" onClick={this.toggleCollapsed}>
@@ -55,6 +57,7 @@ class MenuBar extends Component {
           onClick={this.onMenuClick}
           className="app-menu-list"
           defaultSelectedKeys={[this.props.location.pathname]}
+          selectedKeys={[selectKey]}
           mode="inline"
           inlineCollapsed={this.state.collapsed}
         >

@@ -7,7 +7,7 @@ import MenuBar from 'components/MenuBar'
 import NavBar from 'components/NavBar'
 import NotFoundRoute from 'pages/404page'
 import HomePage from 'pages/Homepage'
-import { ImagePlot, ImagePlotDetail } from 'pages/ImagePlot'
+import { ImagePlot, ImagePlotList } from 'pages/ImagePlot'
 import ImageUpload from 'pages/ImageUpload'
 import GlobalUploader from 'components/GlobalUploader'
 import ImageDownload from 'pages/ImageDownload'
@@ -22,8 +22,8 @@ const Routes = (props) => (
       <section className="app-content">
         <Switch>
           <Route path={`/${host}todo`} component={Todo}/>
-          <Route path={`/${host}plot/:imageId`} component={ImagePlotDetail}/>
-          <Route path={`/${host}plot`} component={ImagePlot}/>
+          <Route path={`/${host}plot/:batch`} component={ImagePlot}/>
+          <Route path={`/${host}plot`} component={ImagePlotList}/>
           <Route path={`/${host}upload`} component={ImageUpload}/>
           <Route path={`/${host}download`} component={ImageDownload}/>
           <Route path={`/${host}`} exact component={HomePage}/>

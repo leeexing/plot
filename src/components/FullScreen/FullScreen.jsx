@@ -16,7 +16,6 @@ class FullScreen extends Component {
     document[this.fullScreenType[1]]()
   }
   render () {
-    console.log(this.props)
     return (
       <div id="fullscreen" ref="nsts">
         {
