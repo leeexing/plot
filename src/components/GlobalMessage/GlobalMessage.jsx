@@ -10,7 +10,10 @@ class GlobalMessage extends Component {
   }
 
   componentDidMount () {
-    const socket = io.connect('http://localhost:5281/MESSAGE_BOX')
+    const socket = io.connect('http://localhost:5281/IMAGE_PLOT')
+    socket.on('connect', () => {
+      console.log('前端连接了socket，和后台无关')
+    })
     socket.on('server_response', data => {
       console.log(data)
       notification.info({

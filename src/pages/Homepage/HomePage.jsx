@@ -37,16 +37,36 @@ class HomePage extends Component {
   render () {
     return (
       <div className="app-home">
-        <Card
-          hoverable
-          style={{ width: 240 }}
-          cover={<img alt="example" src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png" />}
-        >
-          <Card.Meta
-            title="在线标图素材一"
-            description="上传时间2019-02-20"
-          />
-        </Card>
+        <div className="home-material">
+          <Card
+            hoverable
+            cover={<img alt="example" src="https://cn.bing.com/az/hprichbg/rb/HeartCranes_ZH-CN5070756418_1920x1080.jpg" />}
+          >
+            <Card.Meta
+              title="在线标图素材一"
+              description="上传时间2019-02-19"
+            />
+          </Card>
+          <Card
+            hoverable
+            cover={<img alt="example" src="https://cn.bing.com/az/hprichbg/rb/BathBach_ZH-CN4601637280_1920x1080.jpg" />}
+          >
+            <Card.Meta
+              title="在线标图素材二"
+              description="上传时间2019-02-20"
+            />
+          </Card>
+          <Card
+            hoverable
+            cover={<img alt="example" src="https://cn.bing.com/az/hprichbg/rb/lantern19_ZH-CN7846752344_1920x1080.jpg" />}
+          >
+            <Card.Meta
+              title="在线标图素材三"
+              description="上传时间2019-02-21"
+            />
+          </Card>
+
+        </div>
       </div>
     )
   }

@@ -1,3 +1,4 @@
 /config/*
 /src/serviceWorker.js
 /scripts/*
+/public/*

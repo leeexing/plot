@@ -12,7 +12,7 @@ const menuRoutes = [
   },
   {
     path: '/plot',
-    breadcrumbName: '标图'
+    breadcrumbName: '标图素材'
   },
   {
     path: '/upload',
@@ -64,7 +64,7 @@ class MenuBar extends Component {
           </Menu.Item>
           <Menu.Item key="/plot">
             <Icon type="pie-chart" />
-            <span>标图</span>
+            <span>标图素材</span>
           </Menu.Item>
           <Menu.Item key="/upload">
             <Icon type="desktop" />

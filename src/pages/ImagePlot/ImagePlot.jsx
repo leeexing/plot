@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
 import { Alert, Icon, Pagination, Tooltip, Skeleton } from 'antd'
+import FullScreen from 'components/FullScreen'
 import api from '@/api'
 import './style.less'
 
@@ -14,7 +15,9 @@ class HomePage extends Component {
       isDataLoaded: false,
       imageList: [],
       currentPage: 1,
-      total: 0
+      total: 0,
+      isFull: false,
+      src: ''
     }
   }
   componentDidMount () {
@@ -51,7 +54,18 @@ class HomePage extends Component {
         breadcrumbName: '在线标图'
       }
     ])
-    this.props.history.push('/plot/' + item._id)
+    this.setState({
+      isFull: true,
+      src: `/3D/DR_base.html?type=MAP_BROWSE&count=${this.state.total}&page=${this.state.currentPage}&limit=50&viewCount=2`
+    })
+    this.refs.fullScreen.openFullScreen()
+    // this.props.history.push('/plot/' + item._id)
+  }
+  closeFullScreen = () => {
+    this.setState({
+      isFull: false,
+      src: ''
+    })
   }
   render () {
     return (
@@ -89,6 +103,12 @@ class HomePage extends Component {
               total={this.state.total}
               onChange={this.onChange} />
         }
+        <FullScreen
+          ref="fullScreen"
+          isFull={this.state.isFull}
+          onCloseFullScreen={this.closeFullScreen}
+          src={this.state.src}
+          ></FullScreen>
         </div>
       </div>
     )

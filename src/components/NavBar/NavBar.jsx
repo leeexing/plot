@@ -56,6 +56,10 @@ class NavBar extends Component {
               }
             </ul> */}
           </div>
+          <div className="nav-app-titie">
+            <Icon type="cloud" style={{marginRight: "5px"}} />
+            安培云·在线标图工作站
+          </div>
           <div className="nav-user">
             <Dropdown overlay={menu} trigger={['click']} placement="bottomRight">
               <span className="ant-dropdown-link">

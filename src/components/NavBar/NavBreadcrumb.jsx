@@ -11,7 +11,7 @@ class NavBreadcrumb extends Component {
   render () {
     const routes = this.props.appStore.navBreadcrumbRouters
     return (
-      <Breadcrumb>
+      <Breadcrumb style={{color: "#fff"}}>
       {
         routes.map((route, index) => {
           if (index === routes.length - 1) {
