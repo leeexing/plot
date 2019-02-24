@@ -70,7 +70,7 @@ class MenuBar extends Component {
             <span>标图素材</span>
           </Menu.Item>
           <Menu.Item key="/upload">
-            <Icon type="desktop" />
+            <Icon type="upload" />
             <span>图像上传</span>
           </Menu.Item>
         </Menu>
