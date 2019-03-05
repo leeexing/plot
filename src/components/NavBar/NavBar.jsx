@@ -3,6 +3,7 @@ import { inject, observer }  from 'mobx-react'
 import { Avatar, Menu, Icon, Dropdown } from 'antd'
 import { Link } from 'react-router-dom'
 import NavBreadcrumb from './NavBreadcrumb'
+import avatarImg from '@/assets/admin_avatar.png'
 
 
 @inject('appStore', 'userStore')
@@ -67,7 +68,8 @@ class NavBar extends Component {
                 <Icon type="down" size="24" style={{marginLeft: '5px'}} />
               </span>
             </Dropdown>
-            <Avatar className="nav-user-avatar" icon="user" />
+            <Avatar className="nav-user-avatar" src={avatarImg} />
+            {/* <Avatar className="nav-user-avatar" icon="user" /> */}
           </div>
         </div>
       </nav>

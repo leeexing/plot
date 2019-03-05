@@ -11,7 +11,7 @@ import { ImagePlot, ImagePlotList } from 'pages/ImagePlot'
 import ImageUpload from 'pages/ImageUpload'
 import GlobalUploader from 'components/GlobalUploader'
 import ImageDownload from 'pages/ImageDownload'
-import GlobalMessage from 'components/GlobalMessage'
+// import GlobalMessage from 'components/GlobalMessage'
 
 const host = ''
 const Routes = (props) => (
@@ -32,7 +32,7 @@ const Routes = (props) => (
         <GlobalUploader/>
       </section>
     </main>
-    <GlobalMessage/>
+    {/* <GlobalMessage/> */}
     <BackTop/>
   </React.Fragment>
 )

@@ -2,6 +2,7 @@
 * 文件上传
 */
 .m-uploader {
+  display: none;
   position: fixed;
   right: 0;
   bottom: 10px;
@@ -25,41 +26,13 @@
       }
     }
   }
-  &.insert {
-    position: absolute;
-    top: 50px;
-    width: 100%;
-    min-height: calc(100vh - 120px);
-    padding: 10px;
-    box-shadow: none;
-    background-color: transparent;
-    font-size: 14px;
-    .uploader-operate {
-      display: none;
-    }
-    .upload-button {
-      width: 128px;
-      height: 128px;
-    }
-    .uploader-file {
-      height: 49px;
-      line-height: 49px;
-    }
-    .uploader-file-icon {
-      margin-top: 13px;
-      &::before {
-        font-size: 24px;
-      }
-    }
-    .uploader-file-actions > span {
-      margin-top: 16px;
-      margin-right: 10px;
-    }
+  &.upload-show {
+    display: block;
   }
   &.mini {
     width: 10px;
     height: 50px;
-    bottom: 50px;
+    bottom: 150px;
     padding: 0;
     background: #1890ff;
     border-radius: 2px;
@@ -93,9 +66,6 @@
     .uploader-list {
       display: none;
     }
-  }
-  &.closable {
-    display: none;
   }
 }
 

@@ -16,7 +16,7 @@ const menuRoutes = [
   },
   {
     path: '/upload',
-    breadcrumbName: '图像上传'
+    breadcrumbName: '个人消息'
   },
 ]
 
@@ -70,8 +70,8 @@ class MenuBar extends Component {
             <span>标图素材</span>
           </Menu.Item>
           <Menu.Item key="/upload">
-            <Icon type="upload" />
-            <span>图像上传</span>
+            <Icon type="message" />
+            <span>个人消息</span>
           </Menu.Item>
         </Menu>
       </div>

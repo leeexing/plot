@@ -222,7 +222,7 @@ class ImageUpload extends Component {
   }
 
   closeUploader = () => {
-    this.props.appStore.closeUploader()
+    this.props.appStore.toggleUploaderGlobal(false)
   }
 
   componentDidMount () {
@@ -253,13 +253,11 @@ class ImageUpload extends Component {
   }
 
   render () {
-    let isInsert = this.props.appStore.isUploaderInsert
+    let isUploadShow = this.props.appStore.isUploadShow
     let isMini = this.props.appStore.isUploaderMini
-    let isClosable = this.props.appStore.isUploaderClose
     let uploaderClassName = ''
-    uploaderClassName += isInsert ? '' : ' insert'
+    uploaderClassName += isUploadShow ? ' upload-show' : ''
     uploaderClassName += isMini ? ' mini' : ''
-    uploaderClassName += isClosable ? ' closable' : ''
     return (
       <div className={"m-uploader" + uploaderClassName}>
         <div className="uploader-operate">

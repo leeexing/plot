@@ -68,6 +68,7 @@ class HomePage extends Component {
   onHandleDownload (value=true)  {
     if (value) {
       console.log('下载')
+      console.log(this.state.selectedImageIds)
     } else {
       this.state.selectedImageIds.clear()
       this.setState({

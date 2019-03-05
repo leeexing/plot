@@ -19,10 +19,10 @@ class ImageBatchList extends Component {
     this.fetchData()
   }
   fetchData () {
-    let data = {
-      page: this.state.currentPage,
-      limit: 20,
-    }
+    // let data = {
+    //   page: this.state.currentPage,
+    //   limit: 20,
+    // }
     this.setState({
       dataSource: [
         {
@@ -77,6 +77,11 @@ class ImageBatchList extends Component {
     // }).catch(console.log)
   }
 
+  uploadImage = () => {
+    this.props.appStore.toggleUploaderGlobal(true)
+    this.props.appStore.toggleUploaderMini(false)
+  }
+
   onHandlePlot = (data) => {
     this.props.appStore.updateNavBreadcrumb([
       {
@@ -94,6 +99,9 @@ class ImageBatchList extends Component {
   render () {
     return (
       <div>
+        <div style={{marginBottom: "10px"}}>
+          <Button type="primary" icon="upload" onClick={this.uploadImage}>图像上传</Button>
+        </div>
         <Table dataSource={this.state.dataSource} columns={this.state.columns} />
       </div>
     )
