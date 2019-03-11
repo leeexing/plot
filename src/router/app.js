@@ -13,6 +13,7 @@ import GlobalUploader from 'components/GlobalUploader'
 import ImageDownload from 'pages/ImageDownload'
 // import GlobalMessage from 'components/GlobalMessage'
 
+
 const host = ''
 const Routes = (props) => (
   <React.Fragment>
@@ -29,9 +30,9 @@ const Routes = (props) => (
           <Route path={`/${host}`} exact component={HomePage}/>
           <Route path={'/*'} component={NotFoundRoute}/>
         </Switch>
-        <GlobalUploader/>
       </section>
     </main>
+    <GlobalUploader/>
     {/* <GlobalMessage/> */}
     <BackTop/>
   </React.Fragment>

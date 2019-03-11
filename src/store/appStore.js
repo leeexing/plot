@@ -54,13 +54,6 @@ class AppStore {
     this.isUploadShow = value
   }
 
-  @action('上传组件全换到页面中')
-  uploaderChange2Imagepage = () => {
-    this.isUploadShow = false
-    this.isUploaderClose = false
-    this.isUploaderMini = false
-  }
-
   @action('上传组件最小化')
   toggleUploaderMini = value => {
     this.isUploaderMini = value
