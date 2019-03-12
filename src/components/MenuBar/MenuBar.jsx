@@ -69,7 +69,7 @@ class MenuBar extends Component {
             <Icon type="pie-chart" />
             <span>标图素材</span>
           </Menu.Item>
-          <Menu.Item key="/upload">
+          <Menu.Item key="/message">
             <Icon type="message" />
             <span>个人消息</span>
           </Menu.Item>

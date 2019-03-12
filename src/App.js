@@ -8,6 +8,7 @@ import { configure } from 'mobx'
 configure({ enforceActions: 'observed' })
 
 class App extends Component {
+
   render() {
     return (
       <Provider {...store}>

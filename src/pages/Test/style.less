@@ -1,0 +1,126 @@
+.m-test {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  .image-wrap {
+    display: flex;
+    flex: 1;
+    width: 100%;
+    .dr-canvas {
+      flex: 1;
+    }
+  }
+  .dr-canvas {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    canvas {
+      display: block;
+    }
+    .dr-angles {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      z-index: 9;
+      a {
+        display: inline-block;
+        margin-left: 10px;
+        padding: 5px 10px;
+        background: #d9d9d9;
+        color: #fff;
+        cursor: pointer;
+        &.active, &:hover, &:focus {
+          background-color: #2d8cf0;
+        }
+      }
+    }
+  }
+  .image {
+    &-header {
+      flex-shrink: 0;
+      padding: 8px;
+      background: #595959;
+      color: #fff;
+      text-align: center;
+    }
+    &-footer {
+      flex-shrink: 0;
+      height: 120px;
+      z-index: 9;
+    }
+    &-opr {
+      display: flex;
+      justify-content: space-around;
+      padding: 10px 0;
+      border-top: 1px solid #ddd;
+      .btn {
+        display: inline-block;
+        width: 36px;
+        height: 36px;
+        padding: 2px;
+        background-size: 100% 100%;
+      }
+      .bw {
+        background-image: url('/3D/images/dr/bw.png');
+        &:hover, &.active {
+          background-image: url('/3D/images/dr/bw-2.png');
+        }
+      }
+      .color {
+        background-image: url('/3D/images/dr/color.png');
+        &:hover, &.active {
+          background-image: url('/3D/images/dr/color-2.png');
+        }
+      }
+      .ms {
+        background-image: url('/3D/images/dr/ms.png');
+        &:hover, &.active {
+          background-image: url('/3D/images/dr/ms-2.png');
+        }
+      }
+      .os {
+        background-image: url('/3D/images/dr/os.png');
+        &:hover, &.active {
+          background-image: url('/3D/images/dr/os-2.png');
+        }
+      }
+      .inverse {
+        background-image: url('/3D/images/dr/inverse.png');
+        &:hover, &.active {
+          background-image: url('/3D/images/dr/inverse-2.png');
+        }
+      }
+      .gen {
+        background-image: url('/3D/images/dr/gen.png');
+        &:hover, &.active {
+          background-image: url('/3D/images/dr/gen-2.png');
+        }
+      }
+      .absorbp {
+        background-image: url('/3D/images/dr/abp.png');
+        &:hover, &.active {
+          background-image: url('/3D/images/dr/abp-2.png');
+        }
+      }
+      .absorbm {
+        background-image: url('/3D/images/dr/abm.png');
+        &:hover, &.active {
+          background-image: url('/3D/images/dr/abm-2.png');
+        }
+      }
+    }
+    &-feedback {
+      margin-top: 10px;
+      text-align: center;
+    }
+  }
+  &-feedback {
+    width: 100%;
+    .header {
+      padding: 8px;
+      background: #595959;
+      color: #fff;
+    }
+  }
+
+}

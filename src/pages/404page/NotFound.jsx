@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import { Link, withRouter } from 'react-router-dom'
 import './style.less'
-import notFoundImg from 'assets/404.jpg'
+import notFoundImg from 'assets/404.png'
+
 
 class NotFound extends Component {
   constructor (props) {
@@ -27,8 +28,10 @@ class NotFound extends Component {
         <div className="notfound-img">
           <img src={notFoundImg} alt=""/>
         </div>
-        <h2>你想访问的页面不存在</h2>
-        <p>{this.state.remainTime}秒后 <Link className="notfound-back" to="/">返回首页</Link></p>
+        <div className="notfound-msg">
+          <h2>你想访问的页面不存在</h2>
+          <p>{this.state.remainTime}秒后 <Link className="notfound-back" to="/">返回首页</Link></p>
+        </div>
       </div>
     )
   }
