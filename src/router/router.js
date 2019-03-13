@@ -4,7 +4,7 @@ import AppRoutes from './app'
 import Login from 'pages/Login'
 import LoginOther from 'pages/Login/LoginOther.jsx'
 import ServerError from 'pages/500page'
-import {TestHomepage, TestImage, Feedback } from 'pages/Test'
+import {TestHomepage, TestImage, Feedback, TestThanks } from 'pages/Test'
 
 const host = ''
 const Routes = () => (
@@ -16,6 +16,7 @@ const Routes = () => (
         <Route path={`/${host}test`} exact component={TestHomepage}/>
         <Route path={`/${host}test/image`} exact component={TestImage}/>
         <Route path={`/${host}test/feedback`} exact component={Feedback}/>
+        <Route path={`/${host}test/thanks`} exact component={TestThanks}/>
         <Route path={`/${host}500`} exact component={ServerError}/>
         <Route component={AppRoutes}/>
       </Switch>

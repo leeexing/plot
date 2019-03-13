@@ -45,8 +45,18 @@
       // text-align: center;
     }
     &-footer {
+      position: relative;
       flex-shrink: 0;
       height: 120px;
+      z-index: 9;
+    }
+    &-swap {
+      position: absolute;
+      right: 5px;
+      top: -50px;
+      padding: 15px;
+      border-radius: 50%;
+      background: #f5f5f5;
       z-index: 9;
     }
     &-opr {
@@ -63,51 +73,54 @@
       }
       .bw {
         background-image: url('/3D/images/dr/bw.png');
-        &:hover, &.active {
+        &.active {
           background-image: url('/3D/images/dr/bw-2.png');
         }
       }
       .color {
         background-image: url('/3D/images/dr/color.png');
-        &:hover, &.active {
+        &.active {
           background-image: url('/3D/images/dr/color-2.png');
         }
       }
       .ms {
         background-image: url('/3D/images/dr/ms.png');
-        &:hover, &.active {
+        &.active {
           background-image: url('/3D/images/dr/ms-2.png');
         }
       }
       .os {
         background-image: url('/3D/images/dr/os.png');
-        &:hover, &.active {
+        &.active {
           background-image: url('/3D/images/dr/os-2.png');
         }
       }
       .inverse {
         background-image: url('/3D/images/dr/inverse.png');
-        &:hover, &.active {
+        &.active {
           background-image: url('/3D/images/dr/inverse-2.png');
         }
       }
       .gen {
         background-image: url('/3D/images/dr/gen.png');
-        &:hover, &.active {
+        &.active {
           background-image: url('/3D/images/dr/gen-2.png');
         }
       }
       .absorbp {
         background-image: url('/3D/images/dr/abp.png');
-        &:hover, &.active {
+        &.active {
           background-image: url('/3D/images/dr/abp-2.png');
         }
       }
       .absorbm {
         background-image: url('/3D/images/dr/abm.png');
-        &:hover, &.active {
+        &.active {
           background-image: url('/3D/images/dr/abm-2.png');
         }
+      }
+      .reset {
+        background-image: url('/3D/images/dr/reset.png');
       }
     }
     &-feedback {
@@ -130,19 +143,26 @@
     }
   }
   // 引导页
+  &-thanks,
   &-guide {
     display: flex;
     justify-content: center;
     align-items: center;
     width: 100%;
-    .guide {
-      width: 80%;
-      max-width: 400px;
-      min-height: 300px;
-      padding: 15px;
-      background: #f9f9f9;
-      border-radius: 4px;
-      text-align: center;
-    }
+  }
+  &-guide .guide {
+    width: 80%;
+    max-width: 400px;
+    min-height: 300px;
+    padding: 15px;
+    // background: #f9f9f9;
+    border-radius: 4px;
+    text-align: center;
+  }
+  &-thanks {
+    font-size: 20px;
+    line-height: 2;
+    color: #666;
+    text-align: center;
   }
 }
