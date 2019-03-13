@@ -18,6 +18,7 @@
     "no-console": "off",
     "strict": ["error", "global"],
     "curly": "warn",
-    "anchor-is-valid": 0
+    "anchor-is-valid": 0,
+    "jsx-a11y/anchor-is-valid": 0
   }
 }

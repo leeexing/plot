@@ -39,9 +39,10 @@
     &-header {
       flex-shrink: 0;
       padding: 8px;
-      background: #595959;
-      color: #fff;
-      text-align: center;
+      border-bottom: 1px solid #eee;
+      // background: #595959;
+      // color: #fff;
+      // text-align: center;
     }
     &-footer {
       flex-shrink: 0;
@@ -114,13 +115,34 @@
       text-align: center;
     }
   }
+  // 反馈表达
   &-feedback {
     width: 100%;
+    min-height: 100%;
+    overflow: auto;
     .header {
       padding: 8px;
-      background: #595959;
+      border-bottom: 1px solid #eee;
       color: #fff;
     }
+    .feedback-form {
+      padding: 20px;
+    }
   }
-
+  // 引导页
+  &-guide {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    .guide {
+      width: 80%;
+      max-width: 400px;
+      min-height: 300px;
+      padding: 15px;
+      background: #f9f9f9;
+      border-radius: 4px;
+      text-align: center;
+    }
+  }
 }

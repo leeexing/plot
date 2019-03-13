@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Button } from 'antd'
+import { Button, Breadcrumb, Icon } from 'antd'
 import './style.less'
 
 const imageData = require('./data.json').package.images
@@ -44,7 +44,17 @@ class ImageMobileTest extends Component {
   render () {
     return (
       <div className="m-test">
-        <div className="image-header">图像测试</div>
+        <div className="image-header">
+          <Breadcrumb>
+            <Breadcrumb.Item href="/test">
+              <Icon type="home" />
+            </Breadcrumb.Item>
+            <Breadcrumb.Item>
+              <Icon type="picture" />
+              <span>图像查看</span>
+            </Breadcrumb.Item>
+          </Breadcrumb>
+        </div>
         <div className="image-wrap">
           <div className="dr-canvas">
             <div className="dr-angles j-angles"></div>
