@@ -133,6 +133,7 @@
     width: 100%;
     min-height: 100%;
     overflow: auto;
+    animation: feedback 1s;
     .header {
       padding: 8px;
       border-bottom: 1px solid #eee;
@@ -159,10 +160,14 @@
     border-radius: 4px;
     text-align: center;
   }
+  &-guide {
+    animation: guide 1s;
+  }
   &-thanks {
     font-size: 20px;
     line-height: 2;
     color: #666;
     text-align: center;
+    animation: thanks 1s;
   }
 }

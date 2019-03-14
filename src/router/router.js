@@ -4,6 +4,7 @@ import AppRoutes from './app'
 import Login from 'pages/Login'
 import LoginOther from 'pages/Login/LoginOther.jsx'
 import ServerError from 'pages/500page'
+// import NotFoundRoute from 'pages/404page'
 import {TestHomepage, TestImage, Feedback, TestThanks } from 'pages/Test'
 
 const host = ''
@@ -18,7 +19,8 @@ const Routes = () => (
         <Route path={`/${host}test/feedback`} exact component={Feedback}/>
         <Route path={`/${host}test/thanks`} exact component={TestThanks}/>
         <Route path={`/${host}500`} exact component={ServerError}/>
-        <Route component={AppRoutes}/>
+        <Route path={`/ols`} component={AppRoutes}/>
+        <Route path={`/*`} component={TestHomepage}/>
       </Switch>
     </React.Fragment>
   </Router>

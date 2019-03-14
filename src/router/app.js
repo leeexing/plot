@@ -13,7 +13,7 @@ import NotFoundRoute from 'pages/404page'
 // import GlobalMessage from 'components/GlobalMessage'
 
 
-const host = ''
+const host = 'ols/'
 const Routes = (props) => (
   <React.Fragment>
     <MenuBar {...props}/>
@@ -26,7 +26,7 @@ const Routes = (props) => (
           <Route path={`/${host}plot`} component={ImagePlotList}/>
           <Route path={`/${host}message`} component={Message}/>
           <Route path={`/${host}`} exact component={HomePage}/>
-          <Route path={'/*'} component={NotFoundRoute}/>
+          <Route path={`/*`} component={NotFoundRoute}/>
         </Switch>
       </section>
     </main>

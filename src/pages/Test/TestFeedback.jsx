@@ -4,7 +4,7 @@ import axios from 'axios'
 
 
 const http = axios.create({
-  baseURL: 'http://10.15.165.45:5281',
+  baseURL: 'http://132.232.18.77:5282',
   timeout: 3000,
 })
 const { TextArea } = Input
@@ -82,9 +82,9 @@ class Feedback extends Component {
             </Form.Item>
             <Form.Item label="手机品牌及型号">
               {getFieldDecorator('brand', {
-                rules: [{ required: true, message: '请输入您使用的手机品牌!' }],
+                rules: [{ required: true, message: '请输入手机品牌及型号!' }],
               })(
-                <Input type="text" placeholder="请输入手机品牌" />
+                <Input type="text" placeholder="请输入手机品牌及型号，例如：华为mate9" />
               )}
             </Form.Item>
             {/* <Form.Item label="手机型号">
