@@ -4,6 +4,7 @@ import axios from 'axios'
 
 
 const http = axios.create({
+  // baseURL: 'http://localhost:5282',
   baseURL: 'http://132.232.18.77:5282',
   timeout: 3000,
 })
@@ -29,7 +30,8 @@ class Feedback extends Component {
       if (!err) {
         console.log('Received values of form: ', values)
         const userAgent = window.navigator.userAgent
-        let postData = {...values, userAgent}
+        const createTime = new Date()
+        let postData = {...values, userAgent, createTime}
         http.post('/api/test/image', postData)
           .then(res => res.data)
           .then(res => {
@@ -44,12 +46,6 @@ class Feedback extends Component {
             console.log(err)
           })
       }
-    })
-  }
-  onChangeIsOk = value => {
-    console.log(value)
-    this.setState({
-      hasProblem: value
     })
   }
 
@@ -103,7 +99,7 @@ class Feedback extends Component {
               {getFieldDecorator('question', {
                   rules: [{ required: true, message: '请输入您的反馈信息' }],
                 })(
-                  <TextArea type="text" placeholder='若图像显示没有问题，请您直接回复无或完美' autosize={{ minRows: 3, maxRows: 6 }} />
+                  <TextArea type="text" placeholder='请您详细描述测试中图像产生的问题以及提出建议，以便我们做出更好的优化和改进' autosize={{ minRows: 3, maxRows: 6 }} />
                 )}
             </Form.Item>
             <Form.Item style={{textAlign: "center"}}>

@@ -57,7 +57,14 @@ class ImageMobileTest extends Component {
   }
 
   showDR () {
-    this.drInstance.showDR(this.state.imageData[this.state.index])
+    if (this.drInstance.hasLoaded) {
+      this.drInstance.showDR(this.state.imageData[this.state.index])
+      this.setState({
+        shaderB: 'standard',
+        shaderC: 'default',
+        absorbValue: 0
+      })
+    }
   }
 
   swapImage = () => {
