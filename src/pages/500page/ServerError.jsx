@@ -17,8 +17,8 @@ class ServerError extends Component {
           <img src={serverErrorImg} alt=""/>
         </div>
         <div className="server-error-msg">
-          <h2>服务器错误</h2>
-          <p>{this.state.remainTime}秒后 <Link className="server-error-back" to="/">返回首页</Link></p>
+          <p><Link className="server-error-back" to="/">返回首页</Link></p>
+          {/* <p>{this.state.remainTime}秒后 <Link className="server-error-back" to="/">返回首页</Link></p> */}
         </div>
       </div>
     )

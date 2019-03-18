@@ -10,10 +10,11 @@ import { ImagePlot, ImagePlotList } from 'pages/ImagePlot'
 import Message from 'pages/Message'
 import GlobalUploader from 'components/GlobalUploader'
 import NotFoundRoute from 'pages/404page'
+import ServerError from 'pages/500page'
 // import GlobalMessage from 'components/GlobalMessage'
 
 
-const host = 'ols/'
+const host = ''
 const Routes = (props) => (
   <React.Fragment>
     <MenuBar {...props}/>
@@ -25,6 +26,7 @@ const Routes = (props) => (
           <Route path={`/${host}plot/:batch`} component={ImagePlot}/>
           <Route path={`/${host}plot`} component={ImagePlotList}/>
           <Route path={`/${host}message`} component={Message}/>
+          <Route path={`/${host}500`} exact component={ServerError}/>
           <Route path={`/${host}`} exact component={HomePage}/>
           <Route path={`/*`} component={NotFoundRoute}/>
         </Switch>

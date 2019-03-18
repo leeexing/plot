@@ -30,7 +30,7 @@ class NotFound extends Component {
         </div>
         <div className="notfound-msg">
           <h2>你想访问的页面不存在</h2>
-          <p><Link className="notfound-back" to="/test">返回首页</Link></p>
+          <p><Link className="notfound-back" to="/">返回首页</Link></p>
           {/* <p>{this.state.remainTime}秒后 <Link className="notfound-back" to="/">返回首页</Link></p> */}
         </div>
       </div>

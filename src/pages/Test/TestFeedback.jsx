@@ -4,8 +4,8 @@ import axios from 'axios'
 
 
 const http = axios.create({
-  // baseURL: 'http://localhost:5282',
-  baseURL: 'http://132.232.18.77:5282',
+  // baseURL: 'http://localhost:5282', // 本地，需要开启 source-test-api
+  baseURL: 'http://132.232.18.77:5282', // -服务器
   timeout: 3000,
 })
 const { TextArea } = Input
