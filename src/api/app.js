@@ -5,13 +5,17 @@ export default {
         return http.post('/api/login', data)
     },
     loginByThirdpart (data) {
-    return http.post('/api/auth/login/thirdpart', data)
+        return http.post('/api/auth/login/thirdpart', data)
     },
+    // -todos
     fetchTodos (data) {
         return http.get('/api/tenement', data)
     },
     fetchTodo (id, data) {
         return http.put('/api/todo' + id, data)
+    },
+    fetchPictureList (data) {
+        return http.get('/api/file/picture', data)
     },
     // -图像管理
     fetchCaptureImage (data) {

@@ -5,7 +5,7 @@ import axios from 'axios'
 import qs from 'qs'
 import { message } from 'antd'
 import Auth from '@/util/auth'
-import { baseURL } from './config'
+import { baseURL } from '@/config'
 import { BrowserRouter } from 'react-router-dom'
 
 
