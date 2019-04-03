@@ -4,11 +4,12 @@
 */
 import { applyMiddleware, createStore } from 'redux'
 import thunk  from 'redux-thunk'
+import logger from 'redux-logger'
 import reduces from './reducers'
 
 let store = createStore(
   reduces,
-  applyMiddleware(thunk)
+  applyMiddleware(thunk, logger)
 )
 
 export default store

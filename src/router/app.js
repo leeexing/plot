@@ -27,7 +27,7 @@ const Routes = (props) => (
           <Route path={`/${HOST}plot/:batch`} component={ImagePlot}/>
           <Route path={`/${HOST}plot`} component={ImagePlotList}/>
           <Route path={`/${HOST}message`} component={Message}/>
-          <Route path={`/${HOST}Test`} component={Test}/>
+          <Route path={`/${HOST}test`} component={Test}/>
           <Route path={`/${HOST}500`} exact component={ServerError}/>
           <Route path={`/${HOST}`} exact component={HomePage}/>
           <Route path={`/*`} component={NotFoundRoute}/>

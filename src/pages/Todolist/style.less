@@ -1,0 +1,36 @@
+.todo {
+  display: flex;
+  height: 100%;
+  &-wrapper {
+    width: 500px;
+    padding: 20px;
+    margin: auto;
+  }
+  &-header {
+    margin-bottom: 10px;
+  }
+  &-list {
+    min-height: 200px;
+    margin-bottom: 10px;
+    padding: 2px;
+  }
+  &-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px;
+    border-bottom: 1px solid #ddd;
+    color: #666;
+    &:hover {
+      background: #A8EDEA;
+    }
+  }
+  &-none {
+    margin-top: 50px;
+    text-align: center;
+  }
+  &-footer {
+    display: flex;
+    justify-content: space-between;
+  }
+}

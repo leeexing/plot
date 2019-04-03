@@ -1,7 +1,7 @@
 import api from '@/api'
 
 export function setPageTitle (data) {
-  return {type: 'SET_PAGE_TITLE', data} // 不是异步的可以直接返回一个对象
+  return {type: 'SET_PAGE_TITLE', data} // 不是异步的可以直接返回一个`action对象`
   // return (dispatch, getState) => {
   //   dispatch({type: 'SET_PAGE_TITLE', data})
   // }

@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { List, BackTop } from 'antd'
 import { isEmpty } from 'ramda'
+
 import { setPageTitle, updateInfoList } from '@/storeRedux/actions'
 
 

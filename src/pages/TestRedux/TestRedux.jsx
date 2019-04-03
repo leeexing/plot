@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { List } from 'antd'
 import { isEmpty } from 'ramda'
 
-import { setPageTitle, setInfoList } from '@/storeRedux/actions.js'
+import { setPageTitle, setInfoList } from '@/storeRedux/actions'
 
 
 const mapStateToProps = state => {

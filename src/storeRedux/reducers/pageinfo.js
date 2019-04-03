@@ -1,7 +1,6 @@
-import { combineReducers } from 'redux'
-import defaultState from './state'
+import defaultState from '../state'
 
-function pageTitle (state = defaultState.pageTitle, action) {
+export function pageTitle (state = defaultState.pageTitle, action) {
   switch (action.type) {
     case 'SET_PAGE_TITLE':
       return action.data
@@ -11,7 +10,7 @@ function pageTitle (state = defaultState.pageTitle, action) {
   }
 }
 
-function infoList (state = defaultState.infoList, action) {
+export function infoList (state = defaultState.infoList, action) {
   switch (action.type) {
     case 'SET_INFO_LIST':
       return action.data
@@ -23,8 +22,3 @@ function infoList (state = defaultState.infoList, action) {
       return state
   }
 }
-
-export default combineReducers({
-  pageTitle,
-  infoList
-})
