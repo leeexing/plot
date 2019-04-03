@@ -30,13 +30,15 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 class TodoList extends Component {
 
   componentDidMount () {
-    console.log(this.props)
-    let { setTodolist } = this.props
-    setTodolist()
+    this.props.setTodolist()
   }
 
   onChange = (id) => {
     this.props.toggleTodo(id)
+  }
+
+  onDelete (id) {
+    this.props.deleteTodo(id)
   }
 
   getTodos (todos) {
@@ -68,7 +70,7 @@ class TodoList extends Component {
               <span>{item.Name}</span>
               <div className="todo-opr">
                 {/* <Button size="small">完成</Button> */}
-                <Button size="small">删除</Button>
+                <Button size="small" onClick={this.onDelete.bind(this, item.ID)}>删除</Button>
               </div>
             </div>
           ))

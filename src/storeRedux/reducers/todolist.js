@@ -9,17 +9,15 @@ export function todolist (state = defaultState.todolist, action) {
       return [...state, action.data]
 
     case 'TOGGLE_TODO':
-      state = state.map((item, index) => {
-        if (item.ID === action.data) {
-          item.isFinished = !item.isFinished
-        }
-        return item
-      })
-      return state
+      return state.map((item, index) => {
+          if (item.ID === action.data) {
+            item.isFinished = !item.isFinished
+          }
+          return item
+        })
 
     case 'DELETE_TODO':
-      state.splice(action.data, 1)
-      return state
+      return state.filter(item => item.ID !== action.data)
 
     default:
       return state

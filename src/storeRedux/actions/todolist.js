@@ -3,8 +3,9 @@ import api from '@/api'
 export function setTodolist (data) { // 涉及到获取数据，需要异步处理
   return (dispatch, getState) => {
     api.fetchTodos().then(res => {
-      console.log(res)
-      dispatch({type: 'SET_TODO_LIST', data: res.data.tenements})
+      if (res.result) {
+        dispatch({type: 'SET_TODO_LIST', data: res.data.tenements})
+      }
     })
   }
 }

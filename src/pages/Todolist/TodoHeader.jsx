@@ -28,7 +28,7 @@ class TodoHeader extends Component {
   render () {
     return (
       <div className="todo-header">
-        <Input placeholder="Basic usage" onPressEnter={value => this.handleEnter(value)} />
+        <Input placeholder="Please input a new todo" onPressEnter={value => this.handleEnter(value)} />
       </div>
     )
   }
