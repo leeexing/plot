@@ -5,26 +5,11 @@ import { isEmpty } from 'ramda'
 
 import { setPageTitle, setInfoList } from '@/storeRedux/actions'
 
-
-const mapStateToProps = state => {
-  return {
-    pageTitle: state.pageTitle,
-    infoList: state.infoList
-  }
-}
-
-const mapDispatchToProps = (dispatch, ownProps) => {
-  return {
-    setPageTitle (data) {
-      dispatch(setPageTitle(data))
-    },
-    setInfoList (data) {
-      dispatch(setInfoList(data))
-    }
-  }
-}
-
-@connect(mapStateToProps, mapDispatchToProps)
+// -注意到写法的不同~
+@connect(
+  ({pageTitle, infoList}) => ({pageTitle, infoList}),
+  {setPageTitle, setInfoList}
+)
 class TestRedux extends Component {
 
   componentDidMount () {

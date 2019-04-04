@@ -17,6 +17,9 @@ export default {
     fetchPictureList (data) {
         return http.get('/api/file/picture', data)
     },
+    fetchTodoUser (data) {
+        return http.get('/test/user', data)
+    },
     // -图像管理
     fetchCaptureImage (data) {
         return http.get('/api/imageCapture', data)

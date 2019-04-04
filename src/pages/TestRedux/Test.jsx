@@ -16,7 +16,7 @@ function Test () {
       <Menu mode="horizontal" style={{marginBottom: '10px'}}>
         <Menu.Item><Link to="/test/redux">Redux</Link></Menu.Item>
         <Menu.Item><Link to="/test/hooks">Hooks</Link></Menu.Item>
-        <Menu.Item><Link to="/test/b"><Icon type="bold" /></Link></Menu.Item>
+        <Menu.Item><Link to="/test/b"><Icon type="bold"/>Reducer</Link></Menu.Item>
         <Menu.Item><Link to="/test/todo"><Icon type="medium" /></Link></Menu.Item>
       </Menu>
       <React.Fragment>

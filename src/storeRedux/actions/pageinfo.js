@@ -18,6 +18,7 @@ export function setInfoList (data) {
 }
 
 export function updateInfoList (data) {
+  // return {type: 'UPDATE_INFO_LIST', data: [{Name: 'leeing'}]}
   return ((dispatch, getState) => {
     api.fetchPictureList().then(res => {
       // console.log(res)

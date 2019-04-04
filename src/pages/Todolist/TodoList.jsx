@@ -5,26 +5,29 @@ import { isEmpty } from 'ramda'
 
 import { setTodolist, toggleTodo, deleteTodo } from '@/storeRedux/actions'
 
-const mapStateToProps = state => {
-  return {
-    todolist: state.todolist,
-    filterType: state.filterType
-  }
-}
+// const mapStateToProps = state => {
+//   return {
+//     todolist: state.todolist,
+//     filterType: state.filterType
+//   }
+// }
 
-const mapDispatchToProps = (dispatch, ownProps) => {
-  return {
-    setTodolist (data) {
-      dispatch(setTodolist(data))
-    },
-    toggleTodo (data) {
-      dispatch(toggleTodo(data))
-    },
-    deleteTodo (data) {
-      dispatch(deleteTodo(data))
-    }
-  }
-}
+// const mapDispatchToProps = (dispatch, ownProps) => {
+//   return {
+//     setTodolist (data) {
+//       dispatch(setTodolist(data))
+//     },
+//     toggleTodo (data) {
+//       dispatch(toggleTodo(data))
+//     },
+//     deleteTodo (data) {
+//       dispatch(deleteTodo(data))
+//     }
+//   }
+// }
+
+const mapStateToProps = ({ todolist, filterType}) => ({ todolist, filterType})
+const mapDispatchToProps = { setTodolist, toggleTodo, deleteTodo}
 
 @connect(mapStateToProps, mapDispatchToProps)
 class TodoList extends Component {

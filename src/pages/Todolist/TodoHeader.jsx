@@ -3,13 +3,15 @@ import { Input } from 'antd'
 import { connect } from 'react-redux'
 import { addTodo } from '@/storeRedux/actions'
 
-const mapDispatchToProps = (dispatch, ownProps) => {
-  return {
-    addTodo (data) {
-      dispatch(addTodo(data))
-    }
-  }
-}
+// -对比一下这个写法，还是不够简洁
+// const mapDispatchToProps = (dispatch, ownProps) => {
+//   return {
+//     addTodo (data) {
+//       dispatch(addTodo(data))
+//     }
+//   }
+// }
+const mapDispatchToProps = { addTodo }
 
 @connect(null, mapDispatchToProps)
 class TodoHeader extends Component {

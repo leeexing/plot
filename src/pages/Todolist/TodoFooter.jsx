@@ -4,25 +4,25 @@ import { connect } from 'react-redux'
 
 import { setFilterType } from '@/storeRedux/actions'
 
-const mapStateToProps = state => {
-  return {
-    filterType: state.filterType
-  }
-}
+const mapStateToProps = ({filterType}) => ({filterType})
 
-const mapDispatchToProps = (dispatch, ownProps) => {
-  return {
-    changeDisplay (data) {
-      dispatch(setFilterType(data))
-    }
-  }
-}
+// - 使用这种复杂一点的写法，可以改变方法名，以及做一些额外的数据处理
+// const mapDispatchToProps = (dispatch, ownProps) => {
+//   return {
+//     changeDisplay (data) {
+//       dispatch(setFilterType(data))
+//     }
+//   }
+// }
 
-@connect(mapStateToProps, mapDispatchToProps)
+@connect(
+  mapStateToProps,
+  { setFilterType }
+)
 class TodoFooter extends Component {
 
   handleClick (type) {
-    this.props.changeDisplay(type)
+    this.props.setFilterType(type)
   }
 
   render () {

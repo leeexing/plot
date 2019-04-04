@@ -6,25 +6,10 @@ import { isEmpty } from 'ramda'
 import { setPageTitle, updateInfoList } from '@/storeRedux/actions'
 
 
-const mapStateToProps = state => {
-  return {
-    pageTitle: state.pageTitle,
-    infoList: state.infoList
-  }
-}
-
-const mapDispatchToProps = (dispatch, ownProps) => {
-  return {
-    setPageTitle (data) {
-      dispatch(setPageTitle(data))
-    },
-    updateInfoList (data) {
-      dispatch(updateInfoList(data))
-    }
-  }
-}
-
-@connect(mapStateToProps, mapDispatchToProps)
+@connect(
+  ({pageTitle, infoList}) => ({pageTitle, infoList}),
+  {setPageTitle, updateInfoList}
+)
 class TestReducer extends Component {
 
   componentDidMount () {
@@ -34,7 +19,6 @@ class TestReducer extends Component {
   }
 
   render () {
-    console.log(this.props)
     let { pageTitle, infoList } = this.props
     return (
       <div className="test">
