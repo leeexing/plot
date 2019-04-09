@@ -21,9 +21,9 @@ const menuRoutes = [
   },
 ]
 
+@withRouter
 @inject('appStore')
 @observer
-@withRouter
 class MenuBar extends Component {
   constructor (props) {
     super(props)
@@ -46,7 +46,7 @@ class MenuBar extends Component {
   }
   render() {
     let path = this.props.location.pathname
-    let selectKey = path === '/' ? '/' : '/' + path.split('/')[1]
+    // let selectKey = path === '/' ? '/' : '/' + path.split('/')[1]
     return (
       <div className="app-menu">
       {/* <div className="app-menu" style={{ width: this.state.collapsed ? 80 : 200 }}> */}
@@ -60,7 +60,7 @@ class MenuBar extends Component {
           onClick={this.onMenuClick}
           className="app-menu-list"
           defaultSelectedKeys={[path]}
-          selectedKeys={[selectKey]}
+          selectedKeys={[path]}
           mode="inline"
           inlineCollapsed={this.state.collapsed}
         >

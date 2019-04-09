@@ -9,6 +9,7 @@ import './index.less'
 
 const { Content, Footer, Sider } = Layout
 
+
 class WebLayout extends Component {
   static propTypes = {
     children: PropTypes.node
