@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { withRouter } from 'react-router-dom'
 import { inject, observer } from 'mobx-react'
 import { Menu, Icon } from 'antd'
 import logoMd from 'assets/logo-md.png'
@@ -22,6 +23,7 @@ const menuRoutes = [
 
 @inject('appStore')
 @observer
+@withRouter
 class MenuBar extends Component {
   constructor (props) {
     super(props)
@@ -30,7 +32,7 @@ class MenuBar extends Component {
     }
   }
   componentDidMount () {
-    // console.log(this.props)
+    console.log(this.props)
   }
   toggleCollapsed = () => {
     this.setState({
@@ -46,7 +48,8 @@ class MenuBar extends Component {
     let path = this.props.location.pathname
     let selectKey = path === '/' ? '/' : '/' + path.split('/')[1]
     return (
-      <div className="app-menu" style={{ width: this.state.collapsed ? 80 : 200 }}>
+      <div className="app-menu">
+      {/* <div className="app-menu" style={{ width: this.state.collapsed ? 80 : 200 }}> */}
         <div className="logo-con" onClick={this.toggleCollapsed}>
           {this.state.collapsed
             ? <img src={logoMini} alt="logo-mini" />
@@ -56,7 +59,7 @@ class MenuBar extends Component {
         <Menu
           onClick={this.onMenuClick}
           className="app-menu-list"
-          defaultSelectedKeys={[this.props.location.pathname]}
+          defaultSelectedKeys={[path]}
           selectedKeys={[selectKey]}
           mode="inline"
           inlineCollapsed={this.state.collapsed}
