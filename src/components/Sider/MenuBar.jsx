@@ -2,24 +2,11 @@ import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 import { inject, observer } from 'mobx-react'
 import { Menu, Icon } from 'antd'
+
 import logoMd from 'assets/logo-md.png'
 import logoMini from 'assets/logo-mini.png'
+import { menuRoutes } from '@/router/app'
 
-
-const menuRoutes = [
-  {
-    path: '/',
-    breadcrumbName: '首页'
-  },
-  {
-    path: '/plot',
-    breadcrumbName: '标图素材'
-  },
-  {
-    path: '/upload',
-    breadcrumbName: '个人消息'
-  },
-]
 
 @withRouter
 @inject('appStore')
@@ -31,22 +18,22 @@ class MenuBar extends Component {
       collapsed: false,
     }
   }
-  componentDidMount () {
-    console.log(this.props)
-  }
+
   toggleCollapsed = () => {
     this.setState({
       collapsed: !this.state.collapsed
     })
   }
+
   onMenuClick = ({ key }) => {
-    let route = menuRoutes.filter(item => item.path === key)
+    let route = menuRoutes.filter(item => '/' + item.path === key)
     this.props.appStore.updateNavBreadcrumb(route)
     this.props.history.push(key)
   }
+
   render() {
     let path = this.props.location.pathname
-    // let selectKey = path === '/' ? '/' : '/' + path.split('/')[1]
+
     return (
       <div className="app-menu">
       {/* <div className="app-menu" style={{ width: this.state.collapsed ? 80 : 200 }}> */}
@@ -64,18 +51,14 @@ class MenuBar extends Component {
           mode="inline"
           inlineCollapsed={this.state.collapsed}
         >
-          <Menu.Item key="/" to="/">
-            <Icon type="appstore" />
-            <span>首页</span>
-          </Menu.Item>
-          <Menu.Item key="/plot">
-            <Icon type="pie-chart" />
-            <span>标图素材</span>
-          </Menu.Item>
-          <Menu.Item key="/message">
-            <Icon type="message" />
-            <span>个人消息</span>
-          </Menu.Item>
+        {
+          menuRoutes.map(item => (
+            <Menu.Item key={`/${item.path}`}>
+              <Icon type={item.icon} />
+              <span>{item.name}</span>
+            </Menu.Item>
+          ))
+        }
         </Menu>
       </div>
     )

@@ -4,15 +4,10 @@ import React, { Component } from 'react'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import routes from './config'
 
-console.log(routes)
 
 class Root extends Component {
   static defaultProps = {
     isLogin: false
-  }
-
-  componentDidMount () {
-    console.log(this.props)
   }
 
   /**
@@ -49,7 +44,7 @@ class Root extends Component {
 
     routes.forEach(item => renderRoute(item, contextPath))
 
-    console.log('children', children)
+    // console.log('children', children)
 
     return <Switch>{children}</Switch>
   }

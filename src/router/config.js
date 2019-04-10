@@ -1,6 +1,6 @@
 import mobileRoutes from './mobile'
 import rootRoutes from './rootRoute'
-import appRoutes from './web'
+import appRoutes from './app'
 
 let childRoutes = [
   rootRoutes,

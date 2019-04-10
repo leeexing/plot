@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Alert, Button, Badge, Icon, Pagination, Tooltip, Skeleton } from 'antd'
+import { Alert, Avatar, Button, Badge, Icon, Pagination, Tooltip, Skeleton } from 'antd'
 import FullScreen from 'components/FullScreen'
 import api from '@/api'
 import './style.less'
@@ -35,7 +35,7 @@ class HomePage extends Component {
       console.log(res)
       if (res.result) {
         this.setState({
-          imageList: res.data.images,
+          // imageList: res.data.images,
           total: res.data.count
         })
       }
@@ -93,7 +93,6 @@ class HomePage extends Component {
   }
 
   plotImage (item) {
-    console.log(item)
     this.setState({
       isFull: true,
       src: `/3D/DR_base.html?type=MAP_BROWSE&count=${this.state.total}&page=${this.state.currentPage}&limit=50&viewCount=2`
@@ -111,12 +110,14 @@ class HomePage extends Component {
 
   render () {
     return (
-      <div className="m-image-plot">
-        <Alert message="点击图像进行在线标图" type="info" showIcon closable style={{marginBottom: '10px'}} />
-        {/* 图像批次详情 */}
-        <div className="image-batch-detail">
-
+      <div className="m-plot-image">
+        <div className="m-plot-download">
+          <Avatar size={64} icon="cloud-download" style={{ color: '#f56a00', backgroundColor: '#fde3cf' }} />
+          <p>点击进行图像上传<span>(zip，rar 压缩文件)</span></p>
+          {/* <Alert message="点击图像进行在线标图" type="info" showIcon closable style={{marginBottom: '10px'}} /> */}
         </div>
+
+        {/* 标图列表 */}
         <div style={{marginBottom: '10px'}}>
           {
             !this.state.wantToDownload

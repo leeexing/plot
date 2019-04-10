@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
 import { inject, observer }  from 'mobx-react'
 import { Avatar, Menu, Icon, Dropdown } from 'antd'
-import { Link } from 'react-router-dom'
+import { Link, withRouter } from 'react-router-dom'
 import NavBreadcrumb from './NavBreadcrumb'
 import avatarImg from '@/assets/admin_avatar.png'
 
 
+@withRouter
 @inject('appStore', 'userStore')
 @observer
 class NavBar extends Component {
@@ -25,16 +26,14 @@ class NavBar extends Component {
       ],
     }
   }
-  componentDidMount () {
-    // console.log(this.props.appStore.username)
-    // console.log(this.props.appStore.rootStore.userStore)
-  }
+
   onClick = ({ key }) => {
     if (key === 'logout') {
       this.props.userStore.logout()
       this.props.history.push('/login')
     }
   }
+
   render () {
     const menu = (
       <Menu onClick={this.onClick}>
@@ -50,12 +49,6 @@ class NavBar extends Component {
         <div className="app-nav-bd">
           <div className="nav-breadcrumb">
             <NavBreadcrumb></NavBreadcrumb>
-            {/* <ul>
-              {this.state.navItems.map((nav, index) =>
-                  <li key={index}><Link to={nav.path}>{nav.name}</Link></li>
-                )
-              }
-            </ul> */}
           </div>
           <div className="nav-app-titie">
             <Icon type="cloud" style={{marginRight: "5px"}} />

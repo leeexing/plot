@@ -1,13 +1,14 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import { Layout, Icon, Row, Col, BackTop } from 'antd'
+import { Layout, Row, Col, BackTop } from 'antd'
 import Header from 'components/Header'
 import AppSider from 'components/Sider'
+import Upload from 'components/GlobalUploader'
 import './index.less'
 
 
-const { Content, Footer, Sider } = Layout
+// const { Content, Footer, Sider } = Layout
 
 
 class WebLayout extends Component {
@@ -38,6 +39,7 @@ class WebLayout extends Component {
             </div>
           </Col>
         </Row>
+        <Upload />
         <BackTop target={() => document.querySelector('.content-wrapper')} />
       </Layout>
     )
