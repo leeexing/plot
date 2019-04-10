@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import { Card } from 'antd'
+
+import HomeChart from 'components/G2/Home'
 import api from '@/api'
 import './style.less'
 
@@ -37,6 +39,7 @@ class HomePage extends Component {
   render () {
     return (
       <div className="app-home">
+        <HomeChart></HomeChart>
         <div className="home-material">
           <Card
             hoverable

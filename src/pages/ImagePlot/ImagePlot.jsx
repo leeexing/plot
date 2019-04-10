@@ -35,7 +35,7 @@ class HomePage extends Component {
       console.log(res)
       if (res.result) {
         this.setState({
-          // imageList: res.data.images,
+          imageList: res.data.images,
           total: res.data.count
         })
       }
@@ -112,28 +112,23 @@ class HomePage extends Component {
     return (
       <div className="m-plot-image">
         <div className="m-plot-download">
-          <Avatar size={64} icon="cloud-download" style={{ color: '#f56a00', backgroundColor: '#fde3cf' }} />
-          <p>点击进行图像上传<span>(zip，rar 压缩文件)</span></p>
-          {/* <Alert message="点击图像进行在线标图" type="info" showIcon closable style={{marginBottom: '10px'}} /> */}
+        {
+          !this.state.wantToDownload
+          ? <Avatar onClick={this.onHandleWantToDownload} size={64} icon="cloud-download" className="download" />
+          : <div className="download-btns">
+              <Button onClick={this.onHandleSelectAll.bind(this)} type="primary" style={{marginLeft: '5px'}}>全选</Button>
+              <Button onClick={this.onHandleSelectAll.bind(this, false)} type="primary" ghost style={{marginLeft: '5px'}}>反选</Button>
+              <Button onClick={this.onHandleDownload.bind(this)} disabled={this.state.selectedImageCount === 0 } type="primary" style={{marginLeft: '5px'}}>
+                <Badge count={this.state.selectedImageCount} offset={[10, -10]}>
+                  下载
+                </Badge>
+              </Button>
+              <Button onClick={this.onHandleDownload.bind(this, false)} type="dashed" style={{marginLeft: '5px'}}>取消</Button>
+          </div>
+        }
         </div>
 
         {/* 标图列表 */}
-        <div style={{marginBottom: '10px'}}>
-          {
-            !this.state.wantToDownload
-            ? <Button onClick={this.onHandleWantToDownload} icon="download" type="primary">下载</Button>
-            : <div>
-                <Button onClick={this.onHandleSelectAll.bind(this)} type="primary" style={{marginLeft: '5px'}}>全选</Button>
-                <Button onClick={this.onHandleSelectAll.bind(this, false)} type="primary" ghost style={{marginLeft: '5px'}}>反选</Button>
-                <Button onClick={this.onHandleDownload.bind(this)} disabled={this.state.selectedImageCount === 0 } type="primary" style={{marginLeft: '5px'}}>
-                  <Badge count={this.state.selectedImageCount} offset={[10, -10]}>
-                    下载
-                  </Badge>
-                </Button>
-                <Button onClick={this.onHandleDownload.bind(this, false)} type="dashed" style={{marginLeft: '5px'}}>取消</Button>
-            </div>
-          }
-        </div>
         <div className="image-content">
           <ul className="image-container">
             {this.state.imageList.length < 1

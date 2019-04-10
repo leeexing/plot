@@ -19,7 +19,7 @@ const TestHomepage = (props) => (
         <Step description={step3} />
       </Steps>
       <Alert message="感谢您百忙之中抽出时间协助测试，安培云的变好有您的一份功劳" type="info" />
-      <Button type="primary" onClick={() => props.history.push('/test/image')} style={{marginTop: "15px"}}>开始测试</Button>
+      <Button type="primary" onClick={() => props.history.push('/mobile/drimage')} style={{marginTop: "15px"}}>开始测试</Button>
     </div>
   </div>
 )

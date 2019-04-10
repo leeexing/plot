@@ -75,7 +75,7 @@ class ImageMobileTest extends Component {
   }
 
   onHandleFeedback = () => {
-    this.props.history.push('/test/feedback')
+    this.props.history.push('/mobile/feedback')
   }
 
   renderGray = () => {

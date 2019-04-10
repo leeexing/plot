@@ -270,8 +270,9 @@ class ImageUpload extends Component {
         </div>
         <div className="uploader">
           <div className="upload-button" ref="uploadBtn">
-            <Icon type="plus"></Icon>
-            <span>上传</span>
+            <Icon type="cloud-upload"></Icon>
+            {/* <Icon type="plus"></Icon> */}
+            {/* <span>上传</span> */}
           </div>
           <UploadList fileList={this.state.fileList}></UploadList>
         </div>

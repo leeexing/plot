@@ -108,18 +108,21 @@ class ImageBatchList extends Component {
   }
 
   render () {
+    let {loading, dataSource, columns} = this.state
+    let local = {
+      emptyText: <p className="m-plot-info">暂时没有标图数据，请先上传标图素材</p>
+    }
     return (
       <div className="m-plot">
         <div className="m-plot-upload" onClick={this.uploadImage}>
           <Avatar size={64} icon="cloud-upload" style={{ color: '#f56a00', backgroundColor: '#fde3cf' }} />
           <p>点击进行图像上传<span>(zip，rar 压缩文件)</span></p>
         </div>
-        {this.state.loading
-          ? <Skeleton></Skeleton>
-          : this.state.dataSource.length < 1
+        {/* {this.state.dataSource.length < 1
             ? <p className="m-plot-info">暂时没有标图数据，请先上传标图素材</p>
-            : <Table dataSource={this.state.dataSource} columns={this.state.columns} />
-        }
+            : <Table dataSource={dataSource} columns={columns} loading={loading} />
+        } */}
+        <Table dataSource={dataSource} columns={columns} loading={loading} locale={local} />
       </div>
     )
   }

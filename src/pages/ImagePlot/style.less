@@ -28,7 +28,7 @@
       background: #A1C4FD;
       > span {
         opacity: 0;
-        transform: translateY(-100%);
+        transform: translateY(-50%);
       }
       p {
         opacity: 1;
@@ -41,6 +41,43 @@
     font-size: 18px;
   }
   &-image {
+    .m-plot {
+      &-download {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 68px;
+        padding: 2px;
+        margin-bottom: 10px;
+        background: #E7F0FD;
+        &,
+        span {
+          transition: all .5s;
+        }
+        span{
+          transform: scale(.9);
+          cursor: pointer;
+          animation: fadeIn .3s linear;
+        }
+        &:hover {
+          background: #A1C4FD;
+          > span {
+            transform: scale(1);
+          }
+          // p {
+          //   opacity: 1;
+          // }
+        }
+        .download {
+          background-color: #fde3cf;
+          color: #f56a00;
+          &-btns {
+            transition: all .3s;
+            animation: fadeIn .3s linear;
+          }
+        }
+      }
+    }
     .image-content {
       flex: 1;
       padding: 10px 15px 15px 10px;
@@ -158,7 +195,7 @@
 
 }
 // -标图详情
-.image-plot-detail {
+.m-plot-detail {
   .image-plot-wrap {
     display: flex;
     width: 100%;
