@@ -49,6 +49,12 @@ export default {
     fetchPlotDownloads (data) {
         return http.get('/api/plot/downloads', data)
     },
+    fetchPlotUploadBatchDetail (id) {
+        return http.delete('/api/plot/uploads/' + id)
+    },
+    deletePlotUploadBatch (id) {
+        return http.delete('/api/plot/uploads/' + id)
+    },
     // -以下为测试
     testBlob (data, options) {
         return http.post('/api/tenement/tbuser', data, options)

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
-import { Avatar, Button, Divider, Table, Tag, Modal } from 'antd'
+import { Avatar, Button, Divider, Table, Tag, Modal, message } from 'antd'
 
 import api from '@/api'
 
@@ -17,6 +17,7 @@ class ImageBatchList extends Component {
     this.state = {
       loading: true,
       total: 0,
+      isDeleting: false,
       columns: [
         {
           title: 'ID',
@@ -82,8 +83,15 @@ class ImageBatchList extends Component {
     })
   }
 
-  deleteUploadFile (id) {
-
+  deleteUploadFile = id => {
+    console.log(id)
+    api.deletePlotUploadBatch(id).then(res => {
+      console.log(res)
+      if (res.result) {
+        message.success('文件删除成功！')
+        this.fetchData()
+      }
+    })
   }
 
   uploadImage = () => {
@@ -106,15 +114,20 @@ class ImageBatchList extends Component {
   }
 
   onHandleDelete = data => {
-    console.log(data)
     Modal.confirm({
       title: `你确定要删除该文件吗？`,
       content: <div>
         <p>文件名：<span style={{fontWeight: 600, color: 'red'}}>{data.fileName}</span></p>
         <p>该操作不可逆，请慎重考虑!</p>
       </div>,
-      onOk () {
-        console.log('ok')
+      onOk: () => {
+        if (this.setState.isDeleting) {
+          return
+        }
+        this.setState({
+          isDeleting: true
+        })
+        this.deleteUploadFile(data._id)
       },
       onCancel () {
         console.log('cancel')
