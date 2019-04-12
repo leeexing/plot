@@ -26,9 +26,14 @@ class MenuBar extends Component {
   }
 
   onMenuClick = ({ key }) => {
-    let route = menuRoutes.filter(item => '/' + item.path === key)
-    this.props.appStore.updateNavBreadcrumb(route)
-    this.props.history.push(key)
+    let curRoute = this.props.location.pathname
+    if (curRoute === key) {
+      this.props.history.push('/refresh')
+    } else {
+      let route = menuRoutes.filter(item => '/' + item.path === key)
+      this.props.appStore.updateNavBreadcrumb(route)
+      this.props.history.push(key)
+    }
   }
 
   render() {

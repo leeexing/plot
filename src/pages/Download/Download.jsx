@@ -3,50 +3,48 @@ import { Alert, Table, Tag } from 'antd'
 
 import api from '@/api'
 
-const dataSource = [{
-  key: '1',
-  name: '胡彦斌',
-  age: 32,
-  status: '失效',
-  address: '西湖区湖底公园1号'
-}, {
-  key: '2',
-  name: '胡彦祖',
-  age: 42,
-  status: '有效',
-  address: '西湖区湖底公园1号'
-}]
 
 const columns = [{
-  title: '序号',
-  dataIndex: 'name',
-  key: 'name',
+  title: '上传者',
+  dataIndex: 'creator',
+  key: 'creator',
 }, {
   title: '上传时间',
-  dataIndex: 'age',
-  key: 'age',
+  dataIndex: 'createTime',
+  key: 'createTime',
+}, {
+  title: '大小',
+  dataIndex: 'size',
+  key: 'size',
+  render: size => (
+    <span>{size}KB</span>
+  )
 }, {
   title: '状态',
   dataIndex: 'status',
   key: 'status',
   render: status => {
-    return <Tag color={status === '有效' ? 'green' : 'geekblue'}>{status}</Tag>
+    return <Tag color={status ? 'green' : 'geekblue'}>{status ? '有效' : '失效'}</Tag>
   }
 }, {
   title: '操作',
-  dataIndex: 'address',
-  key: 'address',
+  dataIndex: 'src',
+  key: 'src',
   width: 150,
-  render: () => (
+  render: (src, record) => (
     <span>
-      <a href="/">下载</a>
+      {
+        record.status ? <a href={src}>下载</a> : '下载'
+      }
     </span>
+
   )
 }]
 
 function Download () {
 
   let [paging, setPaging] = useState({page: 1, total: 0, limit: 10})
+  let [dataSource, setDataSource] = useState([])
 
   useEffect(() => {
     fetchData()
@@ -54,18 +52,26 @@ function Download () {
 
   const fetchData = () => {
     let {page, limit} = paging
-    api.fetchPlotDownload({page, limit}).then(res => {
+    api.fetchPlotDownloads({page, limit}).then(res => {
       if (res.result) {
         console.log(res)
+        setDataSource(res.data.downloads)
+        setPaging({
+          total: res.data.count
+        })
       }
     })
+  }
+
+  const handlePageChange = (pagination) => {
+    console.log(pagination)
   }
 
   return (
     // let { total } = this.state.paging
     <div className="m-download">
       <Alert message="开发中。。。" type="info" showIcon style={{marginBottom: '10px'}} />
-      <Table dataSource={dataSource} columns={columns} />
+      <Table dataSource={dataSource} columns={columns} onChange={handlePageChange} rowKey="src" />
     </div>
   )
 }

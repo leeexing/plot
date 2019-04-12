@@ -7,6 +7,7 @@ import Upload from 'components/GlobalUploader'
 import NotFound from 'pages/404page'
 import ServerError from 'pages/500page'
 import Download from 'pages/Download'
+import Refresh from 'components/RefreshBlank'
 
 export const menuRoutes = [
   { path: '', name: '首页', icon: 'appstore', component: Home },
@@ -21,6 +22,7 @@ export default {
   children: [
     ...menuRoutes,
     { path: 'todo', name: '待办', component: Todo },
+    { path: 'refresh', name: '路由伪刷新', component: Refresh },
     { path: 'plot/:batch', name: '标图详情', component: ImagePlot },
     { path: 'upload', name: '图像上传', component: Upload },
     { path: 'message', name: '标图下载', icon: 'message', component: Message },

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
-import { inject, observer } from 'mobx-react'
 import Uploader from 'simple-uploader.js'
+import { inject, observer } from 'mobx-react'
+
 import { secondsToStr } from '@/util'
 
 const events = ['fileProgress', 'fileSuccess', 'fileComplete', 'fileError']

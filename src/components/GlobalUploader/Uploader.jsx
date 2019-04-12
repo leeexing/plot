@@ -1,14 +1,15 @@
 import React, { Component } from 'react'
-import { notification, Icon, message} from 'antd'
-import { inject, observer } from 'mobx-react'
-import { baseURL } from '@/api/config'
-import Auth from '@/util/auth'
 import SparkMD5 from 'spark-md5'
-import Uploader from 'simple-uploader.js'
+import { inject, observer } from 'mobx-react'
+import { notification, Icon, message} from 'antd'
+
+import './style.less'
 import api from '@/api'
+import Auth from '@/util/auth'
 import { kebabCase } from '@/util'
 import UploadList from './UploadList'
-import './style.less'
+import { baseURL } from '@/api/config'
+import Uploader from 'simple-uploader.js'
 
 
 const FILE_ADDED_EVENT = 'fileAdded'

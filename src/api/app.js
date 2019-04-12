@@ -35,15 +35,18 @@ export default {
     distributeImage (id, data) {
         return http.post('/api/image/distribute/' + id, data)
     },
-    // -图像上传
+    // -文件上传
     fetchUploadImageStatus (data) {
         return http.get('/api/upload/image', data)
     },
     mergeSimpleUpload (data) {
         return http.post('/api/upload/merge', data)
     },
-    // -图像下载
-    fetchPlotDownload (data) {
+    // -在线标注
+    fetchPlotUploads (data) {
+        return http.get('/api/plot/uploads', data)
+    },
+    fetchPlotDownloads (data) {
         return http.get('/api/plot/downloads', data)
     },
     // -以下为测试

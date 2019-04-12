@@ -1,8 +1,11 @@
 import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
-import { Avatar, Button, Divider, Table, Tag } from 'antd'
+import { Avatar, Button, Divider, Table, Tag, Modal } from 'antd'
 
 import api from '@/api'
+
+const statusText = ['失败', '转码中...', '成功']
+const statusColor = ['geekblue', '#a0d911', 'green']
 
 
 @inject('appStore')
@@ -13,35 +16,38 @@ class ImageBatchList extends Component {
     super(props)
     this.state = {
       loading: true,
+      total: 0,
       columns: [
         {
-          title: '素材包名',
-          dataIndex: 'name',
-          key: 'name',
+          title: 'ID',
+          dataIndex: 'fileName',
+          key: 'fileName',
         }, {
-          title: '大小(M)',
-          dataIndex: 'age',
-          key: 'age',
+          title: '大小',
+          dataIndex: 'size',
+          key: 'size',
+          render: size => (
+            <span>{size}KB</span>
+          )
         }, {
           title: '上传时间',
-          dataIndex: 'address',
-          key: 'address',
+          dataIndex: 'createTime',
+          key: 'createTime',
         }, {
           title: '状态',
           dataIndex: 'status',
           key: 'status',
           render: (status) => (
-            <Tag color={status ? 'green' : 'geekblue'}>{status === 1 ? '正常' : '失效'}</Tag>
+            <Tag color={statusColor[status]}>{statusText[status]}</Tag>
           )
         }, {
           title: '操作',
-          key: 'operation',
           width: 150,
-          render: (text, record) => (
+          render: record => (
             <span>
-              <Button onClick={this.onHandlePlot} type="primary" size="small">详情</Button>
+              <Button onClick={this.onHandlePlot.bind(this, record)} type="primary" size="small">详情</Button>
               <Divider type="vertical" />
-              <Button type="danger" size="small">删除</Button>
+              <Button onClick={this.onHandleDelete.bind(this, record)} type="danger" size="small">删除</Button>
             </span>
           )
         }
@@ -53,32 +59,20 @@ class ImageBatchList extends Component {
   componentDidMount () {
     this.fetchData()
   }
+
   fetchData () {
     let data = {
       page: this.state.currentPage,
       limit: 20,
     }
-    const dataSource = [
-      {
-        key: '1',
-        name: '42423452345',
-        age: 32,
-        status: 1,
-        address: '2019-02-21 14:56:12'
-      }, {
-        key: '2',
-        name: '2345343rfc3',
-        age: 42,
-        status: 1,
-        address: '2019-02-22 11:56:34'
-      }
-    ]
     // -其他请求获取图像标记列表
-    api.fetchDRImages(data).then(res => {
+    api.fetchPlotUploads(data).then(res => {
+      console.log(res)
       if (res.result) {
         this.setState({
           loading: false,
-          dataSource
+          total: res.data.count,
+          dataSource: res.data.uploads
         })
       }
     }).catch(() => {
@@ -88,12 +82,16 @@ class ImageBatchList extends Component {
     })
   }
 
+  deleteUploadFile (id) {
+
+  }
+
   uploadImage = () => {
     this.props.appStore.toggleUploaderGlobal(true)
     this.props.appStore.toggleUploaderMini(false)
   }
 
-  onHandlePlot = (data) => {
+  onHandlePlot = uploadId => {
     this.props.appStore.updateNavBreadcrumb([
       {
         path: 'plot',
@@ -104,7 +102,24 @@ class ImageBatchList extends Component {
         name: '在线标图'
       }
     ])
-    this.props.history.push('/plot/1')
+    this.props.history.push(`/plot/${uploadId}`)
+  }
+
+  onHandleDelete = data => {
+    console.log(data)
+    Modal.confirm({
+      title: `你确定要删除该文件吗？`,
+      content: <div>
+        <p>文件名：<span style={{fontWeight: 600, color: 'red'}}>{data.fileName}</span></p>
+        <p>该操作不可逆，请慎重考虑!</p>
+      </div>,
+      onOk () {
+        console.log('ok')
+      },
+      onCancel () {
+        console.log('cancel')
+      }
+    })
   }
 
   render () {
@@ -122,7 +137,7 @@ class ImageBatchList extends Component {
             ? <p className="m-plot-info">暂时没有标图数据，请先上传标图素材</p>
             : <Table dataSource={dataSource} columns={columns} loading={loading} />
         } */}
-        <Table dataSource={dataSource} columns={columns} loading={loading} locale={local} />
+        <Table dataSource={dataSource} columns={columns} loading={loading} locale={local} rowKey="fileName" />
       </div>
     )
   }
