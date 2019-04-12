@@ -6,14 +6,15 @@ import axios from 'axios'
 const http = axios.create({
   // baseURL: 'http://localhost:5282',
   baseURL: 'http://132.232.18.77:5282',
-  timeout: 3000,
+  timeout: 5000,
 })
 const { TextArea } = Input
 
 
 class Feedback extends Component {
   state = {
-    hasProblem: false
+    hasProblem: false,
+    isSubmit: false
   }
 
   componentDidMount () {
@@ -26,16 +27,25 @@ class Feedback extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault()
+    if (this.setState.isSubmit) {
+      return
+    }
     this.props.form.validateFields((err, values) => {
       if (!err) {
         console.log('Received values of form: ', values)
         const userAgent = window.navigator.userAgent
         const createTime = new Date()
         let postData = {...values, userAgent, createTime}
+        this.setState({
+          isSubmit: true
+        })
         http.post('/api/test/image', postData)
           .then(res => res.data)
           .then(res => {
             if (res.result) {
+              this.setState({
+                isSubmit: false
+              })
               message.success('您的反馈已提交！')
               this.props.form.resetFields()
               this.props.history.push('/test/thanks')
@@ -44,6 +54,9 @@ class Feedback extends Component {
             }
           }).catch(err => {
             console.log(err)
+            this.setState({
+              isSubmit: false
+            })
           })
       }
     })
