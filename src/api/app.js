@@ -42,6 +42,10 @@ export default {
     mergeSimpleUpload (data) {
         return http.post('/api/upload/merge', data)
     },
+    // -图像下载
+    fetchPlotDownload (data) {
+        return http.get('/api/plot/downloads', data)
+    },
     // -以下为测试
     testBlob (data, options) {
         return http.post('/api/tenement/tbuser', data, options)

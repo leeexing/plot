@@ -1,5 +1,7 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Alert, Table, Tag } from 'antd'
+
+import api from '@/api'
 
 const dataSource = [{
   key: '1',
@@ -44,7 +46,23 @@ const columns = [{
 
 function Download () {
 
+  let [paging, setPaging] = useState({page: 1, total: 0, limit: 10})
+
+  useEffect(() => {
+    fetchData()
+  }, [])
+
+  const fetchData = () => {
+    let {page, limit} = paging
+    api.fetchPlotDownload({page, limit}).then(res => {
+      if (res.result) {
+        console.log(res)
+      }
+    })
+  }
+
   return (
+    // let { total } = this.state.paging
     <div className="m-download">
       <Alert message="开发中。。。" type="info" showIcon style={{marginBottom: '10px'}} />
       <Table dataSource={dataSource} columns={columns} />

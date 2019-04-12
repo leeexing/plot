@@ -1,28 +1,27 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom'
 import './style.less'
 import serverErrorImg from 'assets/500.png'
 
-class ServerError extends Component {
-  constructor (props) {
-    super(props)
-    this.state = {
-      remainTime: 3
-    }
+
+function ServerError (props)  {
+
+  const backToPrev = () => {
+    props.history.go(-1)
   }
-  render () {
-    return (
-      <div className="server-error">
-        <div className="server-error-img">
-          <img src={serverErrorImg} alt=""/>
-        </div>
-        <div className="server-error-msg">
-          <p><Link className="server-error-back" to="/">返回首页</Link></p>
-          {/* <p>{this.state.remainTime}秒后 <Link className="server-error-back" to="/">返回首页</Link></p> */}
-        </div>
+
+  return (
+    <div className="server-error">
+      <div className="server-error-img">
+        <img src={serverErrorImg} alt=""/>
       </div>
-    )
-  }
+      <div className="server-error-msg">
+        <p><Link className="server-error-back" to="/">返回首页</Link></p>
+        <p><a onClick={backToPrev}>返回上一页</a></p>
+        {/* <p>{this.state.remainTime}秒后 <Link className="server-error-back" to="/">返回首页</Link></p> */}
+      </div>
+    </div>
+  )
 }
 
 export default ServerError
