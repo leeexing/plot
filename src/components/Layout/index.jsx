@@ -40,7 +40,7 @@ class WebLayout extends Component {
           </Col>
         </Row>
         <Upload />
-        <BackTop target={() => document.querySelector('.content-wrapper')} />
+        <BackTop target={() => document.querySelector('.content-wrapper')} style={{right: '30px'}} />
       </Layout>
     )
   }

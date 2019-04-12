@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import { Alert, Avatar, Button, Badge, Icon, Pagination, Tooltip, Skeleton } from 'antd'
+import { Avatar, Button, Badge, Icon, Pagination, Tooltip, Skeleton } from 'antd'
+
 import FullScreen from 'components/FullScreen'
 import api from '@/api'
 import './style.less'
@@ -65,15 +66,18 @@ class HomePage extends Component {
     })
   }
 
-  onHandleDownload (value=true)  {
+  onHandleDownload (value = true)  {
     if (value) {
       console.log('下载')
       console.log(this.state.selectedImageIds)
     } else {
-      this.state.selectedImageIds.clear()
+      let imageList = this.state.imageList.slice()
+      imageList.forEach(item => item.isSelected = false)
       this.setState({
         wantToDownload: false,
-        selectedImageCount: this.state.selectedImageIds.size
+        selectedImageIds: new Set(),
+        selectedImageCount: 0,
+        imageList
       })
     }
   }
@@ -112,55 +116,55 @@ class HomePage extends Component {
     return (
       <div className="m-plot-image">
         <div className="m-plot-download">
-        {
-          !this.state.wantToDownload
-          ? <Avatar onClick={this.onHandleWantToDownload} size={64} icon="cloud-download" className="download" />
-          : <div className="download-btns">
-              <Button onClick={this.onHandleSelectAll.bind(this)} type="primary" style={{marginLeft: '5px'}}>全选</Button>
-              <Button onClick={this.onHandleSelectAll.bind(this, false)} type="primary" ghost style={{marginLeft: '5px'}}>反选</Button>
-              <Button onClick={this.onHandleDownload.bind(this)} disabled={this.state.selectedImageCount === 0 } type="primary" style={{marginLeft: '5px'}}>
-                <Badge count={this.state.selectedImageCount} offset={[10, -10]}>
-                  下载
-                </Badge>
-              </Button>
-              <Button onClick={this.onHandleDownload.bind(this, false)} type="dashed" style={{marginLeft: '5px'}}>取消</Button>
-          </div>
-        }
+          {!this.state.wantToDownload
+            ? <Avatar onClick={this.onHandleWantToDownload} size={64} icon="cloud-download" className="download" />
+            : <div className="download-btns">
+                <Button onClick={this.onHandleSelectAll.bind(this)} type="primary">全选</Button>
+                <Button onClick={this.onHandleSelectAll.bind(this, false)} type="primary" ghost>反选</Button>
+                <Button onClick={this.onHandleDownload.bind(this)} disabled={this.state.selectedImageCount === 0 } type="primary">
+                  <Badge count={this.state.selectedImageCount} offset={[10, -10]}>
+                    下 载
+                  </Badge>
+                </Button>
+                <Button onClick={this.onHandleDownload.bind(this, false)} type="dashed">取消</Button>
+            </div>
+          }
         </div>
 
         {/* 标图列表 */}
         <div className="image-content">
           <ul className="image-container">
             {this.state.imageList.length < 1
-            ? <Skeleton rows="8" />
-            : this.state.imageList.map((item, index) => (
-                <li className="image-list" key={index}>
-                  <div className="image-item">
-                    <div className="image-operate">
-                      <div className="image-check">
-                        {
-                          (this.state.wantToDownload && !item.isSelected) && <Icon onClick={this.onHandleSelect.bind(this, item, index, true)} type="shopping-cart"/>
-                        }
-                        {
-                          (this.state.wantToDownload && item.isSelected) && <Icon onClick={this.onHandleSelect.bind(this, item, index, false)} type="heart" theme="twoTone" twoToneColor="#eb2f96" />
-                        }
+              ? <Skeleton rows="8" />
+              : this.state.imageList.map((item, index) => (
+                  <li className="image-list" key={index}>
+                    <div className="image-item">
+                      <div className="image-operate">
+                        <div className="image-check">
+                          {
+                            (this.state.wantToDownload && !item.isSelected) && <Icon onClick={this.onHandleSelect.bind(this, item, index, true)} type="shopping-cart"/>
+                          }
+                          {
+                            (this.state.wantToDownload && item.isSelected) && <Icon onClick={this.onHandleSelect.bind(this, item, index, false)} type="heart" theme="twoTone" twoToneColor="#eb2f96" />
+                          }
+                        </div>
+                        <div className="image-handle">
+                          <Tooltip title="全屏查看" placement="bottom">
+                            <Icon type="heat-map" />
+                          </Tooltip>
+                        </div>
                       </div>
-                      <div className="image-handle">
-                        <Tooltip title="全屏查看" placement="bottom">
-                          <Icon type="heat-map" />
-                        </Tooltip>
+                      <div className="image-wrap" onClick={this.plotImage.bind(this, item)}>
+                        <img className="thumbnail" src={item.thumbnails[0].url} alt="" />
                       </div>
+                      <h3 className="image-name">{}</h3>
                     </div>
-                    <div className="image-wrap" onClick={this.plotImage.bind(this, item)}>
-                      <img className="thumbnail" src={item.thumbnails[0].url} alt="" />
-                    </div>
-                    <h3 className="image-name">{}</h3>
-                  </div>
-                </li>
-              ))
+                  </li>
+                ))
             }
           </ul>
         </div>
+
         {/* 分页 */}
         <div className="pagination">
           {this.state.imageList.length < 1
@@ -171,13 +175,14 @@ class HomePage extends Component {
                 onChange={this.onChange} />
           }
         </div>
+
         {/* 全屏标图 */}
         <FullScreen
           ref="fullScreen"
           isFull={this.state.isFull}
           onCloseFullScreen={this.closeFullScreen}
           src={this.state.src}
-          ></FullScreen>
+        />
       </div>
     )
   }

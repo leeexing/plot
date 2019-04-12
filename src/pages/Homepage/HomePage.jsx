@@ -39,7 +39,6 @@ class HomePage extends Component {
   render () {
     return (
       <div className="app-home">
-        <HomeChart></HomeChart>
         <div className="home-material">
           <Card
             hoverable
@@ -68,8 +67,8 @@ class HomePage extends Component {
               description="上传时间2019-02-21"
             />
           </Card>
-
         </div>
+        <HomeChart></HomeChart>
       </div>
     )
   }
