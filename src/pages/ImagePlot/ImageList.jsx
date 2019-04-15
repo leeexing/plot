@@ -46,9 +46,9 @@ class ImageBatchList extends Component {
           width: 150,
           render: record => (
             <span>
-              <Button onClick={this.onHandlePlot.bind(this, record)} type="primary" size="small">详情</Button>
+              <Button disabled={record.status <= 0} onClick={this.onHandlePlot.bind(this, record)} type="primary" size="small">详情</Button>
               <Divider type="vertical" />
-              <Button onClick={this.onHandleDelete.bind(this, record)} type="danger" size="small">删除</Button>
+              <Button disabled={record.status <= 1} onClick={this.onHandleDelete.bind(this, record)} type="danger" size="small">删除</Button>
             </span>
           )
         }
@@ -99,7 +99,7 @@ class ImageBatchList extends Component {
     this.props.appStore.toggleUploaderMini(false)
   }
 
-  onHandlePlot = uploadId => {
+  onHandlePlot = data => {
     this.props.appStore.updateNavBreadcrumb([
       {
         path: 'plot',
@@ -110,7 +110,7 @@ class ImageBatchList extends Component {
         name: '在线标图'
       }
     ])
-    this.props.history.push(`/plot/${uploadId}`)
+    this.props.history.push(`/plot/${data._id}`)
   }
 
   onHandleDelete = data => {

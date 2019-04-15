@@ -44,6 +44,7 @@ const columns = [{
 function Download () {
 
   let [paging, setPaging] = useState({page: 1, total: 0, limit: 10})
+  let [loading, setLoading] = useState(true)
   let [dataSource, setDataSource] = useState([])
 
   useEffect(() => {
@@ -60,6 +61,8 @@ function Download () {
           total: res.data.count
         })
       }
+    }).finally(() => {
+      setLoading(false)
     })
   }
 
@@ -67,11 +70,14 @@ function Download () {
     console.log(pagination)
   }
 
+  const local = {
+    emptyText: <p style={{padding: '30px', fontSize: '18px', textAlign: 'center'}}>暂时没有下载数据，请先上传标图素材</p>
+  }
+
   return (
-    // let { total } = this.state.paging
     <div className="m-download">
       <Alert message="开发中。。。" type="info" showIcon style={{marginBottom: '10px'}} />
-      <Table dataSource={dataSource} columns={columns} onChange={handlePageChange} rowKey="src" />
+      <Table dataSource={dataSource} columns={columns} loading={loading} locale={local} onChange={handlePageChange} rowKey="src" />
     </div>
   )
 }

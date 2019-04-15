@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
-import { Avatar, Button, Badge, Icon, Pagination, Tooltip, Skeleton } from 'antd'
+import { Avatar, Button, Badge, Icon, Pagination, Tooltip, Skeleton, message } from 'antd'
 
 import FullScreen from 'components/FullScreen'
+import { FullScreenIcon, PackIcon } from '@/icon'
 import api from '@/api'
 import './style.less'
 
@@ -23,16 +24,18 @@ class HomePage extends Component {
   }
 
   componentDidMount () {
-    this.fetchData()
+    console.log(this.props)
+    let { batchId } = this.props.match.params
+    this.fetchData(batchId)
   }
 
-  fetchData () {
+  fetchData (batchId) {
     let data = {
       page: this.state.currentPage,
       limit: 20,
     }
     // -其他请求获取图像标记列表
-    api.fetchDRImages(data).then(res => {
+    api.fetchPlotUploadBatchDetail(batchId, data).then(res => {
       console.log(res)
       if (res.result) {
         this.setState({
@@ -66,20 +69,38 @@ class HomePage extends Component {
     })
   }
 
-  onHandleDownload (value = true)  {
-    if (value) {
-      console.log('下载')
-      console.log(this.state.selectedImageIds)
-    } else {
-      let imageList = this.state.imageList.slice()
-      imageList.forEach(item => item.isSelected = false)
-      this.setState({
-        wantToDownload: false,
-        selectedImageIds: new Set(),
-        selectedImageCount: 0,
-        imageList
+  onHandleDownload (isPack = true)  {
+    if (isPack) {
+      console.log([...this.state.selectedImageIds])
+      let data = {
+        packIds: ['5b3dc32e79e28d4de4d1dc98'], // -测试
+        // packIds: [...this.state.selectedImageIds],
+      }
+      api.packPlotImages(data).then(res => {
+        if (res.result) {
+          console.log(res)
+          message.success('图像打包成功')
+        }
+      }).catch(err => {
+        message.error(err)
       })
+      .finally(() => {
+        this.resetDownloadStatus()
+      })
+    } else {
+      this.resetDownloadStatus()
     }
+  }
+
+  resetDownloadStatus () {
+    let imageList = this.state.imageList.slice()
+    imageList.forEach(item => item.isSelected = false)
+    this.setState({
+      wantToDownload: false,
+      selectedImageIds: new Set(),
+      selectedImageCount: 0,
+      imageList
+    })
   }
 
   onHandleSelect (item, index, value) {
@@ -142,15 +163,16 @@ class HomePage extends Component {
                       <div className="image-operate">
                         <div className="image-check">
                           {
-                            (this.state.wantToDownload && !item.isSelected) && <Icon onClick={this.onHandleSelect.bind(this, item, index, true)} type="shopping-cart"/>
+                            (this.state.wantToDownload && !item.isSelected) && <PackIcon onClick={this.onHandleSelect.bind(this, item, index, true)} />
+                            // (this.state.wantToDownload && !item.isSelected) && <Icon onClick={this.onHandleSelect.bind(this, item, index, true)} type="shopping-cart"/>
                           }
                           {
                             (this.state.wantToDownload && item.isSelected) && <Icon onClick={this.onHandleSelect.bind(this, item, index, false)} type="heart" theme="twoTone" twoToneColor="#eb2f96" />
                           }
                         </div>
                         <div className="image-handle">
-                          <Tooltip title="全屏查看" placement="bottom">
-                            <Icon type="heat-map" />
+                          <Tooltip title="全屏标图" placement="bottom">
+                            <FullScreenIcon />
                           </Tooltip>
                         </div>
                       </div>

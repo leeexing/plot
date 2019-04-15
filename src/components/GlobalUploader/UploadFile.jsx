@@ -228,7 +228,7 @@ class UploadFile extends Component {
     const status = this.status()
     const isInsert = this.props.appStore.isUploaderInsert
     return (
-      <div className="uploader-file" status={status}>
+      <li className="uploader-file" status={status}>
         <div className={"uploader-file-progress " + this.state.progressingClass} style={this.progressStyle()}></div>
         <div className="uploader-file-info">
           <div className="uploader-file-name"><i className="uploader-file-icon" ></i>{this.state.file.name}</div>
@@ -254,7 +254,7 @@ class UploadFile extends Component {
             <span className="uploader-file-remove" onClick={this.remove.bind(this)}></span>
           </div>
         </div>
-      </div>
+      </li>
     )
   }
 }
