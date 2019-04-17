@@ -3,7 +3,8 @@
 源数据管理平台线上服务
 
 ## eslint
-###  .eslintrc
+
+.eslintrc
 
 配置语法检查
 

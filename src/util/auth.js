@@ -2,7 +2,7 @@
  * 权限验证
  */
 import Cookies from 'js-cookie'
-import {TOKEN_KEY} from '@/api/config'
+import { TOKEN_KEY } from '@/api/config'
 
 class Token {
   static getToken (key=TOKEN_KEY) {

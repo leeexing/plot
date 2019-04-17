@@ -118,9 +118,11 @@ class HomePage extends Component {
   }
 
   plotImage (item) {
+    let { batchId } = this.props.match.params
+    let url = `api/plot/uploads/${batchId}`
     this.setState({
       isFull: true,
-      src: `/3D/DR_base.html?type=MAP_BROWSE&count=${this.state.total}&page=${this.state.currentPage}&limit=50&viewCount=2`
+      src: `/3D/DR_base.html?type=MAP_BROWSE&count=${this.state.total}&page=${this.state.currentPage}&limit=50&url=${url}`
     })
     this.refs.fullScreen.openFullScreen()
     // this.props.history.push('/plot/' + item._id)
@@ -172,7 +174,9 @@ class HomePage extends Component {
                         </div>
                         <div className="image-handle">
                           <Tooltip title="全屏标图" placement="bottom">
-                            <FullScreenIcon />
+                          {
+                            !this.state.wantToDownload && <FullScreenIcon />
+                          }
                           </Tooltip>
                         </div>
                       </div>
