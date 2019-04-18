@@ -21,8 +21,11 @@ class ImageBatchList extends Component {
       columns: [
         {
           title: 'ID',
-          dataIndex: 'fileName',
-          key: 'fileName',
+          dataIndex: '_id',
+          key: '_id',
+          render: (_id, record) => (
+            <span>{record.fileName}</span>
+          )
         }, {
           title: '大小',
           dataIndex: 'size',

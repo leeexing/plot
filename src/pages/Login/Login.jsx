@@ -32,7 +32,7 @@ class Login extends Component {
     return (
       <div className="app-login">
         <div className="app-login-wrap">
-          <h1 className="app-login-header">源数据管理平台</h1>
+          <h1 className="app-login-header">在线标注平台</h1>
           <Form onSubmit={this.handleSubmit} className="login-form">
             <FormItem
               label="账号"
