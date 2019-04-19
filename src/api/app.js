@@ -27,6 +27,9 @@ export default {
     fetchPlotDownloads (data) {
         return http.get('/api/plot/downloads', data)
     },
+    deletePlotDownload (id, data) {
+        return http.delete('/api/plot/downloads/' + id, data)
+    },
     fetchPlotUploadBatchDetail (id, data) {
         return http.get('/api/plot/uploads/' + id, data)
     },

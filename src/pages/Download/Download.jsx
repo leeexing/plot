@@ -18,7 +18,12 @@ function Download () {
   }, [])
 
   const onDelete = data => {
-    console.log(data)
+    api.deletePlotDownload(data._id).then(res => {
+      if (res.result) {
+        console.log(res)
+        fetchData()
+      }
+    })
   }
 
   const columns = [{
