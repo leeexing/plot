@@ -20,7 +20,7 @@ class ImageBatchList extends Component {
       isDeleting: false,
       columns: [
         {
-          title: 'ID',
+          title: '名称',
           dataIndex: '_id',
           key: '_id',
           render: (_id, record) => (
@@ -153,7 +153,7 @@ class ImageBatchList extends Component {
             ? <p className="m-plot-info">暂时没有标图数据，请先上传标图素材</p>
             : <Table dataSource={dataSource} columns={columns} loading={loading} />
         } */}
-        <Table dataSource={dataSource} columns={columns} loading={loading} locale={local} rowKey="fileName" />
+        <Table dataSource={dataSource} columns={columns} loading={loading} locale={local} rowKey="_id" />
       </div>
     )
   }

@@ -1,45 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import { Alert, Table, Tag } from 'antd'
+import { Alert, Button, Divider, Table, Tag } from 'antd'
 
 import api from '@/api'
 
+const statusText = ['失效', '打包中...', '打包完成']
+const statusColor = ['#666', 'geekblue', 'green']
 
-const columns = [{
-  title: '上传者',
-  dataIndex: 'creator',
-  key: 'creator',
-}, {
-  title: '上传时间',
-  dataIndex: 'createTime',
-  key: 'createTime',
-}, {
-  title: '大小',
-  dataIndex: 'size',
-  key: 'size',
-  render: size => (
-    <span>{size}KB</span>
-  )
-}, {
-  title: '状态',
-  dataIndex: 'status',
-  key: 'status',
-  render: status => {
-    return <Tag color={status ? 'green' : 'geekblue'}>{status ? '有效' : '失效'}</Tag>
-  }
-}, {
-  title: '操作',
-  dataIndex: 'src',
-  key: 'src',
-  width: 150,
-  render: (src, record) => (
-    <span>
-      {
-        record.status ? <a href={src}>下载</a> : '下载'
-      }
-    </span>
-
-  )
-}]
 
 function Download () {
 
@@ -50,6 +16,51 @@ function Download () {
   useEffect(() => {
     fetchData()
   }, [])
+
+  const onDelete = data => {
+    console.log(data)
+  }
+
+  const columns = [{
+    title: '序号',
+    dataIndex: '_id',
+    key: '_id',
+    render: (_, r, index) => <span>{index}</span>
+  }, {
+    title: '标签',
+    dataIndex: 'tag',
+    key: 'tag',
+    render: tag => <span>{tag || '暂无'}</span>
+  }, {
+    title: '上传时间',
+    dataIndex: 'createTime',
+    key: 'createTime',
+  }, {
+    title: '大小',
+    dataIndex: 'size',
+    key: 'size',
+    render: (size, record) => <span>{record.status === 2 ? `${size}KB` : '计算中...'}</span>
+  }, {
+    title: '状态',
+    dataIndex: 'status',
+    key: 'status',
+    render: status => <Tag color={statusColor[status]}>{statusText[status]}</Tag>
+  }, {
+    title: '操作',
+    dataIndex: 'src',
+    key: 'src',
+    width: 150,
+    render: (src, record) => <span>
+      {record.status === 2
+        ? <React.Fragment>
+            <a href={src}>下载</a>
+            <Divider type="vertical" />
+            <Button onClick={() => onDelete(record)} type="danger" size="small">删除</Button>
+          </React.Fragment>
+        : record.status === 1 ? '请等待' : <Button onClick={() => onDelete(record)} type="danger" size="small">删除</Button>
+      }
+    </span>
+  }]
 
   const fetchData = () => {
     let {page, limit} = paging
@@ -77,7 +88,7 @@ function Download () {
   return (
     <div className="m-download">
       <Alert message="开发中。。。" type="info" showIcon style={{marginBottom: '10px'}} />
-      <Table dataSource={dataSource} columns={columns} loading={loading} locale={local} onChange={handlePageChange} rowKey="src" />
+      <Table dataSource={dataSource} columns={columns} loading={loading} locale={local} onChange={handlePageChange} rowKey="_id" />
     </div>
   )
 }

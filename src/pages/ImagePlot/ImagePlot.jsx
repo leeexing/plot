@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Avatar, Button, Badge, Icon, Pagination, Tooltip, Skeleton, message } from 'antd'
+import { Avatar, Button, Badge, Icon, Input, Pagination, Tooltip, Skeleton, message } from 'antd'
 
 import FullScreen from 'components/FullScreen'
 import { FullScreenIcon, PackIcon } from '@/icon'
@@ -17,6 +17,7 @@ class HomePage extends Component {
       total: 0,
       isFull: false,
       src: '',
+      tag: '',
       wantToDownload: false,
       selectedImageIds: new Set(),
       selectedImageCount: 0,
@@ -24,7 +25,6 @@ class HomePage extends Component {
   }
 
   componentDidMount () {
-    console.log(this.props)
     let { batchId } = this.props.match.params
     this.fetchData(batchId)
   }
@@ -48,6 +48,12 @@ class HomePage extends Component {
 
   onChange = (pageNumber) => {
     console.log('Page: ', pageNumber)
+  }
+
+  onhandleTag = (e) => {
+    this.setState({
+      tag: e.target.value
+    })
   }
 
   onHandleWantToDownload = () => {
@@ -74,6 +80,7 @@ class HomePage extends Component {
       console.log([...this.state.selectedImageIds])
       let data = {
         packIds: ['5b3dc32e79e28d4de4d1dc98'], // -测试
+        tag: this.state.tag.trim()
         // packIds: [...this.state.selectedImageIds],
       }
       api.packPlotImages(data).then(res => {
@@ -99,6 +106,7 @@ class HomePage extends Component {
       wantToDownload: false,
       selectedImageIds: new Set(),
       selectedImageCount: 0,
+      tag: '',
       imageList
     })
   }
@@ -125,7 +133,6 @@ class HomePage extends Component {
       src: `/3D/DR_base.html?type=MAP_BROWSE&count=${this.state.total}&page=${this.state.currentPage}&limit=50&url=${url}`
     })
     this.refs.fullScreen.openFullScreen()
-    // this.props.history.push('/plot/' + item._id)
   }
 
   closeFullScreen = () => {
@@ -141,16 +148,19 @@ class HomePage extends Component {
         <div className="m-plot-download">
           {!this.state.wantToDownload
             ? <Avatar onClick={this.onHandleWantToDownload} size={64} icon="cloud-download" className="download" />
-            : <div className="download-btns">
-                <Button onClick={this.onHandleSelectAll.bind(this)} type="primary">全选</Button>
-                <Button onClick={this.onHandleSelectAll.bind(this, false)} type="primary" ghost>反选</Button>
-                <Button onClick={this.onHandleDownload.bind(this)} disabled={this.state.selectedImageCount === 0 } type="primary">
-                  <Badge count={this.state.selectedImageCount} offset={[10, -10]}>
-                    下 载
-                  </Badge>
-                </Button>
-                <Button onClick={this.onHandleDownload.bind(this, false)} type="dashed">取消</Button>
-            </div>
+            : <React.Fragment>
+                <Input onChange={this.onhandleTag} placeholder="请给该批次打包图像一个标签" style={{width: '30%'}} />
+                <div className="download-btns">
+                    <Button onClick={this.onHandleSelectAll.bind(this)} type="primary">全选</Button>
+                    <Button onClick={this.onHandleSelectAll.bind(this, false)} type="primary" ghost>反选</Button>
+                    <Button onClick={this.onHandleDownload.bind(this)} disabled={this.state.selectedImageCount === 0 } type="primary">
+                      <Badge count={this.state.selectedImageCount} offset={[10, -10]}>
+                        下 载
+                      </Badge>
+                    </Button>
+                    <Button onClick={this.onHandleDownload.bind(this, false)} type="dashed">取消</Button>
+                </div>
+              </React.Fragment>
           }
         </div>
 
