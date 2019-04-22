@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Alert, Button, Divider, Table, Tag } from 'antd'
+import { Alert, Button, Divider, Table, Tag, Modal } from 'antd'
 
 import api from '@/api'
 
@@ -18,12 +18,18 @@ function Download () {
   }, [])
 
   const onDelete = data => {
-    api.deletePlotDownload(data._id).then(res => {
-      if (res.result) {
-        console.log(res)
-        fetchData()
-      }
+    Modal.confirm({
+      title: 'Confirm',
+      content: 'Bla bla ...',
+      okText: '确认',
+      cancelText: '取消',
     })
+    // api.deletePlotDownload(data._id).then(res => {
+    //   if (res.result) {
+    //     console.log(res)
+    //     fetchData()
+    //   }
+    // })
   }
 
   const columns = [{

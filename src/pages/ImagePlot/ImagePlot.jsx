@@ -79,9 +79,8 @@ class HomePage extends Component {
     if (isPack) {
       console.log([...this.state.selectedImageIds])
       let data = {
-        packIds: ['5b3dc32e79e28d4de4d1dc98'], // -测试
+        packIds: [...this.state.selectedImageIds],
         tag: this.state.tag.trim()
-        // packIds: [...this.state.selectedImageIds],
       }
       api.packPlotImages(data).then(res => {
         if (res.result) {
