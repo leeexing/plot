@@ -3,6 +3,7 @@ import { inject, observer } from 'mobx-react'
 import { Avatar, Button, Divider, Table, Tag, Modal, message } from 'antd'
 
 import api from '@/api'
+import { calculateSize } from '@/util'
 
 const statusText = ['失败', '转码中...', '成功']
 const statusColor = ['geekblue', '#a0d911', 'green']
@@ -30,9 +31,7 @@ class ImageBatchList extends Component {
           title: '大小',
           dataIndex: 'size',
           key: 'size',
-          render: size => (
-            <span>{size}KB</span>
-          )
+          render: size => <span>{calculateSize(size)}</span>
         }, {
           title: '上传时间',
           dataIndex: 'createTime',

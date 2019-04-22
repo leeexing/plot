@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Avatar, Button, Badge, Icon, Input, Pagination, Tooltip, Skeleton, message } from 'antd'
 
 import FullScreen from 'components/FullScreen'
-import { FullScreenIcon, PackIcon } from '@/icon'
+import { FullScreenIcon, PackIcon, PlotIcon } from '@/icon'
 import api from '@/api'
 import './style.less'
 
@@ -181,18 +181,25 @@ class HomePage extends Component {
                             (this.state.wantToDownload && item.isSelected) && <Icon onClick={this.onHandleSelect.bind(this, item, index, false)} type="heart" theme="twoTone" twoToneColor="#eb2f96" />
                           }
                         </div>
-                        <div className="image-handle">
+                        {/* <div className="image-handle">
                           <Tooltip title="全屏标图" placement="bottom">
                           {
                             !this.state.wantToDownload && <FullScreenIcon />
                           }
                           </Tooltip>
-                        </div>
+                        </div> */}
                       </div>
                       <div className="image-wrap" onClick={this.plotImage.bind(this, item)}>
                         <img className="thumbnail" src={item.thumbnails[0].url} alt="" />
                       </div>
-                      <h3 className="image-name">{}</h3>
+                      <h3 className="image-name">
+                        {item.name}
+                        {!item.plot
+                          && <Tooltip title="标图" placement="top">
+                              <PlotIcon style={{float: 'right', marginTop: '5px', color: '#5282EF'}}></PlotIcon>
+                            </Tooltip>
+                        }
+                      </h3>
                     </div>
                   </li>
                 ))

@@ -16,20 +16,12 @@ class HomePage extends Component {
     }
   }
   componentDidMount () {
-    // this.fetchData()
+    this.fetchData()
   }
   fetchData () {
-    let data = {
-      page: this.state.currentPage,
-      limit: 20,
-    }
-    api.fetchDRImages(data).then(res => {
+    api.fetchHomePageinfo().then(res => {
       console.log(res)
       if (res.result) {
-        this.setState({
-          imageList: res.data.images,
-          total: res.data.count
-        })
       }
     }).catch(console.log)
   }
@@ -39,7 +31,8 @@ class HomePage extends Component {
   render () {
     return (
       <div className="app-home">
-        <div className="home-material">
+        <HomeChart></HomeChart>
+        {/* <div className="home-material">
           <Card
             hoverable
             cover={<img alt="example" src="https://cn.bing.com/az/hprichbg/rb/HeartCranes_ZH-CN5070756418_1920x1080.jpg" />}
@@ -67,8 +60,7 @@ class HomePage extends Component {
               description="上传时间2019-02-21"
             />
           </Card>
-        </div>
-        <HomeChart></HomeChart>
+        </div> */}
       </div>
     )
   }

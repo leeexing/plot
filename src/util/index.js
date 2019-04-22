@@ -8,6 +8,13 @@ export const util = {
   }
 }
 
+export const calculateSize = size => {
+  if (size < 1024) {
+    return size + 'KB'
+  }
+  return (size / 1024).toFixed(2) + 'M'
+}
+
 export function kebabCase (s) {
   return s.replace(/[A-Z]/g, (m) => `-${m.toLowerCase()}`)
 }

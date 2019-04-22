@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import { Alert, Button, Divider, Table, Tag, Modal } from 'antd'
+import { Alert, Divider, Table, Tag, Popconfirm } from 'antd'
 
 import api from '@/api'
+import { calculateSize } from '@/util'
 
 const statusText = ['失效', '打包中...', '打包完成']
 const statusColor = ['#666', 'geekblue', 'green']
@@ -18,19 +19,18 @@ function Download () {
   }, [])
 
   const onDelete = data => {
-    Modal.confirm({
-      title: 'Confirm',
-      content: 'Bla bla ...',
-      okText: '确认',
-      cancelText: '取消',
+    api.deletePlotDownload(data._id).then(res => {
+      if (res.result) {
+        fetchData()
+      }
     })
-    // api.deletePlotDownload(data._id).then(res => {
-    //   if (res.result) {
-    //     console.log(res)
-    //     fetchData()
-    //   }
-    // })
   }
+
+  const confirmDelete = record => (
+    <Popconfirm title="你确定要删除吗？" onConfirm={() => onDelete(record)} okText="Yes" cancelText="No">
+      <a href="#" style={{color: 'red'}}>删除</a>
+    </Popconfirm>
+  )
 
   const columns = [{
     title: '序号',
@@ -50,7 +50,7 @@ function Download () {
     title: '大小',
     dataIndex: 'size',
     key: 'size',
-    render: (size, record) => <span>{record.status === 2 ? `${size}KB` : '计算中...'}</span>
+    render: (size, record) => <span>{record.status === 2 ? calculateSize(size) : '计算中...'}</span>
   }, {
     title: '状态',
     dataIndex: 'status',
@@ -66,9 +66,11 @@ function Download () {
         ? <React.Fragment>
             <a href={src}>下载</a>
             <Divider type="vertical" />
-            <Button onClick={() => onDelete(record)} type="danger" size="small">删除</Button>
+            {
+              confirmDelete(record)
+            }
           </React.Fragment>
-        : record.status === 1 ? '请等待' : <Button onClick={() => onDelete(record)} type="danger" size="small">删除</Button>
+        : record.status === 1 ? '请等待' : confirmDelete(record)
       }
     </span>
   }]
@@ -98,7 +100,7 @@ function Download () {
 
   return (
     <div className="m-download">
-      <Alert message="开发中。。。" type="info" showIcon style={{marginBottom: '10px'}} />
+      {/* <Alert message="开发中。。。" type="info" showIcon style={{marginBottom: '10px'}} /> */}
       <Table dataSource={dataSource} columns={columns} loading={loading} locale={local} onChange={handlePageChange} rowKey="_id" />
     </div>
   )

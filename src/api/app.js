@@ -13,6 +13,10 @@ export default {
     fetchTodo (id, data) {
         return http.put('/api/todo' + id, data)
     },
+    // -首页
+    fetchHomePageinfo (data) {
+        return http.get('/api/home/pageinfo', data)
+    },
     // -文件上传
     fetchUploadImageStatus (data) {
         return http.get('/api/upload/image', data)
