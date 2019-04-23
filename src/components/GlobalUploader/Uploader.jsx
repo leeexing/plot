@@ -18,7 +18,7 @@ const UPLOAD_START_EVENT = 'uploadStart'
 const ACCEPT_CONFIG = {
   image: ['.png', '.jpg', '.jpeg', '.gif', '.bmp'],
   video: ['.mp4', '.rmvb', '.mkv', '.wmv', '.flv'],
-  document: ['.zip', '.rar'],
+  document: ['.zip'],
   // document: ['.doc', '.docx', '.xls', '.xlsx', '.ppt', '.pptx', '.pdf', '.txt', '.tif', '.tiff', '.zip', '.rar'],
   getAll () {
     return [...this.document]
@@ -124,23 +124,9 @@ class ImageUpload extends Component {
       }
     }
     console.log(statusMap)
-    // this.$nextTick(() => {
-    //     $(`<p class="myStatus_${id}"></p>`).appendTo(`.file_${id} .uploader-file-status`).css({
-    //         'position': 'absolute',
-    //         'top': '0',
-    //         'left': '0',
-    //         'right': '0',
-    //         'bottom': '0',
-    //         'zIndex': '1',
-    //         'backgroundColor': statusMap[status].bgc
-    //     }).text(statusMap[status].text);
-    // })
   }
   statusRemove (id) {
     console.log(id)
-    // this.$nextTick(() => {
-    //   $(`.myStatus_${id}`).remove()
-    // })
   }
   fileRemoved = (file) => {
     this.setState({

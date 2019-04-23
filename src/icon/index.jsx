@@ -5,6 +5,7 @@ import PACKSVG from './svg/pack.svg'
 import PACKAGESVG from './svg/packackeload.svg'
 import FULLSCREEN from './svg/fullScreen.svg'
 import PLOT from './svg/plot.svg'
+import PLOTED from './svg/ploted.svg'
 
 
 export const DRIcon = props => (
@@ -25,4 +26,8 @@ export const FullScreenIcon = props => (
 
 export const PlotIcon = props => (
   <Icon component={PLOT} {...props} />
+)
+
+export const PlotedIcon = props => (
+  <Icon component={PLOTED} {...props} />
 )

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Alert, Divider, Table, Tag, Popconfirm } from 'antd'
+import { Divider, Table, Tag, Popconfirm } from 'antd'
 
 import api from '@/api'
 import { calculateSize } from '@/util'

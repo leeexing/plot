@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Avatar, Button, Badge, Icon, Input, Pagination, Tooltip, Skeleton, message } from 'antd'
 
 import FullScreen from 'components/FullScreen'
-import { FullScreenIcon, PackIcon, PlotIcon } from '@/icon'
+import { PackIcon, PlotIcon, PlotedIcon } from '@/icon'
 import api from '@/api'
 import './style.less'
 
@@ -25,11 +25,11 @@ class HomePage extends Component {
   }
 
   componentDidMount () {
-    let { batchId } = this.props.match.params
-    this.fetchData(batchId)
+    this.fetchData()
   }
 
-  fetchData (batchId) {
+  fetchData () {
+    let { batchId } = this.props.match.params
     let data = {
       page: this.state.currentPage,
       limit: 20,
@@ -129,16 +129,19 @@ class HomePage extends Component {
     let url = `api/plot/uploads/${batchId}`
     this.setState({
       isFull: true,
-      src: `/3D/DR_base.html?type=MAP_BROWSE&count=${this.state.total}&page=${this.state.currentPage}&limit=50&url=${url}`
+      src: `/3D/DR_base.html?type=MAP_BROWSE&count=${this.state.total}&page=${this.state.currentPage}&limit=50&url=${url}&initShowId=${item._id}`
     })
     this.refs.fullScreen.openFullScreen()
   }
 
-  closeFullScreen = () => {
-    this.setState({
-      isFull: false,
-      src: ''
-    })
+  closeFullScreen = (type='esc') => {
+    if (type === 'esc') {
+      this.setState({
+        isFull: false,
+        src: ''
+      })
+      this.fetchData()
+    }
   }
 
   render () {
@@ -195,9 +198,11 @@ class HomePage extends Component {
                       <h3 className="image-name">
                         {item.name}
                         {!item.plot
-                          && <Tooltip title="标图" placement="top">
-                              <PlotIcon style={{float: 'right', marginTop: '5px', color: '#5282EF'}}></PlotIcon>
+                          ? <Tooltip title="标图" placement="top">
+                              <PlotIcon style={{float: 'right', marginTop: '5px', color: '#aaa'}}></PlotIcon>
                             </Tooltip>
+                          : <PlotIcon style={{float: 'right', marginTop: '5px', color: '#5282EF'}}></PlotIcon>
+                          // : <PlotedIcon style={{float: 'right', marginTop: '5px', color: '#EF5350'}}></PlotedIcon>
                         }
                       </h3>
                     </div>

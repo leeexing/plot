@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
-import { Card } from 'antd'
+import { Row, Col, Card } from 'antd'
 
 import HomeChart from 'components/G2/Home'
+import Distribute from 'components/G2/Distribute'
+import DrCount from 'components/G2/DrCount'
 import api from '@/api'
 import './style.less'
 
@@ -31,36 +33,25 @@ class HomePage extends Component {
   render () {
     return (
       <div className="app-home">
-        <HomeChart></HomeChart>
-        {/* <div className="home-material">
-          <Card
-            hoverable
-            cover={<img alt="example" src="https://cn.bing.com/az/hprichbg/rb/HeartCranes_ZH-CN5070756418_1920x1080.jpg" />}
-          >
-            <Card.Meta
-              title="在线标图素材一"
-              description="上传时间2019-02-19"
-            />
-          </Card>
-          <Card
-            hoverable
-            cover={<img alt="example" src="https://cn.bing.com/az/hprichbg/rb/BathBach_ZH-CN4601637280_1920x1080.jpg" />}
-          >
-            <Card.Meta
-              title="在线标图素材二"
-              description="上传时间2019-02-20"
-            />
-          </Card>
-          <Card
-            hoverable
-            cover={<img alt="example" src="https://cn.bing.com/az/hprichbg/rb/lantern19_ZH-CN7846752344_1920x1080.jpg" />}
-          >
-            <Card.Meta
-              title="在线标图素材三"
-              description="上传时间2019-02-21"
-            />
-          </Card>
-        </div> */}
+        <Row gutter="15" style={{marginBottom: '10px'}}>
+          <Col span="12">
+            <Card title="图像标注概览">
+              <HomeChart></HomeChart>
+            </Card>
+          </Col>
+          <Col span="12">
+            <Card title="图像类型分布">
+              <DrCount></DrCount>
+            </Card>
+          </Col>
+        </Row>
+        <Row gutter="15">
+          <Col span="12">
+            <Card title="在线标注排行榜">
+              <Distribute></Distribute>
+            </Card>
+          </Col>
+        </Row>
       </div>
     )
   }

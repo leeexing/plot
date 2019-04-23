@@ -21,14 +21,14 @@ class ImageBatchList extends Component {
       isDeleting: false,
       columns: [
         {
-          title: '名称',
+          title: '文件名称',
           dataIndex: '_id',
           key: '_id',
           render: (_id, record) => (
             <span>{record.fileName}</span>
           )
         }, {
-          title: '大小',
+          title: '文件大小',
           dataIndex: 'size',
           key: 'size',
           render: size => <span>{calculateSize(size)}</span>
@@ -50,7 +50,7 @@ class ImageBatchList extends Component {
             <span>
               <Button disabled={record.status <= 0} onClick={this.onHandlePlot.bind(this, record)} type="primary" size="small">详情</Button>
               <Divider type="vertical" />
-              <Button disabled={record.status <= 1} onClick={this.onHandleDelete.bind(this, record)} type="danger" size="small">删除</Button>
+              <Button disabled={record.status > 1} onClick={this.onHandleDelete.bind(this, record)} type="danger" size="small">删除</Button>
             </span>
           )
         }
