@@ -46,6 +46,8 @@ function Download () {
     title: '上传时间',
     dataIndex: 'createTime',
     key: 'createTime',
+    sorter: (a, b) => new Date(a.createTime).getTime() - new Date(b.createTime).getTime(),
+    defaultSortOrder : 'descend',
   }, {
     title: '大小',
     dataIndex: 'size',

@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Avatar, Button, Badge, Icon, Input, Pagination, Tooltip, Skeleton, message } from 'antd'
 
 import FullScreen from 'components/FullScreen'
-import { PackIcon, PlotIcon, PlotedIcon } from '@/icon'
+import { PackIcon, PlotIcon } from '@/icon'
 import api from '@/api'
 import './style.less'
 
@@ -77,7 +77,6 @@ class HomePage extends Component {
 
   onHandleDownload (isPack = true)  {
     if (isPack) {
-      console.log([...this.state.selectedImageIds])
       let data = {
         packIds: [...this.state.selectedImageIds],
         tag: this.state.tag.trim()
@@ -85,7 +84,7 @@ class HomePage extends Component {
       api.packPlotImages(data).then(res => {
         if (res.result) {
           console.log(res)
-          message.success('图像打包成功')
+          message.success('图像打包成功!')
         }
       }).catch(err => {
         message.error(err)

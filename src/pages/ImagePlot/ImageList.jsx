@@ -36,6 +36,8 @@ class ImageBatchList extends Component {
           title: '上传时间',
           dataIndex: 'createTime',
           key: 'createTime',
+          sorter: (a, b) => new Date(a.createTime).getTime() - new Date(b.createTime).getTime(),
+          defaultSortOrder : 'descend',
         }, {
           title: '状态',
           dataIndex: 'status',
@@ -146,7 +148,7 @@ class ImageBatchList extends Component {
       <div className="m-plot">
         <div className="m-plot-upload" onClick={this.uploadImage}>
           <Avatar size={64} icon="cloud-upload" style={{ color: '#f56a00', backgroundColor: '#fde3cf' }} />
-          <p>点击进行图像上传<span>(仅支持zip、rar压缩文件)</span></p>
+          <p>点击进行图像上传<span>(仅支持zip压缩文件)</span></p>
         </div>
         {/* {this.state.dataSource.length < 1
             ? <p className="m-plot-info">暂时没有标图数据，请先上传标图素材</p>

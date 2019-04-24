@@ -6,6 +6,7 @@ import PACKAGESVG from './svg/packackeload.svg'
 import FULLSCREEN from './svg/fullScreen.svg'
 import PLOT from './svg/plot.svg'
 import PLOTED from './svg/ploted.svg'
+import DOWNLOAD from './svg/download.svg'
 
 
 export const DRIcon = props => (
@@ -30,4 +31,8 @@ export const PlotIcon = props => (
 
 export const PlotedIcon = props => (
   <Icon component={PLOTED} {...props} />
+)
+
+export const DownloadIcon = props => (
+  <Icon component={DOWNLOAD} {...props} />
 )
