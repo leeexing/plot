@@ -58,6 +58,10 @@ function HomeG2 () {
         y: 1
       }
     })
+    view1.tooltip(false, {
+      showTitle: false,
+      inPlot: false
+    })
     view1.coord('theta', {
       radius: 0.7,
       startAngle: 0 + otherOffsetAngle,
@@ -73,7 +77,7 @@ function HomeG2 () {
           var percent = text + "%"
           console.log(percent)
           if (d.type === 'test_xxx') {
-            return '<p style="width: 50px; margin: 5px 0px 0px 10px; font-size: 12px; color: #fff;">' + d.type + '</p>'
+            return '<p style="width: 50px; margin-top: 15px; margin-right: -10px; font-size: 12px; color: #fff;">' + d.type + '</p>'
           }
           return '<p style="width: 50px; margin-top: 10px; font-size: 16px; color: #fff;">' + d.type + '</p>'
           // return '<span class="g2-label-item">' + d.type + '<br/>' + percent + '</span>'

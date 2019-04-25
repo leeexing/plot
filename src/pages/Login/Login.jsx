@@ -15,7 +15,7 @@ class Login extends Component {
     e.preventDefault()
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        api.loginByThirdpart(values).then(res => {
+        api.loginByNuctech(values).then(res => {
           console.log(res)
           if (res.result) {
             Auth.setToken(res.data.accessToken)
@@ -65,11 +65,10 @@ class Login extends Component {
               </Button>
             </FormItem>
           </Form>
-          <div className="third-part">
+          {/* <div className="third-part">
             第三方登录:
-            {/* <Icon type="wechat" theme="outlined" /> */}
             <Icon type="slack" theme="outlined" />
-          </div>
+          </div> */}
         </div>
       </div>
     )

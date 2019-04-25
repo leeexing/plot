@@ -4,8 +4,8 @@ export default {
     login (data) {
         return http.post('/api/login', data)
     },
-    loginByThirdpart (data) {
-    return http.post('/api/auth/login/thirdpart', data)
+    loginByNuctech (data) {
+    return http.post('/api/auth/login/nuctech', data)
     },
     fetchTodos (data) {
         return http.get('/api/tenement', data)
