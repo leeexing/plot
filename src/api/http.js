@@ -1,8 +1,9 @@
 /**
  * 封装http请求
  */
-import axios from 'axios'
 import qs from 'qs'
+import axios from 'axios'
+
 import { message } from 'antd'
 import Auth from '@/util/auth'
 import { baseURL } from './config'
@@ -44,8 +45,10 @@ service.interceptors.response.use(response => {
   if (error.response) {
     switch (error.response.status) {
       case 401:
-        console.log('通过服务器进行权限限制 ❗❗❗ ')
-        routeSkip('/login')
+        message.info('请重新登录！')
+        setTimeout(() => {
+          routeSkip('/login')
+        }, 100)
         return Promise.reject(error.response)
       case 500:
         message.error('Server Error')

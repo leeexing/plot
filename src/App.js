@@ -13,7 +13,7 @@ class App extends Component {
   render() {
     return (
       <Provider {...store}>
-        <Routes/>
+        <Routes />
       </Provider>
     )
   }

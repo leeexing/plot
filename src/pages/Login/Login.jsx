@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { Form, Icon, Input, Button, Checkbox } from 'antd'
 import { inject, observer } from 'mobx-react'
-import { pick } from 'ramda'
 import Auth from '@/util/auth'
 import api from '@/api'
 import './style.less'
@@ -18,8 +17,8 @@ class Login extends Component {
         api.loginByNuctech(values).then(res => {
           console.log(res)
           if (res.result) {
-            Auth.setToken(res.data.accessToken)
-            Auth.setToken(pick(['userName', 'userID', 'userType', 'nickName'], res.data), 'userInfo')
+            let expires = res.data.expires_in / (60 * 60 * 24)
+            Auth.setToken(res.data.accessToken, expires)
             this.props.userStore.login(res.data)
             this.props.history.push('/')
           }
@@ -37,7 +36,7 @@ class Login extends Component {
             <FormItem
               label="账号"
             >
-              {getFieldDecorator('userName', {
+              {getFieldDecorator('username', {
                 rules: [{ required: true, message: 'Please input your username!' }],
               })(
                 <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="邮箱/手机号/用户名" />

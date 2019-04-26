@@ -44,6 +44,7 @@ class NavBar extends Component {
         <Menu.Item key="logout">退出登录</Menu.Item>
       </Menu>
     )
+    let { username, avatar } = this.props.userStore
     return (
       <nav className="app-nav">
         <div className="app-nav-bd">
@@ -57,11 +58,11 @@ class NavBar extends Component {
           <div className="nav-user">
             <Dropdown overlay={menu} trigger={['click']} placement="bottomRight">
               <span className="ant-dropdown-link">
-                {this.props.userStore.username || 'Nuctech'}
+                {username || 'Nuctech'}
                 <Icon type="down" size="24" style={{marginLeft: '5px'}} />
               </span>
             </Dropdown>
-            <Avatar className="nav-user-avatar" src={avatarImg} />
+            <Avatar className="nav-user-avatar" src={avatar || avatarImg} />
             {/* <Avatar className="nav-user-avatar" icon="user" /> */}
           </div>
         </div>

@@ -74,13 +74,11 @@ function HomeG2 () {
         useHtml: true,
         htmlTemplate: function htmlTemplate(text, item) {
           var d = item.point
-          var percent = text + "%"
-          console.log(percent)
+          // var percent = text + "%"
           if (d.type === 'test_xxx') {
             return '<p style="width: 50px; margin-top: 15px; margin-right: -10px; font-size: 12px; color: #fff;">' + d.type + '</p>'
           }
           return '<p style="width: 50px; margin-top: 10px; font-size: 16px; color: #fff;">' + d.type + '</p>'
-          // return '<span class="g2-label-item">' + d.type + '<br/>' + percent + '</span>'
         }
       }
     })
