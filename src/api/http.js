@@ -58,7 +58,10 @@ service.interceptors.response.use(response => {
         return Promise.reject(error.response)
     }
   } else {
-    routeSkip('/login')
+    message.error('Server Error')
+    setTimeout(() => {
+      routeSkip('/login')
+    }, 100)
   }
 })
 
