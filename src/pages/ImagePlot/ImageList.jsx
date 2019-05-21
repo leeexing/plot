@@ -5,8 +5,8 @@ import { Avatar, Button, Divider, Table, Tag, Modal, message } from 'antd'
 import api from '@/api'
 import { calculateSize } from '@/util'
 
-const statusText = ['失败', '转码中...', '成功']
-const statusColor = ['geekblue', '#a0d911', 'green']
+const statusText = ['转码未开始', '转码中...', '成功', '失败']
+const statusColor = ['geekblue', '#a0d911', 'green', 'red']
 
 
 @inject('appStore')
@@ -50,9 +50,9 @@ class ImageBatchList extends Component {
           width: 150,
           render: record => (
             <span>
-              <Button disabled={record.status <= 0} onClick={this.onHandlePlot.bind(this, record)} type="primary" size="small">详情</Button>
+              <Button disabled={record.status !== 2} onClick={this.onHandlePlot.bind(this, record)} type="primary" size="small">详情</Button>
               <Divider type="vertical" />
-              <Button disabled={record.status > 1} onClick={this.onHandleDelete.bind(this, record)} type="danger" size="small">删除</Button>
+              <Button disabled={record.status <= 1} onClick={this.onHandleDelete.bind(this, record)} type="danger" size="small">删除</Button>
             </span>
           )
         }

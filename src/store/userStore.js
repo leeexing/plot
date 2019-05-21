@@ -1,5 +1,6 @@
 import { computed, observable, action } from 'mobx'
 import Auth from '@/util/auth'
+// import Cookies from 'js-cookie'
 
 // 要想在这里获取其他store的状态，可以创建一个constructor，然后将 Store 中的 this 传进来
 class UserStore {
@@ -17,7 +18,9 @@ class UserStore {
     this.avatar = userInfo.avatar
     this.isLogined = true
     localStorage.setItem('username', userInfo.username)
-    localStorage.setItem('avatar', userInfo.avatar)
+    localStorage.setItem('avatar', userInfo.avatar || '')
+    localStorage.setItem('signalrToken', userInfo.signalrToken)
+    // Cookies.set('signalrToken', userInfo.signalrToken, {expires: userInfo.expires_in / (60 * 60 * 24), path: '/'})
   }
 
   @action('退出登录')
