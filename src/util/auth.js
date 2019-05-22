@@ -9,7 +9,6 @@ class Token {
     return Cookies.get(TOKEN_KEY)
   }
   static setToken (token, expiresTime=7) {
-    console.log('过期时间', expiresTime)
     return Cookies.set(TOKEN_KEY, token, {expires: expiresTime, path: '/'})
   }
   static setTokenNoRemenber () {
