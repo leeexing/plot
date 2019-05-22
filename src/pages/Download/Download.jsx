@@ -19,7 +19,7 @@ function Download () {
   }, [])
 
   const onDelete = data => {
-    api.deletePlotDownload(data._id).then(res => {
+    api.deletePlotDownload(data.id).then(res => {
       if (res.result) {
         fetchData()
       }
@@ -34,8 +34,8 @@ function Download () {
 
   const columns = [{
     title: '序号',
-    dataIndex: '_id',
-    key: '_id',
+    dataIndex: 'id',
+    key: 'id',
     render: (_, r, index) => <span>{index}</span>
   }, {
     title: '标签',
@@ -103,7 +103,7 @@ function Download () {
   return (
     <div className="m-download">
       {/* <Alert message="开发中。。。" type="info" showIcon style={{marginBottom: '10px'}} /> */}
-      <Table dataSource={dataSource} columns={columns} loading={loading} locale={local} onChange={handlePageChange} rowKey="_id" />
+      <Table dataSource={dataSource} columns={columns} loading={loading} locale={local} onChange={handlePageChange} rowKey="id" />
     </div>
   )
 }

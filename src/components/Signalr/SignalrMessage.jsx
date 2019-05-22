@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react'
 import { notification } from 'antd'
 
+import { SIGNALR_URL } from '@/api/config'
+
 const signalR = require('@aspnet/signalr')
 
 function SignalrMessage () {
@@ -19,7 +21,7 @@ function SignalrMessage () {
 
   useEffect(() => {
     connection = new signalR.HubConnectionBuilder()
-    .withUrl('https://devws.anjianba.cn/browser', {accessTokenFactory: () => localStorage.getItem('signalrToken')})
+    .withUrl(SIGNALR_URL, {accessTokenFactory: () => localStorage.getItem('signalrToken')})
     .build()
 
     // 监听消息提示

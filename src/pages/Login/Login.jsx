@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
 import { Form, Icon, Input, Button, Checkbox } from 'antd'
 import { inject, observer } from 'mobx-react'
+
 import Auth from '@/util/auth'
 import api from '@/api'
+import logo from '@/assets/logo.jpg'
 import './style.less'
 
 const FormItem = Form.Item
@@ -29,7 +31,7 @@ class Login extends Component {
   render () {
     const { getFieldDecorator } = this.props.form
     return (
-      <div className="app-login">
+      <div className="app-login" style={{backgroundImage: `url(${logo})`}}>
         <div className="app-login-wrap">
           <h1 className="app-login-header">在线标注平台</h1>
           <Form onSubmit={this.handleSubmit} className="login-form">

@@ -17,14 +17,15 @@ class ImageBatchList extends Component {
     super(props)
     this.state = {
       loading: true,
+      currentPage: 1,
       total: 0,
       isDeleting: false,
       columns: [
         {
           title: '文件名称',
-          dataIndex: '_id',
-          key: '_id',
-          render: (_id, record) => (
+          dataIndex: 'id',
+          key: 'id',
+          render: (id, record) => (
             <span>{record.fileName}</span>
           )
         }, {
@@ -50,9 +51,10 @@ class ImageBatchList extends Component {
           width: 150,
           render: record => (
             <span>
-              <Button disabled={record.status !== 2} onClick={this.onHandlePlot.bind(this, record)} type="primary" size="small">详情</Button>
+              <Button disabled={record.status >= 2} onClick={this.onHandlePlot.bind(this, record)} type="primary" size="small">详情</Button>
+              {/* <Button disabled={record.status !== 2} onClick={this.onHandlePlot.bind(this, record)} type="primary" size="small">详情</Button> */}
               <Divider type="vertical" />
-              <Button disabled={record.status <= 1} onClick={this.onHandleDelete.bind(this, record)} type="danger" size="small">删除</Button>
+              <Button disabled={record.status >= 1} onClick={this.onHandleDelete.bind(this, record)} type="danger" size="small">删除</Button>
             </span>
           )
         }
@@ -114,7 +116,7 @@ class ImageBatchList extends Component {
         name: '在线标图'
       }
     ])
-    this.props.history.push(`/plot/${data._id}`)
+    this.props.history.push(`/plot/${data.id}`)
   }
 
   onHandleDelete = data => {
@@ -131,7 +133,7 @@ class ImageBatchList extends Component {
         this.setState({
           isDeleting: true
         })
-        this.deleteUploadFile(data._id)
+        this.deleteUploadFile(data.id)
       },
       onCancel () {
         console.log('cancel')
@@ -154,7 +156,7 @@ class ImageBatchList extends Component {
             ? <p className="m-plot-info">暂时没有标图数据，请先上传标图素材</p>
             : <Table dataSource={dataSource} columns={columns} loading={loading} />
         } */}
-        <Table dataSource={dataSource} columns={columns} loading={loading} locale={local} rowKey="_id" />
+        <Table dataSource={dataSource} columns={columns} loading={loading} locale={local} rowKey="id" />
       </div>
     )
   }

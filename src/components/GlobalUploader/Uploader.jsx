@@ -34,7 +34,7 @@ class ImageUpload extends Component {
     super(props)
     this.state = {
       options: {
-        target: baseURL + '/v1/api/upload/image',
+        target: baseURL + '/v1/api/upload/file',
         chunkSize: '2048000',
         fileParameterName: 'upfile',
         testChunks: true, // 是否开启秒传
