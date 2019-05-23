@@ -41,6 +41,7 @@ class ImageUpload extends Component {
         maxChunkRetries: 3,
         checkChunkUploadedByResponse: function (chunk, message) {
           let objMessage = JSON.parse(message)
+          console.log(44, {...objMessage})
           if (objMessage.skipUpload) {
             return true
           }
@@ -49,6 +50,7 @@ class ImageUpload extends Component {
         headers: {
           Authorization: Auth.getToken() && 'Bearer ' + Auth.getToken()
         },
+        identifier: null
       },
       fileStatusText: {
         success: '成功' || 'success',
@@ -100,6 +102,9 @@ class ImageUpload extends Component {
       }
       console.log(`MD5计算完毕：${file.id} ${file.name} MD5：${md5} 用时：${new Date().getTime() - time} ms`)
       file.uniqueIdentifier = md5
+      this.setState({
+        identifier: md5
+      })
       file.resume()
       this.statusRemove(file.id)
     }
@@ -126,7 +131,7 @@ class ImageUpload extends Component {
     console.log(statusMap)
   }
   statusRemove (id) {
-    console.log(id)
+    // console.log(id)
   }
   fileRemoved = (file) => {
     this.setState({
@@ -175,17 +180,21 @@ class ImageUpload extends Component {
   }
   onFileSuccess = (rootFile, file, response, chunk) => {
     let res = JSON.parse(response)
+    console.log({...res})
     if (!res.result) {
       message.error(res.message)
       // this.statusSet(file.id, 'failed')
       return
     }
     if (res.needMerge) {
-      api.mergeSimpleUpload({
-          tempName: res.tempName,
-          fileName: file.name,
-          ...this.params,
-      }).then(res => {
+      let mergeData = {
+        tempName: res.tempName,
+        identifier: this.state.identifier,
+        fileName: file.name,
+        ...this.params
+      }
+      console.log(mergeData)
+      api.mergeSimpleUpload(mergeData).then(res => {
         if (res.status === 0) {
           console.log('上传成功，转码中')
           this.statusSet(file.id, 'transcoding')

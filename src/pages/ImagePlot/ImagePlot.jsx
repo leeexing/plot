@@ -66,7 +66,7 @@ class HomePage extends Component {
     let imageList = this.state.imageList.slice()
     imageList.map(item => {
       item.isSelected = value ? true : !item.isSelected
-      item.isSelected ? this.state.selectedImageIds.add(item._id) : this.state.selectedImageIds.delete(item._id)
+      item.isSelected ? this.state.selectedImageIds.add(item.id) : this.state.selectedImageIds.delete(item.id)
       return item
     })
     this.setState({
@@ -111,9 +111,9 @@ class HomePage extends Component {
 
   onHandleSelect (item, index, value) {
     if (value) {
-      this.state.selectedImageIds.add(item._id)
+      this.state.selectedImageIds.add(item.id)
     } else {
-      this.state.selectedImageIds.delete(item._id)
+      this.state.selectedImageIds.delete(item.id)
     }
     let imageList = this.state.imageList.slice()
     imageList[index].isSelected = value
@@ -125,10 +125,10 @@ class HomePage extends Component {
 
   plotImage (item) {
     let { batchId } = this.props.match.params
-    let url = `api/plot/uploads/${batchId}`
+    let url = `api/upload/${batchId}`
     this.setState({
       isFull: true,
-      src: `/3D/DR_base.html?type=MAP_BROWSE&count=${this.state.total}&page=${this.state.currentPage}&limit=50&url=${url}&initShowId=${item._id}`
+      src: `/3D/DR_base.html?type=MAP_BROWSE&count=${this.state.total}&page=${this.state.currentPage}&limit=50&url=${url}&initShowId=${item.id}`
     })
     this.refs.fullScreen.openFullScreen()
   }

@@ -23,10 +23,10 @@ class ImageBatchList extends Component {
       columns: [
         {
           title: '文件名称',
-          dataIndex: '_id',
-          key: '_id',
-          render: (_id, record) => (
-            <span>{record.fileName}</span>
+          dataIndex: 'id',
+          key: 'id',
+          render: (id, record) => (
+            <span>{record.uploadName}</span>
           )
         }, {
           title: '文件大小',
@@ -47,7 +47,7 @@ class ImageBatchList extends Component {
             <Tag color={statusColor[status]}>{statusText[status]}</Tag>
           )
         }, {
-          title: '操作',
+          title: '操作', // 0: 未转码；1：转码中；2：成功；3：失败
           width: 150,
           render: record => (
             <span>
@@ -115,14 +115,14 @@ class ImageBatchList extends Component {
         name: '在线标图'
       }
     ])
-    this.props.history.push(`/plot/${data._id}`)
+    this.props.history.push(`/plot/${data.id}`)
   }
 
   onHandleDelete = data => {
     Modal.confirm({
       title: `你确定要删除该文件吗？`,
       content: <div>
-        <p>文件名：<span style={{fontWeight: 600, color: 'red'}}>{data.fileName}</span></p>
+        <p>文件名：<span style={{fontWeight: 600, color: 'red'}}>{data.uploadName}</span></p>
         <p>该操作不可逆，请慎重考虑!</p>
       </div>,
       onOk: () => {
@@ -132,7 +132,7 @@ class ImageBatchList extends Component {
         this.setState({
           isDeleting: true
         })
-        this.deleteUploadFile(data._id)
+        this.deleteUploadFile(data.id)
       },
       onCancel () {
         console.log('cancel')
@@ -155,7 +155,7 @@ class ImageBatchList extends Component {
             ? <p className="m-plot-info">暂时没有标图数据，请先上传标图素材</p>
             : <Table dataSource={dataSource} columns={columns} loading={loading} />
         } */}
-        <Table dataSource={dataSource} columns={columns} loading={loading} locale={local} rowKey="_id" />
+        <Table dataSource={dataSource} columns={columns} loading={loading} locale={local} rowKey="id" />
       </div>
     )
   }

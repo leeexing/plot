@@ -43,16 +43,20 @@ function Download () {
     key: 'tag',
     render: tag => <span>{tag || '暂无'}</span>
   }, {
+    title: '大小',
+    dataIndex: 'size',
+    key: 'size',
+    render: (size, record) => <span>{record.status === 2 ? calculateSize(size) : '计算中...'}</span>
+  }, {
     title: '上传时间',
     dataIndex: 'createTime',
     key: 'createTime',
     sorter: (a, b) => new Date(a.createTime).getTime() - new Date(b.createTime).getTime(),
     defaultSortOrder : 'descend',
   }, {
-    title: '大小',
-    dataIndex: 'size',
-    key: 'size',
-    render: (size, record) => <span>{record.status === 2 ? calculateSize(size) : '计算中...'}</span>
+    title: '下载次数',
+    dataIndex: 'downloadCount',
+    key: 'downloadCount'
   }, {
     title: '状态',
     dataIndex: 'status',
@@ -66,7 +70,7 @@ function Download () {
     render: (src, record) => <span>
       {record.status === 2
         ? <React.Fragment>
-            <a href={src}>下载</a>
+            <a href={src} onClick={() => recordDownloadCount(record.id)} >下载</a>
             <Divider type="vertical" />
             {
               confirmDelete(record)
@@ -90,6 +94,10 @@ function Download () {
     }).finally(() => {
       setLoading(false)
     })
+  }
+
+  const recordDownloadCount = id => {
+    api.recordDownloadCount(id).then(res => {}).catch(console.error)
   }
 
   const handlePageChange = (pagination) => {

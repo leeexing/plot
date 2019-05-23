@@ -44,5 +44,8 @@ export default {
     },
     deletePlotDownload (id, data) {
         return http.delete('/api/download/' + id, data)
+    },
+    recordDownloadCount (id, data) {
+        return http.post('/api/download/' + id, data)
     }
 }
