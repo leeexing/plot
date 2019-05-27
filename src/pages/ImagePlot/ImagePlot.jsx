@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
-import { Avatar, Button, Badge, Icon, Input, Pagination, Tooltip, Skeleton, message } from 'antd'
+import { Avatar, Button, Badge, Icon, Input, Pagination, Tooltip, Skeleton, Select, message } from 'antd'
 
 import FullScreen from 'components/FullScreen'
-import { PackIcon, PlotIcon } from '@/icon'
+import { PackIcon } from '@/icon'
 import api from '@/api'
 import './style.less'
 
@@ -21,6 +21,9 @@ class HomePage extends Component {
       wantToDownload: false,
       selectedImageIds: new Set(),
       selectedImageCount: 0,
+      plotStatus: 'all',
+      imageName: '',
+      loading: true
     }
   }
 
@@ -33,24 +36,42 @@ class HomePage extends Component {
     let data = {
       page: this.state.currentPage,
       limit: 20,
+      plotStatus: this.state.plotStatus,
+      imageName: this.state.imageName
     }
+    this.setState({
+      loading: true
+    })
     // -其他请求获取图像标记列表
     api.fetchPlotUploadBatchDetail(batchId, data).then(res => {
       console.log(res)
       if (res.result) {
         this.setState({
           imageList: res.data.images,
-          total: res.data.count
+          total: res.data.count,
+          loading: false
         })
       }
     }).catch(console.log)
   }
 
-  onChange = (pageNumber) => {
+  handleSelectChange = value => {
+    this.setState({
+      plotStatus: value
+    }, this.fetchData)
+  }
+
+  search = e => {
+    this.setState({
+      imageName: e.target.value.trim()
+    }, this.fetchData)
+  }
+
+  onChange = pageNumber => {
     console.log('Page: ', pageNumber)
   }
 
-  onhandleTag = (e) => {
+  onhandleTag = e => {
     this.setState({
       tag: e.target.value
     })
@@ -83,7 +104,6 @@ class HomePage extends Component {
       }
       api.packPlotImages(data).then(res => {
         if (res.result) {
-          console.log(res)
           message.success('图像打包成功!')
         }
       }).catch(err => {
@@ -125,10 +145,17 @@ class HomePage extends Component {
 
   plotImage (item) {
     let { batchId } = this.props.match.params
+    let { imageName, plotStatus, total, currentPage } = this.state
     let url = `api/upload/${batchId}`
     this.setState({
       isFull: true,
-      src: `/3D/DR_base.html?type=MAP_BROWSE&count=${this.state.total}&page=${this.state.currentPage}&limit=50&url=${url}&initShowId=${item.id}`
+      src: `/3D/DR_base.html?type=MAP_BROWSE
+          &count=${total}
+          &page=${currentPage}
+          &limit=50&url=${url}
+          &initShowId=${item.id}
+          &imageName=${encodeURI(imageName)}
+          &plotStatus=${plotStatus}`.replace(/\s+/g, '')
     })
     this.refs.fullScreen.openFullScreen()
   }
@@ -146,30 +173,59 @@ class HomePage extends Component {
   render () {
     return (
       <div className="m-plot-image">
-        <div className="m-plot-download">
-          {!this.state.wantToDownload
-            ? <Avatar onClick={this.onHandleWantToDownload} size={64} icon="cloud-download" className="download" />
-            : <React.Fragment>
-                <Input onChange={this.onhandleTag} placeholder="请给该批次打包图像一个标签" style={{width: '30%'}} />
-                <div className="download-btns">
-                    <Button onClick={this.onHandleSelectAll.bind(this)} type="primary">全选</Button>
-                    <Button onClick={this.onHandleSelectAll.bind(this, false)} type="primary" ghost>反选</Button>
-                    <Button onClick={this.onHandleDownload.bind(this)} disabled={this.state.selectedImageCount === 0 } type="primary">
-                      <Badge count={this.state.selectedImageCount} offset={[10, -10]}>
-                        下 载
-                      </Badge>
-                    </Button>
-                    <Button onClick={this.onHandleDownload.bind(this, false)} type="dashed">取消</Button>
-                </div>
-              </React.Fragment>
-          }
+        {/* 查询、筛选、打包 */}
+        <div className="m-plot-header">
+          <div className="m-plot-search">
+            <Input
+              style={{ width: '300px' }}
+              suffix={<Icon type="search" />}
+              placeholder="请输入图像名称"
+              onPressEnter={this.search}
+            />
+            <Select
+              style={{ width: '100px' }}
+              placeholder="标图状态"
+              defaultValue="全部"
+              onChange={this.handleSelectChange}
+            >
+              <Select.Option value="all" label="全部">
+                全部
+              </Select.Option>
+              <Select.Option value="unplot" label="未标图">
+                未标图
+              </Select.Option>
+              <Select.Option value="ploted" label="已标图">
+                已标图
+              </Select.Option>
+            </Select>
+          </div>
+          <div className="m-plot-download">
+            {!this.state.wantToDownload
+              ? <Avatar onClick={this.onHandleWantToDownload} size={64} icon="cloud-download" className="download" />
+              : <React.Fragment>
+                  <Input onChange={this.onhandleTag} placeholder="请给该批次打包图像一个标签" style={{width: '30%'}} />
+                  <div className="download-btns">
+                      <Button onClick={this.onHandleSelectAll.bind(this)} type="primary">全选</Button>
+                      <Button onClick={this.onHandleSelectAll.bind(this, false)} type="primary" ghost>反选</Button>
+                      <Button onClick={this.onHandleDownload.bind(this)} disabled={this.state.selectedImageCount === 0 } type="primary">
+                        <Badge count={this.state.selectedImageCount} offset={[10, -10]}>
+                          下 载
+                        </Badge>
+                      </Button>
+                      <Button onClick={this.onHandleDownload.bind(this, false)} type="dashed">取消</Button>
+                  </div>
+                </React.Fragment>
+            }
+          </div>
         </div>
 
         {/* 标图列表 */}
         <div className="image-content">
           <ul className="image-container">
             {this.state.imageList.length < 1
-              ? <Skeleton rows="8" />
+              ? <Skeleton loading={this.state.loading} rows="8">
+                <p className="no-match">暂无结果~</p>
+              </Skeleton>
               : this.state.imageList.map((item, index) => (
                   <li className="image-list" key={index}>
                     <div className="image-item">
@@ -180,7 +236,7 @@ class HomePage extends Component {
                             // (this.state.wantToDownload && !item.isSelected) && <Icon onClick={this.onHandleSelect.bind(this, item, index, true)} type="shopping-cart"/>
                           }
                           {
-                            (this.state.wantToDownload && item.isSelected) && <Icon onClick={this.onHandleSelect.bind(this, item, index, false)} type="heart" theme="twoTone" twoToneColor="#eb2f96" />
+                            (this.state.wantToDownload && item.isSelected) && <PackIcon onClick={this.onHandleSelect.bind(this, item, index, false)} style={{color: "#eb2f96"}} />
                           }
                         </div>
                         {/* <div className="image-handle">
@@ -194,16 +250,23 @@ class HomePage extends Component {
                       <div className="image-wrap" onClick={this.plotImage.bind(this, item)}>
                         <img className="thumbnail" src={item.thumbnails[0].url} alt="" />
                       </div>
-                      <h3 className="image-name">
-                        {item.name}
-                        {!item.plot
+                      <div className="image-name">
+                        <h3>
+                          {item.name.length > 10
+                            ? <Tooltip title={item.name} placement="top">
+                              {item.name.slice(0, 10) + '...'}
+                            </Tooltip>
+                            : item.name
+                          }
+                        </h3>
+                        {item.plot ? <div className="plot-status ploted">已标</div> : <div className="plot-status unplot">未标</div>}
+                        {/* {!item.plot
                           ? <Tooltip title="标图" placement="top">
                               <PlotIcon style={{float: 'right', marginTop: '5px', color: '#aaa'}}></PlotIcon>
                             </Tooltip>
                           : <PlotIcon style={{float: 'right', marginTop: '5px', color: '#5282EF'}}></PlotIcon>
-                          // : <PlotedIcon style={{float: 'right', marginTop: '5px', color: '#EF5350'}}></PlotedIcon>
-                        }
-                      </h3>
+                        } */}
+                      </div>
                     </div>
                   </li>
                 ))

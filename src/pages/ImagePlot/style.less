@@ -1,5 +1,21 @@
 .m-plot {
+  &-header {
+    display: flex;
+    justify-content: space-between;
+  }
+  &-search {
+    width: 450px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 8px;
+    height: 68px;
+    background: #F7F9FA;
+  }
   &-upload {
+    flex: 1;
+  }
+  &-upload-icon {
     position: relative;
     margin-bottom: 10px;
     text-align: center;
@@ -43,6 +59,7 @@
   &-image {
     .m-plot {
       &-download {
+        flex: 1;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -98,7 +115,8 @@
         }
       }
       .no-match {
-        margin-top: 200px;
+        height: 200px;
+        line-height: 200px;
         text-align: center;
         font-size: 16px;
         color: #888;
@@ -173,6 +191,7 @@
         justify-content: center;
         align-items: center;
         flex-direction: column;
+        cursor: pointer;
         img {
           max-width: 100%;
           max-height: 100%;
@@ -180,10 +199,29 @@
       }
       .image-name {
         flex-shrink: 0;
+        display: flex;
+        justify-content: space-between;
         background: #F7F9FA;
         box-shadow: 0 0 4px 4px #F7F9FA;
         color: #888;
         z-index: 9;
+        h3 {
+          margin-right: 5px;
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+        }
+        .plot-status {
+          flex-shrink: 0;
+          font-size: 12px;
+          line-height: 20px;
+          &.ploted {
+            color: #6370be;
+          }
+          &.unplot {
+            color: #8c8c8c;
+          }
+        }
       }
       &:hover {
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.09);

@@ -41,7 +41,6 @@ class ImageUpload extends Component {
         maxChunkRetries: 3,
         checkChunkUploadedByResponse: function (chunk, message) {
           let objMessage = JSON.parse(message)
-          console.log(44, {...objMessage})
           if (objMessage.skipUpload) {
             return true
           }
@@ -108,7 +107,7 @@ class ImageUpload extends Component {
       file.resume()
       this.statusRemove(file.id)
     }
-    fileReader.onerror = function () {
+    fileReader.onerror = () => {
       this.error(`文件${file.name}读取出错，请检查该文件`)
       file.cancel()
     }
@@ -179,21 +178,20 @@ class ImageUpload extends Component {
     })
   }
   onFileSuccess = (rootFile, file, response, chunk) => {
+    console.log('the file has been uploaded successfully')
     let res = JSON.parse(response)
     console.log({...res})
     if (!res.result) {
       message.error(res.message)
-      // this.statusSet(file.id, 'failed')
       return
     }
     if (res.needMerge) {
       let mergeData = {
         tempName: res.tempName,
-        identifier: this.state.identifier,
+        identifier: this.state.identifier || res.tempName,
         fileName: file.name,
         ...this.params
       }
-      console.log(mergeData)
       api.mergeSimpleUpload(mergeData).then(res => {
         if (res.status === 0) {
           console.log('上传成功，转码中')
@@ -203,12 +201,10 @@ class ImageUpload extends Component {
         } else if (res.status === 200) {
           console.log('上传成功')
         }
-        // Bus.$emit('fileSuccess')
       }).catch(e => {
         this.statusSet(file.id, 'failed')
       })
     } else {
-      // Bus.$emit('fileSuccess')
       console.log('文件上传成功')
     }
   }

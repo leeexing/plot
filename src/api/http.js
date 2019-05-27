@@ -59,6 +59,7 @@ service.interceptors.response.use(response => {
     }
   } else {
     message.error('Server Error')
+    console.error(error)
   }
 })
 

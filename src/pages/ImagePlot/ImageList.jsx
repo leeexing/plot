@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
-import { Avatar, Button, Divider, Table, Tag, Modal, message } from 'antd'
+import { Avatar, Button, Divider, Input, Select, Table, Icon, Tag, Modal, message, Pagination } from 'antd'
 
 import api from '@/api'
 import { calculateSize } from '@/util'
@@ -140,22 +140,54 @@ class ImageBatchList extends Component {
     })
   }
 
+  handlePageChange = currentPage => {
+    this.setState({
+      currentPage
+    }, this.fetchData)
+  }
+
   render () {
-    let {loading, dataSource, columns} = this.state
+    let {loading, dataSource, columns, total, currentPage} = this.state
     let local = {
       emptyText: <p className="m-plot-info">暂时没有标图数据，请先上传标图素材</p>
     }
     return (
       <div className="m-plot">
-        <div className="m-plot-upload" onClick={this.uploadImage}>
-          <Avatar size={64} icon="cloud-upload" style={{ color: '#f56a00', backgroundColor: '#fde3cf' }} />
-          <p>点击进行图像上传<span>(仅支持zip压缩文件)</span></p>
+        {/* 查询、筛选、上传按钮 */}
+        <div className="m-plot-header">
+          <div className="m-plot-search">
+            <Input
+              style={{ width: '300px' }}
+              suffix={<Icon type="search" />}
+              placeholder="请输入上传文件名称"
+              onPressEnter={this.search}
+            />
+            <Select
+              style={{ width: '100px' }}
+              placeholder="标图状态"
+              defaultValue="全部"
+              onChange={this.handleSelectChange}
+            >
+              <Select.Option value="all" label="全部">
+                全部
+              </Select.Option>
+              <Select.Option value="unplot" label="未完成">
+                未完成
+              </Select.Option>
+              <Select.Option value="ploted" label="已完成">
+                已完成
+              </Select.Option>
+            </Select>
+          </div>
+          <div className="m-plot-upload">
+            <div className="m-plot-upload-icon" onClick={this.uploadImage}>
+              <Avatar size={64} icon="cloud-upload" style={{ color: '#f56a00', backgroundColor: '#fde3cf' }} />
+              <p>点击进行图像上传<span>(仅支持zip压缩文件)</span></p>
+            </div>
+          </div>
         </div>
-        {/* {this.state.dataSource.length < 1
-            ? <p className="m-plot-info">暂时没有标图数据，请先上传标图素材</p>
-            : <Table dataSource={dataSource} columns={columns} loading={loading} />
-        } */}
-        <Table dataSource={dataSource} columns={columns} loading={loading} locale={local} rowKey="id" />
+        <Table dataSource={dataSource} columns={columns} loading={loading} locale={local} pagination={false} rowKey="id" />
+        <Pagination showQuickJumper defaultCurrent={currentPage} total={total} onChange={this.handlePageChange} style={{float: 'right', marginTop: '12px'}} />
       </div>
     )
   }
