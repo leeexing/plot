@@ -59,6 +59,8 @@ class ImageBatchList extends Component {
         }
       ],
       dataSource: [],
+      uploadName: '',
+      uploadStatus: 0
     }
   }
 
@@ -70,6 +72,8 @@ class ImageBatchList extends Component {
     let data = {
       page: this.state.currentPage,
       limit: 20,
+      uploadName: this.state.uploadName,
+      uploadStatus: this.state.uploadStatus
     }
     // -其他请求获取图像标记列表
     api.fetchPlotUploads(data).then(res => {
@@ -140,6 +144,19 @@ class ImageBatchList extends Component {
     })
   }
 
+  search = e => {
+    this.setState({
+      uploadName: e.target.value.trim()
+    }, this.fetchData)
+  }
+
+  handleSelectChange = value => {
+    console.log(value, typeof value)
+    this.setState({
+      uploadStatus: value
+    }, this.fetchData)
+  }
+
   handlePageChange = currentPage => {
     this.setState({
       currentPage
@@ -165,16 +182,16 @@ class ImageBatchList extends Component {
             <Select
               style={{ width: '100px' }}
               placeholder="标图状态"
-              defaultValue="全部"
+              defaultValue="0"
               onChange={this.handleSelectChange}
             >
-              <Select.Option value="all" label="全部">
+              <Select.Option value="0" label="全部">
                 全部
               </Select.Option>
-              <Select.Option value="unplot" label="未完成">
+              <Select.Option value="1" label="未完成">
                 未完成
               </Select.Option>
-              <Select.Option value="ploted" label="已完成">
+              <Select.Option value="2" label="已完成">
                 已完成
               </Select.Option>
             </Select>

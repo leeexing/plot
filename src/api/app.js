@@ -34,7 +34,11 @@ export default {
     deletePlotUploadBatch (id) {
         return http.delete('/api/upload/' + id)
     },
-    // -在线标注打包
+    // -图像标注
+    updateImgSuspect (id, data) {
+        return http.put('/api/plot/' + id, data)
+    },
+    // -图像打包
     packPlotImages (data) {
         return http.post('/api/plot/pack', data)
     },

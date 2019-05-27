@@ -29,6 +29,14 @@ class HomePage extends Component {
 
   componentDidMount () {
     this.fetchData()
+    window.onmessage = msgEvent => {
+      let { type, id, postData } = msgEvent.data
+      if (type === 'submitPlot') {
+        api.updateImgSuspect(id, JSON.parse(postData)).then(res => {
+          console.log(res)
+        }).catch(console.error)
+      }
+    }
   }
 
   fetchData () {
