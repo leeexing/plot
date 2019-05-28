@@ -115,7 +115,7 @@ class HomePage extends Component {
       tag: this.state.tag.trim()
     }
     if (!this.state.tag.trim()) {
-      return message.info('标签名不能为空')
+      return message.warn('标签名不能为空')
     }
     api.packPlotImages(data).then(res => {
       if (res.result) {

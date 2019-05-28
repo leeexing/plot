@@ -37,8 +37,8 @@ class ImageBatchList extends Component {
           title: '上传时间',
           dataIndex: 'createTime',
           key: 'createTime',
-          sorter: (a, b) => new Date(a.createTime).getTime() - new Date(b.createTime).getTime(),
-          defaultSortOrder : 'descend',
+          // sorter: (a, b) => new Date(a.createTime).getTime() - new Date(b.createTime).getTime(),
+          // defaultSortOrder : 'descend',
         }, {
           title: '状态',
           dataIndex: 'status',
@@ -201,7 +201,7 @@ class ImageBatchList extends Component {
           </div>
         </div>
         <Table dataSource={dataSource} columns={columns} loading={loading} locale={local} pagination={false} rowKey="id" />
-        {total
+        {total > 0
           && <Pagination showQuickJumper defaultCurrent={currentPage} total={total} onChange={this.handlePageChange} style={{float: 'right', marginTop: '12px'}} />
         }
       </div>
