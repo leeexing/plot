@@ -77,7 +77,6 @@ class ImageBatchList extends Component {
     }
     // -其他请求获取图像标记列表
     api.fetchPlotUploads(data).then(res => {
-      console.log(res)
       if (res.result) {
         this.setState({
           loading: false,
@@ -93,9 +92,7 @@ class ImageBatchList extends Component {
   }
 
   deleteUploadFile = id => {
-    console.log(id)
     api.deletePlotUploadBatch(id).then(res => {
-      console.log(res)
       if (res.result) {
         message.success('文件删除成功！')
         this.fetchData()
@@ -151,7 +148,6 @@ class ImageBatchList extends Component {
   }
 
   handleSelectChange = value => {
-    console.log(value, typeof value)
     this.setState({
       uploadStatus: value
     }, this.fetchData)
@@ -174,13 +170,14 @@ class ImageBatchList extends Component {
         <div className="m-plot-header">
           <div className="m-plot-search">
             <Input
-              style={{ width: '300px' }}
+              style={{ width: '65%' }}
+              allowClear
               suffix={<Icon type="search" />}
               placeholder="请输入上传文件名称"
               onPressEnter={this.search}
             />
             <Select
-              style={{ width: '100px' }}
+              style={{ width: '30%' }}
               placeholder="标图状态"
               defaultValue="0"
               onChange={this.handleSelectChange}
@@ -204,7 +201,9 @@ class ImageBatchList extends Component {
           </div>
         </div>
         <Table dataSource={dataSource} columns={columns} loading={loading} locale={local} pagination={false} rowKey="id" />
-        <Pagination showQuickJumper defaultCurrent={currentPage} total={total} onChange={this.handlePageChange} style={{float: 'right', marginTop: '12px'}} />
+        {total
+          && <Pagination showQuickJumper defaultCurrent={currentPage} total={total} onChange={this.handlePageChange} style={{float: 'right', marginTop: '12px'}} />
+        }
       </div>
     )
   }

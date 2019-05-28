@@ -14,6 +14,7 @@ class HomePage extends Component {
       isDataLoaded: false,
       imageList: [],
       currentPage: 1,
+      limit: 20,
       total: 0,
       isFull: false,
       src: '',
@@ -32,27 +33,25 @@ class HomePage extends Component {
     window.onmessage = msgEvent => {
       let { type, id, postData } = msgEvent.data
       if (type === 'submitPlot') {
-        api.updateImgSuspect(id, JSON.parse(postData)).then(res => {
-          console.log(res)
-        }).catch(console.error)
+        api.updateImgSuspect(id, JSON.parse(postData)).then(res => {}).catch(console.error)
       }
     }
   }
 
   fetchData () {
     let { batchId } = this.props.match.params
+    let { currentPage, limit, plotStatus, imageName } = this.state
     let data = {
-      page: this.state.currentPage,
-      limit: 20,
-      plotStatus: this.state.plotStatus,
-      imageName: this.state.imageName
+      page: currentPage,
+      limit,
+      imageName,
+      plotStatus
     }
     this.setState({
       loading: true
     })
     // -其他请求获取图像标记列表
     api.fetchPlotUploadBatchDetail(batchId, data).then(res => {
-      console.log(res)
       if (res.result) {
         this.setState({
           imageList: res.data.images,
@@ -75,8 +74,10 @@ class HomePage extends Component {
     }, this.fetchData)
   }
 
-  onChange = pageNumber => {
-    console.log('Page: ', pageNumber)
+  onPageChange = currentPage => {
+    this.setState({
+      currentPage
+    }, this.fetchData)
   }
 
   onhandleTag = e => {
@@ -105,24 +106,27 @@ class HomePage extends Component {
   }
 
   onHandleDownload (isPack = true)  {
-    if (isPack) {
-      let data = {
-        packIds: [...this.state.selectedImageIds],
-        tag: this.state.tag.trim()
-      }
-      api.packPlotImages(data).then(res => {
-        if (res.result) {
-          message.success('图像打包成功!')
-        }
-      }).catch(err => {
-        message.error(err)
-      })
-      .finally(() => {
-        this.resetDownloadStatus()
-      })
-    } else {
+    if (!isPack) {
       this.resetDownloadStatus()
+      return
     }
+    let data = {
+      packIds: [...this.state.selectedImageIds],
+      tag: this.state.tag.trim()
+    }
+    if (!this.state.tag.trim()) {
+      return message.info('标签名不能为空')
+    }
+    api.packPlotImages(data).then(res => {
+      if (res.result) {
+        message.success('图像打包成功!')
+      }
+    }).catch(err => {
+      message.error(err)
+    })
+    .finally(() => {
+      this.resetDownloadStatus()
+    })
   }
 
   resetDownloadStatus () {
@@ -179,19 +183,21 @@ class HomePage extends Component {
   }
 
   render () {
+    let { currentPage, total, limit } = this.state
     return (
       <div className="m-plot-image">
         {/* 查询、筛选、打包 */}
         <div className="m-plot-header">
           <div className="m-plot-search">
             <Input
-              style={{ width: '300px' }}
+              style={{ width: '65%' }}
+              allowClear
               suffix={<Icon type="search" />}
               placeholder="请输入图像名称"
               onPressEnter={this.search}
             />
             <Select
-              style={{ width: '100px' }}
+              style={{ width: '30%' }}
               placeholder="标图状态"
               defaultValue="全部"
               onChange={this.handleSelectChange}
@@ -211,7 +217,7 @@ class HomePage extends Component {
             {!this.state.wantToDownload
               ? <Avatar onClick={this.onHandleWantToDownload} size={64} icon="cloud-download" className="download" />
               : <React.Fragment>
-                  <Input onChange={this.onhandleTag} placeholder="请给该批次打包图像一个标签" style={{width: '30%'}} />
+                  <Input onChange={this.onhandleTag} placeholder="请输入此次下载的标签名" style={{width: '35%'}} />
                   <div className="download-btns">
                       <Button onClick={this.onHandleSelectAll.bind(this)} type="primary">全选</Button>
                       <Button onClick={this.onHandleSelectAll.bind(this, false)} type="primary" ghost>反选</Button>
@@ -284,12 +290,11 @@ class HomePage extends Component {
 
         {/* 分页 */}
         <div className="pagination">
-          {this.state.imageList.length < 1
-            ? null
-            : <Pagination showQuickJumper defaultCurrent={this.state.currentPage}
-                defaultPageSize={20}
-                total={this.state.total}
-                onChange={this.onChange} />
+          {this.state.imageList.length > 0
+            && <Pagination showQuickJumper defaultCurrent={currentPage}
+                defaultPageSize={limit}
+                total={total}
+                onChange={this.onPageChange} />
           }
         </div>
 

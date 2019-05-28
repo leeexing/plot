@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Divider, Table, Tag, Popconfirm, Pagination } from 'antd'
+import { Divider, Input, Icon, Table, Tag, Popconfirm, Pagination } from 'antd'
 
 import api from '@/api'
 import { calculateSize } from '@/util'
@@ -67,14 +67,14 @@ class Download extends Component {
         </span>
       }],
       dataSource: [],
-      uploadName: '',
+      downloadName: '',
       uploadStatus: 0
     }
   }
 
   componentDidMount () {
     this.fetchData()
-  }
+  }1
 
 
   onDelete = data => {
@@ -100,20 +100,21 @@ class Download extends Component {
 
 
   fetchData = () => {
-    let { currentPage, limit } = this.state
+    let { currentPage, limit, downloadName } = this.state
     let postData = {
       page: currentPage,
+      downloadName,
       limit
     }
     api.fetchPlotDownloads(postData).then(res => {
-      console.log(res)
       if (res.result) {
         this.setState({
           dataSource: res.data.downloads,
           total: res.data.count
         })
       }
-    }).catch(console.error)
+    })
+    .catch(console.error)
     .finally(() => {
       this.setState({
         loading: false
@@ -123,6 +124,12 @@ class Download extends Component {
 
   recordDownloadCount = id => {
     api.recordDownloadCount(id).then(res => {}).catch(console.error)
+  }
+
+  search = e => {
+    this.setState({
+      downloadName: e.target.value.trim()
+    }, this.fetchData)
   }
 
   handlePageChange = currentPage => {
@@ -138,8 +145,19 @@ class Download extends Component {
     }
     return (
       <div className="m-download">
-        <Table dataSource={dataSource} columns={columns} loading={loading} locale={local} pagination={false} rowKey="id"></Table>
-        <Pagination showQuickJumper defaultCurrent={currentPage} total={total} onChange={this.handlePageChange} style={{float: 'right', marginTop: '12px'}}></Pagination>
+        <div className="m-download-header" style={{marginBottom: '10px'}}>
+          <Input
+            style={{ width: '30%' }}
+            allowClear
+            suffix={<Icon type="search" />}
+            placeholder="请输入下载标签名称"
+            onPressEnter={this.search}
+          />
+        </div>
+        <Table dataSource={dataSource} columns={columns} loading={loading} locale={local} pagination={false} rowKey="id" />
+        {total > 0
+          && <Pagination showQuickJumper defaultCurrent={currentPage} total={total} onChange={this.handlePageChange} style={{float: 'right', marginTop: '12px'}} />
+        }
       </div>
     )
   }
