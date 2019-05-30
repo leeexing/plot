@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Avatar, Button, Badge, Icon, Input, Pagination, Tooltip, Skeleton, Select, message } from 'antd'
+import { Avatar, Button, Badge, Input, Pagination, Tooltip, Skeleton, Select, message } from 'antd'
 
 import FullScreen from 'components/FullScreen'
 import { PackIcon } from '@/icon'
@@ -68,9 +68,9 @@ class HomePage extends Component {
     }, this.fetchData)
   }
 
-  search = e => {
+  search = value => {
     this.setState({
-      imageName: e.target.value.trim()
+      imageName: value.trim()
     }, this.fetchData)
   }
 
@@ -189,12 +189,13 @@ class HomePage extends Component {
         {/* 查询、筛选、打包 */}
         <div className="m-plot-header">
           <div className="m-plot-search">
-            <Input
+            <Input.Search
               style={{ width: '65%' }}
               allowClear
-              suffix={<Icon type="search" />}
+              enterButton
               placeholder="请输入图像名称"
-              onPressEnter={this.search}
+              onPressEnter={e => this.search(e.target.value)}
+              onSearch={this.search}
             />
             <Select
               style={{ width: '30%' }}
@@ -262,7 +263,7 @@ class HomePage extends Component {
                         </div> */}
                       </div>
                       <div className="image-wrap" onClick={this.plotImage.bind(this, item)}>
-                        <img className="thumbnail" src={item.thumbnails[0].url} alt="" />
+                        <img className="thumbnail" src={item.thumbnails.length > 0 ? item.thumbnails[0].url : item.dr[0].url} alt="" />
                       </div>
                       <div className="image-name">
                         <h3>
@@ -291,10 +292,12 @@ class HomePage extends Component {
         {/* 分页 */}
         <div className="pagination">
           {this.state.imageList.length > 0
-            && <Pagination showQuickJumper defaultCurrent={currentPage}
-                defaultPageSize={limit}
+            && <Pagination
+                showQuickJumper
+                defaultCurrent={currentPage}
                 total={total}
-                onChange={this.onPageChange} />
+                showTotal={total => `总共 ${total} 张`}
+                onChange={this.handlePageChange} />
           }
         </div>
 

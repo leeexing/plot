@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Divider, Input, Icon, Table, Tag, Popconfirm, Pagination } from 'antd'
+import { Divider, Input, Table, Tag, Popconfirm, Pagination } from 'antd'
 
 import api from '@/api'
 import { calculateSize } from '@/util'
@@ -93,7 +93,7 @@ class Download extends Component {
   }
 
   confirmDelete = record => (
-    <Popconfirm title="你确定要删除吗？" onConfirm={() => this.onDelete(record)} okText="Yes" cancelText="No">
+    <Popconfirm title="你确定要删除吗？" onConfirm={() => this.onDelete(record)} okText="确认" cancelText="取消">
       <a href="#" style={{color: 'red'}}>删除</a>
     </Popconfirm>
   )
@@ -126,9 +126,9 @@ class Download extends Component {
     api.recordDownloadCount(id).then(res => {}).catch(console.error)
   }
 
-  search = e => {
+  search = value => {
     this.setState({
-      downloadName: e.target.value.trim()
+      downloadName: value.trim()
     }, this.fetchData)
   }
 
@@ -146,17 +146,24 @@ class Download extends Component {
     return (
       <div className="m-download">
         <div className="m-download-header" style={{marginBottom: '10px'}}>
-          <Input
+          <Input.Search
             style={{ width: '30%' }}
             allowClear
-            suffix={<Icon type="search" />}
+            enterButton
             placeholder="请输入下载标签名称"
-            onPressEnter={this.search}
+            onPressEnter={e => this.search(e.target.value)}
+            onSearch={this.search}
           />
         </div>
         <Table dataSource={dataSource} columns={columns} loading={loading} locale={local} pagination={false} rowKey="id" />
         {total > 0
-          && <Pagination showQuickJumper defaultCurrent={currentPage} total={total} onChange={this.handlePageChange} style={{float: 'right', marginTop: '12px'}} />
+          && <Pagination
+                showQuickJumper
+                defaultCurrent={currentPage}
+                total={total}
+                showTotal={total => `总共 ${total} 条`}
+                onChange={this.handlePageChange}
+                style={{float: 'right', marginTop: '12px'}} />
         }
       </div>
     )

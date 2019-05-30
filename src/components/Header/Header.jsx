@@ -37,10 +37,10 @@ class NavBar extends Component {
   render () {
     const menu = (
       <Menu onClick={this.onClick}>
-        <Menu.Item key="0">
+        {/* <Menu.Item key="0">
           <Link to="/todo">个人中心</Link>
-        </Menu.Item>
-        <Menu.Divider />
+        </Menu.Item> */}
+        {/* <Menu.Divider /> */}
         <Menu.Item key="logout">退出登录</Menu.Item>
       </Menu>
     )

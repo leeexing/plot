@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
-import { Avatar, Button, Divider, Input, Select, Table, Icon, Tag, Modal, message, Pagination } from 'antd'
+import { Avatar, Button, Divider, Input, Select, Table, Tag, Modal, message, Pagination } from 'antd'
 
 import api from '@/api'
 import { calculateSize } from '@/util'
@@ -22,6 +22,11 @@ class ImageBatchList extends Component {
       isDeleting: false,
       columns: [
         {
+          title: '序号',
+          dataIndex: '_',
+          key: '_',
+          render: (_, r, index) => <span>{index}</span>
+        }, {
           title: '文件名称',
           dataIndex: 'id',
           key: 'id',
@@ -126,6 +131,8 @@ class ImageBatchList extends Component {
         <p>文件名：<span style={{fontWeight: 600, color: 'red'}}>{data.uploadName}</span></p>
         <p>该操作不可逆，请慎重考虑!</p>
       </div>,
+      okText: '确认',
+      cancelText: '取消',
       onOk: () => {
         if (this.setState.isDeleting) {
           return
@@ -141,9 +148,9 @@ class ImageBatchList extends Component {
     })
   }
 
-  search = e => {
+  search = value => {
     this.setState({
-      uploadName: e.target.value.trim()
+      uploadName: value.trim()
     }, this.fetchData)
   }
 
@@ -169,12 +176,13 @@ class ImageBatchList extends Component {
         {/* 查询、筛选、上传按钮 */}
         <div className="m-plot-header">
           <div className="m-plot-search">
-            <Input
+            <Input.Search
               style={{ width: '65%' }}
               allowClear
-              suffix={<Icon type="search" />}
+              enterButton
               placeholder="请输入上传文件名称"
-              onPressEnter={this.search}
+              onPressEnter={e => this.search(e.target.value)}
+              onSearch={this.search}
             />
             <Select
               style={{ width: '30%' }}
@@ -202,7 +210,13 @@ class ImageBatchList extends Component {
         </div>
         <Table dataSource={dataSource} columns={columns} loading={loading} locale={local} pagination={false} rowKey="id" />
         {total > 0
-          && <Pagination showQuickJumper defaultCurrent={currentPage} total={total} onChange={this.handlePageChange} style={{float: 'right', marginTop: '12px'}} />
+          && <Pagination
+                showQuickJumper
+                defaultCurrent={currentPage}
+                total={total}
+                showTotal={total => `总共 ${total} 条`}
+                onChange={this.handlePageChange}
+                style={{float: 'right', marginTop: '12px'}} />
         }
       </div>
     )
