@@ -2,7 +2,7 @@ import http from './http'
 
 export default {
     login (data) {
-        return http.post('/api/login', data)
+        return http.post('/api/auth/login', data)
     },
     loginByNuctech (data) {
     return http.post('/api/auth/login/nuctech', data)

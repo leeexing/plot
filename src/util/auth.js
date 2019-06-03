@@ -9,6 +9,7 @@ class Token {
     return Cookies.get(TOKEN_KEY)
   }
   static setToken (token, expiresTime=7) {
+    // return Cookies.set(TOKEN_KEY, token, {expires: 1 / (60 * 24), path: '/'})
     return Cookies.set(TOKEN_KEY, token, {expires: expiresTime, path: '/'})
   }
   static setTokenNoRemenber () {

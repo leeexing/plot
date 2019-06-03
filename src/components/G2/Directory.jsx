@@ -11,10 +11,14 @@ function HomeG2 () {
   var otherOffsetAngle = otherRatio * Math.PI // other 占的角度的一半
 
   const data = [{
-    type: 'DrImg',
-    value: 93.333333
+    type: '上传文件夹',
+    value: 86.66
+    // value: 93.333333
   }, {
-    type: 'test_xxx',
+    type: '目录一',
+    value: 6.67
+  }, {
+    type: '目录二',
     value: 6.67
   }]
   var other = [{
@@ -68,17 +72,20 @@ function HomeG2 () {
       endAngle: Math.PI * 2 + otherOffsetAngle
     })
     view1.source(data)
-    view1.intervalStack().position('value').color('type', ['#38c060', '#2593fc']).opacity(1).label('value', function() {
+    view1.intervalStack().position('value').color('type', ['#38c060', '#4fb0ff', '#2593fc']).opacity(1).label('value', function() {
       return {
         offset: -10,
         useHtml: true,
         htmlTemplate: function htmlTemplate(text, item) {
           var d = item.point
           // var percent = text + "%"
-          if (d.type === 'test_xxx') {
+          if (d.type === '目录一') {
+            return '<p style="width: 50px; margin-top: 20px; margin-right: -10px; font-size: 12px; color: #fff; transform: rotate(-30deg)">' + d.type + '</p>'
+          }
+          if (d.type === '目录二') {
             return '<p style="width: 50px; margin-top: 15px; margin-right: -10px; font-size: 12px; color: #fff;">' + d.type + '</p>'
           }
-          return '<p style="width: 50px; margin-top: 10px; font-size: 16px; color: #fff;">' + d.type + '</p>'
+          return '<p style="width: 80px; margin-top: 10px; font-size: 16px; color: #fff;">' + d.type + '</p>'
         }
       }
     })

@@ -296,6 +296,7 @@ class HomePage extends Component {
                 showQuickJumper
                 defaultCurrent={currentPage}
                 total={total}
+                pageSize={limit}
                 showTotal={total => `总共 ${total} 张`}
                 onChange={this.handlePageChange} />
           }

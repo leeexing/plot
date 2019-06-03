@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Divider, Input, Table, Tag, Popconfirm, Pagination } from 'antd'
+import { Divider, Input, Table, Tag, Popconfirm, Pagination, Tooltip } from 'antd'
 
 import api from '@/api'
 import { calculateSize } from '@/util'
@@ -16,7 +16,7 @@ class Download extends Component {
       loading: true,
       currentPage: 1,
       total: 0,
-      limit: 10,
+      limit: 20,
       isDeleting: false,
       columns: [{
         title: '序号',
@@ -34,7 +34,7 @@ class Download extends Component {
         key: 'size',
         render: (size, record) => <span>{record.status === 2 ? calculateSize(size) : '计算中...'}</span>
       }, {
-        title: '上传时间',
+        title: '打包时间',
         dataIndex: 'createTime',
         key: 'createTime',
         // sorter: (a, b) => new Date(a.createTime).getTime() - new Date(b.createTime).getTime(),
@@ -47,7 +47,14 @@ class Download extends Component {
         title: '状态',
         dataIndex: 'status',
         key: 'status',
-        render: status => <Tag color={statusColor[status]}>{statusText[status]}</Tag>
+        render: status => {
+          if (status === 0) {
+            return <Tooltip title="创建时间超过一个月" placement="top">
+              <Tag color={statusColor[status]}>{statusText[status]}</Tag>
+            </Tooltip>
+          }
+          return <Tag color={statusColor[status]}>{statusText[status]}</Tag>
+        }
       }, {
         title: '操作',
         dataIndex: 'src',
@@ -139,7 +146,7 @@ class Download extends Component {
   }
 
   render () {
-    let { dataSource, columns, loading, currentPage, total } = this.state
+    let { dataSource, columns, loading, currentPage, total, limit } = this.state
     const local = {
       emptyText: <p style={{padding: '30px', fontSize: '18px', textAlign: 'center'}}>暂时没有下载数据，请先上传标图素材</p>
     }
@@ -161,6 +168,7 @@ class Download extends Component {
                 showQuickJumper
                 defaultCurrent={currentPage}
                 total={total}
+                pageSize={limit}
                 showTotal={total => `总共 ${total} 条`}
                 onChange={this.handlePageChange}
                 style={{float: 'right', marginTop: '12px'}} />

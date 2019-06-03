@@ -88,13 +88,16 @@ class ImageUpload extends Component {
     let md5 = ''
     this.statusSet(file.id, 'md5')
     file.pause()
-    fileReader.readAsArrayBuffer(file.file)
+    console.log(file.file.slice(0, Math.floor(file.file.size / 2)))
+    fileReader.readAsArrayBuffer(file.file.slice(0, 1073741824))
+    // fileReader.readAsArrayBuffer(file.file)
     fileReader.onload = e => {
-      if (file.size !== e.target.result.byteLength) {
-        this.error('Browser reported success but could not read the file until the end.')
-        file.cancel()
-        return
-      }
+      console.log(file.size, e.target.result.byteLength)
+      // if (file.size !== e.target.result.byteLength) {
+      //   this.error('Browser reported success but could not read the file until the end.')
+      //   file.cancel()
+      //   return
+      // }
       md5 = SparkMD5.ArrayBuffer.hash(e.target.result)
       this.uploader.opts.query = {
         ...this.params
@@ -107,7 +110,8 @@ class ImageUpload extends Component {
       file.resume()
       this.statusRemove(file.id)
     }
-    fileReader.onerror = () => {
+    fileReader.onerror = (err) => {
+      console.log(err)
       this.error(`文件${file.name}读取出错，请检查该文件`)
       file.cancel()
     }

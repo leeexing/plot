@@ -18,6 +18,7 @@ class ImageBatchList extends Component {
     this.state = {
       loading: true,
       currentPage: 1,
+      limit: 20,
       total: 0,
       isDeleting: false,
       columns: [
@@ -41,9 +42,17 @@ class ImageBatchList extends Component {
         }, {
           title: '上传时间',
           dataIndex: 'createTime',
-          key: 'createTime',
-          // sorter: (a, b) => new Date(a.createTime).getTime() - new Date(b.createTime).getTime(),
-          // defaultSortOrder : 'descend',
+          key: 'createTime'
+        }, {
+          title: '完成情况',
+          dataIndex: 'total',
+          key: 'total',
+          render: (total, record) => {
+            if (record.status === 2) {
+              return <span>{record.finished}/{total}</span>
+            }
+            return '--'
+          }
         }, {
           title: '状态',
           dataIndex: 'status',
@@ -82,6 +91,7 @@ class ImageBatchList extends Component {
     }
     // -其他请求获取图像标记列表
     api.fetchPlotUploads(data).then(res => {
+      console.log(res)
       if (res.result) {
         this.setState({
           loading: false,
@@ -167,7 +177,7 @@ class ImageBatchList extends Component {
   }
 
   render () {
-    let {loading, dataSource, columns, total, currentPage} = this.state
+    let { loading, dataSource, columns, total, currentPage, limit } = this.state
     let local = {
       emptyText: <p className="m-plot-info">暂时没有标图数据，请先上传标图素材</p>
     }
@@ -214,6 +224,7 @@ class ImageBatchList extends Component {
                 showQuickJumper
                 defaultCurrent={currentPage}
                 total={total}
+                pageSize={limit}
                 showTotal={total => `总共 ${total} 条`}
                 onChange={this.handlePageChange}
                 style={{float: 'right', marginTop: '12px'}} />
