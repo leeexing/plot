@@ -5,7 +5,7 @@ import { Layout, BackTop } from 'antd'
 import Header from 'components/Header'
 import AppSider from 'components/Sider'
 import Upload from 'components/GlobalUploader'
-// import SignalrMessage from 'components/Signalr'
+import SignalrMessage from 'components/Signalr'
 import './index.less'
 
 
@@ -37,7 +37,7 @@ class WebLayout extends Component {
           </div>
         </div>
         <Upload />
-        {/* <SignalrMessage /> */}
+        <SignalrMessage />
         <BackTop target={() => document.querySelector('.content-wrapper')} style={{right: '30px'}} />
       </Layout>
     )

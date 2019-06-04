@@ -163,8 +163,8 @@ class HomePage extends Component {
       isFull: true,
       src: `/3D/DR_base.html?type=MAP_BROWSE
           &count=${total}
-          &page=${currentPage}
-          &limit=50&url=${url}
+          &page=${Math.ceil(currentPage * 20 / 40)}
+          &limit=40&url=${url}
           &initShowId=${item.id}
           &imageName=${encodeURI(imageName)}
           &plotStatus=${plotStatus}`.replace(/\s+/g, '')

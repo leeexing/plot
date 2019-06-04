@@ -191,7 +191,6 @@ class ImageUpload extends Component {
   onFileSuccess = (rootFile, file, response, chunk) => {
     console.log('the file has been uploaded successfully')
     let res = JSON.parse(response)
-    console.log({...res})
     if (!res.result) {
       message.error(res.message)
       return
@@ -206,7 +205,7 @@ class ImageUpload extends Component {
       }
       api.mergeSimpleUpload(mergeData).then(res => {
         if (res.status === 205) {
-          console.log('%c大文件处理中', 'background: #ff0')
+          console.log('%c大文件处理中', 'background: #f90')
         }
         if (res.status === 0) {
           console.log('上传成功，转码中')
