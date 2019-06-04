@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
-import { Avatar, Button, Divider, Input, Select, Table, Tag, Modal, message, Pagination } from 'antd'
+import { Avatar, Button, Divider, Input, Select, Progress,
+ Table, Tag, Modal, message, Pagination } from 'antd'
 
 import api from '@/api'
 import { calculateSize } from '@/util'
@@ -49,7 +50,8 @@ class ImageBatchList extends Component {
           key: 'total',
           render: (total, record) => {
             if (record.status === 2) {
-              return <span>{record.finished}/{total}</span>
+              return <Progress percent={(record.finished / total).toFixed(1) * 100} />
+              // return <span>{record.finished}/{total}</span>
             }
             return '--'
           }

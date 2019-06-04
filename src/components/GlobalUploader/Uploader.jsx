@@ -61,7 +61,9 @@ class ImageUpload extends Component {
       autoStart: true,
       started: false,
       files: [],
-      fileList: []
+      fileList: [],
+      identifier: null,
+      fileSize: 0
     }
   }
 
@@ -88,16 +90,13 @@ class ImageUpload extends Component {
     let md5 = ''
     this.statusSet(file.id, 'md5')
     file.pause()
-    console.log(file.file.slice(0, Math.floor(file.file.size / 2)))
-    fileReader.readAsArrayBuffer(file.file.slice(0, 1073741824))
-    // fileReader.readAsArrayBuffer(file.file)
+    fileReader.readAsArrayBuffer(this.extracrtMd5Blob(file.file))
     fileReader.onload = e => {
-      console.log(file.size, e.target.result.byteLength)
-      // if (file.size !== e.target.result.byteLength) {
-      //   this.error('Browser reported success but could not read the file until the end.')
-      //   file.cancel()
-      //   return
-      // }
+      if (file.size < 1024 * 1024 * 1024 && file.size !== e.target.result.byteLength) {
+        this.error('Browser reported success but could not read the file until the end.')
+        file.cancel()
+        return
+      }
       md5 = SparkMD5.ArrayBuffer.hash(e.target.result)
       this.uploader.opts.query = {
         ...this.params
@@ -105,7 +104,8 @@ class ImageUpload extends Component {
       console.log(`MD5计算完毕：${file.id} ${file.name} MD5：${md5} 用时：${new Date().getTime() - time} ms`)
       file.uniqueIdentifier = md5
       this.setState({
-        identifier: md5
+        identifier: md5,
+        fileSize: e.target.result.byteLength
       })
       file.resume()
       this.statusRemove(file.id)
@@ -115,6 +115,13 @@ class ImageUpload extends Component {
       this.error(`文件${file.name}读取出错，请检查该文件`)
       file.cancel()
     }
+  }
+  extracrtMd5Blob (file) {
+    let { size } = file
+    if (size > 1024 * 1024 * 1024) {
+      return file.slice(-1024 * 1024 * 200, size)
+    }
+    return file
   }
   statusSet (id, status) {
     let statusMap = {
@@ -194,9 +201,13 @@ class ImageUpload extends Component {
         tempName: res.tempName,
         identifier: this.state.identifier || res.tempName,
         fileName: file.name,
+        fileSize: this.state.fileSize,
         ...this.params
       }
       api.mergeSimpleUpload(mergeData).then(res => {
+        if (res.status === 205) {
+          console.log('%c大文件处理中', 'background: #ff0')
+        }
         if (res.status === 0) {
           console.log('上传成功，转码中')
           this.statusSet(file.id, 'transcoding')

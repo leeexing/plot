@@ -11,8 +11,10 @@ export const util = {
 export const calculateSize = size => {
   if (size < 1024) {
     return size + 'KB'
+  } else if (size < 1024 * 1024) {
+    return (size / 1024).toFixed(1) + 'M'
   }
-  return (size / 1024).toFixed(2) + 'M'
+  return (size / (1024 * 1024)).toFixed(1) + 'G'
 }
 
 export function kebabCase (s) {

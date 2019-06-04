@@ -14,7 +14,7 @@ class HomePage extends Component {
       isDataLoaded: false,
       imageList: [],
       currentPage: 1,
-      limit: 20,
+      limit: 500,
       total: 0,
       isFull: false,
       src: '',
@@ -74,10 +74,10 @@ class HomePage extends Component {
     }, this.fetchData)
   }
 
-  onPageChange = currentPage => {
+  handlePageChange = currentPage => {
     this.setState({
       currentPage
-    }, this.fetchData)
+    })
   }
 
   onhandleTag = e => {
@@ -183,7 +183,8 @@ class HomePage extends Component {
   }
 
   render () {
-    let { currentPage, total, limit } = this.state
+    let { currentPage, total } = this.state
+    let imageList = this.state.imageList.slice((currentPage - 1) * 20, currentPage * 20)
     return (
       <div className="m-plot-image">
         {/* 查询、筛选、打包 */}
@@ -241,7 +242,7 @@ class HomePage extends Component {
               ? <Skeleton loading={this.state.loading} rows="8">
                 <p className="no-match">暂无结果~</p>
               </Skeleton>
-              : this.state.imageList.map((item, index) => (
+              : imageList.map((item, index) => (
                   <li className="image-list" key={index}>
                     <div className="image-item">
                       <div className="image-operate">
@@ -296,7 +297,7 @@ class HomePage extends Component {
                 showQuickJumper
                 defaultCurrent={currentPage}
                 total={total}
-                pageSize={limit}
+                pageSize={20}
                 showTotal={total => `总共 ${total} 张`}
                 onChange={this.handlePageChange} />
           }

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { inject, observer }  from 'mobx-react'
 import { Avatar, Menu, Icon, Dropdown } from 'antd'
-import { Link, withRouter } from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 import NavBreadcrumb from './NavBreadcrumb'
 import avatarImg from '@/assets/admin_avatar.png'
 
