@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import { Divider, Input, Table, Tag, Popconfirm, Pagination, Tooltip } from 'antd'
+import { Divider, Input, Table, Tag, Button,
+        Popconfirm, Pagination, Tooltip } from 'antd'
 
 import api from '@/api'
 import { calculateSize } from '@/util'
@@ -101,7 +102,7 @@ class Download extends Component {
 
   confirmDelete = record => (
     <Popconfirm title="你确定要删除吗？" onConfirm={() => this.onDelete(record)} okText="确认" cancelText="取消">
-      <a href="#" style={{color: 'red'}}>删除</a>
+      <Button type="danger" size="small">删除</Button>
     </Popconfirm>
   )
 

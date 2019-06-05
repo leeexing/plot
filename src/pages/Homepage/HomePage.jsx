@@ -15,7 +15,9 @@ class HomePage extends Component {
       isDataLoaded: false,
       imageList: [],
       currentPage: 1,
-      total: 0
+      total: 0,
+      drRank: null,
+      drAngleView: []
     }
   }
   componentDidMount () {
@@ -25,6 +27,9 @@ class HomePage extends Component {
     api.fetchHomePageinfo().then(res => {
       console.log(res)
       if (res.result) {
+        this.setState({
+          drAngleView: res.data.drAngleView
+        })
       }
     }).catch(console.log)
   }
@@ -32,6 +37,7 @@ class HomePage extends Component {
     console.log('Page: ', pageNumber)
   }
   render () {
+    let { drAngleView, drRank } = this.state
     return (
       <div className="app-home">
         <Row gutter={15} style={{marginBottom: '10px'}}>
@@ -49,12 +55,18 @@ class HomePage extends Component {
         <Row gutter={15}>
           <Col span={12}>
             <Card title="图像类型分布">
-              <DrCount></DrCount>
+              {drAngleView.every(item => item === 0)
+                ? '暂无数据'
+                : <DrCount drViewData={drAngleView}></DrCount>
+              }
             </Card>
           </Col>
           <Col span={12}>
             <Card title="在线标注排行榜">
-              <Distribute></Distribute>
+              {drRank
+                ? <Distribute></Distribute>
+                : '暂无数据'
+              }
             </Card>
           </Col>
         </Row>

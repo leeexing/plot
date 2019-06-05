@@ -40,9 +40,9 @@ class HomePage extends Component {
 
   fetchData () {
     let { batchId } = this.props.match.params
-    let { currentPage, limit, plotStatus, imageName } = this.state
+    let { limit, plotStatus, imageName } = this.state
     let data = {
-      page: currentPage,
+      page: 1,
       limit,
       imageName,
       plotStatus
@@ -56,6 +56,7 @@ class HomePage extends Component {
         this.setState({
           imageList: res.data.images,
           total: res.data.count,
+          currentPage: 1,
           loading: false
         })
       }
@@ -249,19 +250,11 @@ class HomePage extends Component {
                         <div className="image-check">
                           {
                             (this.state.wantToDownload && !item.isSelected) && <PackIcon onClick={this.onHandleSelect.bind(this, item, index, true)} />
-                            // (this.state.wantToDownload && !item.isSelected) && <Icon onClick={this.onHandleSelect.bind(this, item, index, true)} type="shopping-cart"/>
                           }
                           {
                             (this.state.wantToDownload && item.isSelected) && <PackIcon onClick={this.onHandleSelect.bind(this, item, index, false)} style={{color: "#eb2f96"}} />
                           }
                         </div>
-                        {/* <div className="image-handle">
-                          <Tooltip title="全屏标图" placement="bottom">
-                          {
-                            !this.state.wantToDownload && <FullScreenIcon />
-                          }
-                          </Tooltip>
-                        </div> */}
                       </div>
                       <div className="image-wrap" onClick={this.plotImage.bind(this, item)}>
                         <img className="thumbnail" src={item.thumbnails.length > 0 ? item.thumbnails[0].url : item.dr[0].url} alt="" />
@@ -276,12 +269,6 @@ class HomePage extends Component {
                           }
                         </h3>
                         {item.plot ? <div className="plot-status ploted">已标</div> : <div className="plot-status unplot">未标</div>}
-                        {/* {!item.plot
-                          ? <Tooltip title="标图" placement="top">
-                              <PlotIcon style={{float: 'right', marginTop: '5px', color: '#aaa'}}></PlotIcon>
-                            </Tooltip>
-                          : <PlotIcon style={{float: 'right', marginTop: '5px', color: '#5282EF'}}></PlotIcon>
-                        } */}
                       </div>
                     </div>
                   </li>

@@ -85,6 +85,7 @@ class UploadFile extends Component {
   formatedTimeRemaining () {
     const timeRemaining = this.state.timeRemaining
     const file = this.state.file
+    console.log(timeRemaining)
     if (timeRemaining === Number.POSITIVE_INFINITY || timeRemaining === 0) {
       return ''
     }
@@ -93,6 +94,7 @@ class UploadFile extends Component {
     if (parseTimeRemaining) {
       parsedTimeRemaining = parseTimeRemaining(timeRemaining, parsedTimeRemaining)
     }
+    console.log(parsedTimeRemaining)
     return parsedTimeRemaining
   }
 
@@ -226,7 +228,6 @@ class UploadFile extends Component {
 
   render () {
     const status = this.status()
-    const isInsert = this.props.appStore.isUploaderInsert
     return (
       <li className="uploader-file" status={status}>
         <div className={"uploader-file-progress " + this.state.progressingClass} style={this.progressStyle()}></div>
@@ -240,9 +241,9 @@ class UploadFile extends Component {
             ? <div className="uploader-file-status-detail">
                 <span>{this.progressStyle().progress}</span>
                 <em>{this.formatedAverageSpeed()}</em>
-                {
+                {/* {
                   !isInsert && <i>{this.formatedTimeRemaining()}</i>
-                }
+                } */}
               </div>
             : <span>{this.statusText()}</span>
           }

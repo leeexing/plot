@@ -62,6 +62,7 @@ class ImageUpload extends Component {
       started: false,
       files: [],
       fileList: [],
+      md5Arr: [],
       identifier: null,
       fileSize: 0
     }
@@ -72,14 +73,13 @@ class ImageUpload extends Component {
       started: true
     })
   }
-  fileAdded = (file) => {
+  fileAdded = file => {
     this.computeMD5(file)
     if (file.ignored) { // is ignored, filter it
       return false
     }
   }
   filesAdded = (files, fileList) => {
-    // console.log(files, fileList)
     if (files.ignored || fileList.ignored) { // is ignored, filter it
       return false
     }
@@ -101,14 +101,22 @@ class ImageUpload extends Component {
       this.uploader.opts.query = {
         ...this.params
       }
-      console.log(`MD5计算完毕：${file.id} ${file.name} MD5：${md5} 用时：${new Date().getTime() - time} ms`)
+      // 防止上传两个内容一样的文件
+      if (this.state.md5Arr.findIndex(md => md === md5) > -1) {
+        file.cancel()
+        this.error(`与 ${file.name} 内容相同的文件在同时上传。请勿同时重复上传！`)
+        return
+      }
       file.uniqueIdentifier = md5
+      let md5Arr = [...this.state.md5Arr, md5]
       this.setState({
+        md5Arr,
         identifier: md5,
         fileSize: e.target.result.byteLength
       })
       file.resume()
       this.statusRemove(file.id)
+      console.log(`MD5计算完毕：${file.id} ${file.name} MD5：${md5} 用时：${new Date().getTime() - time} ms`)
     }
     fileReader.onerror = (err) => {
       console.log(err)
@@ -204,6 +212,10 @@ class ImageUpload extends Component {
         ...this.params
       }
       api.mergeSimpleUpload(mergeData).then(res => {
+        let md5Arr = this.state.md5Arr.filter(item => item !== file.uniqueIdentifier)
+        this.setState({
+          md5Arr
+        })
         if (res.status === 205) {
           console.log('%c大文件处理中', 'background: #f90')
         }

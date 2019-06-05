@@ -50,8 +50,7 @@ class ImageBatchList extends Component {
           key: 'total',
           render: (total, record) => {
             if (record.status === 2) {
-              return <Progress percent={(record.finished / total).toFixed(1) * 100} />
-              // return <span>{record.finished}/{total}</span>
+              return <Progress percent={(record.finished * 100 / total).toFixed(3)} />
             }
             return '--'
           }

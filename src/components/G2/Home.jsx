@@ -26,9 +26,6 @@ function HomeG2 () {
   }, {
     type: '未标记图像',
     value: 15
-  }, {
-    type: '下载过期图像',
-    value: 10
   }]
 
   var pointRatio = 0.7 // 设置开始变成圆弧的位置 0.7

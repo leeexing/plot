@@ -3,16 +3,18 @@ import React, {
 } from 'react'
 import G2 from '@antv/g2'
 
-function HomeG2 () {
+function HomeG2 (props) {
+
+  let { drViewData } = props
 
   let chart = null
 
   const data = [{
     type: '单视角',
-    value: 27
+    value: drViewData[0]
   }, {
     type: '双视角',
-    value: 25
+    value: drViewData[1]
   }]
 
   useEffect(() => {
