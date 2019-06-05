@@ -10,22 +10,25 @@ function getPoint(p0, p1, ratio) {
   }
 }
 
-function HomeG2 () {
+function HomeG2 (props) {
+
+  let { plotOverview } = props
+  console.log('+++', plotOverview)
 
   let chart = null
 
   const data = [{
     type: '上传图像',
-    value: 27
+    value: plotOverview[0]
   }, {
     type: '标记图像',
-    value: 25
+    value: plotOverview[1]
   }, {
     type: '已下载图像',
-    value: 18
+    value: plotOverview[2]
   }, {
     type: '未标记图像',
-    value: 15
+    value: plotOverview[3]
   }]
 
   var pointRatio = 0.7 // 设置开始变成圆弧的位置 0.7

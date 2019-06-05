@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Row, Col, Card } from 'antd'
 
-import HomeChart from 'components/G2/Home'
+import PlotOverview from 'components/G2/PlotOverview'
 import Distribute from 'components/G2/Distribute'
 import DrCount from 'components/G2/DrCount'
 import FileStruc from 'components/G2/Directory'
@@ -17,7 +17,8 @@ class HomePage extends Component {
       currentPage: 1,
       total: 0,
       drRank: null,
-      drAngleView: []
+      drAngleView: [],
+      plotOverview: [0, 0, 0, 0]
     }
   }
   componentDidMount () {
@@ -27,8 +28,10 @@ class HomePage extends Component {
     api.fetchHomePageinfo().then(res => {
       console.log(res)
       if (res.result) {
+        let { drAngleView, plotOverview } = res.data
         this.setState({
-          drAngleView: res.data.drAngleView
+          drAngleView,
+          plotOverview
         })
       }
     }).catch(console.log)
@@ -37,7 +40,7 @@ class HomePage extends Component {
     console.log('Page: ', pageNumber)
   }
   render () {
-    let { drAngleView, drRank } = this.state
+    let { drAngleView, drRank, plotOverview } = this.state
     return (
       <div className="app-home">
         <Row gutter={15} style={{marginBottom: '10px'}}>
@@ -48,7 +51,10 @@ class HomePage extends Component {
           </Col>
           <Col span={12}>
             <Card title="标注图像概览">
-              <HomeChart></HomeChart>
+              {plotOverview.some(item => item !== 0)
+                ? <PlotOverview plotOverview={plotOverview}></PlotOverview>
+                : <PlotOverview plotOverview={plotOverview.map(item => 10 + Math.floor(Math.random() * 30))}></PlotOverview>
+              }
             </Card>
           </Col>
         </Row>
