@@ -206,9 +206,9 @@ class ImageUpload extends Component {
     if (res.needMerge) {
       let mergeData = {
         tempName: res.tempName,
-        identifier: this.state.identifier || res.tempName,
+        identifier: file.uniqueIdentifier,
         fileName: file.name,
-        fileSize: this.state.fileSize,
+        fileSize: file.size,
         ...this.params
       }
       api.mergeSimpleUpload(mergeData).then(res => {

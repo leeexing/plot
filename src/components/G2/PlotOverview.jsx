@@ -24,10 +24,10 @@ function HomeG2 (props) {
     value: plotOverview[1]
   }, {
     type: '已下载图像',
-    value: plotOverview[2]
+    value: plotOverview[3]
   }, {
     type: '未标记图像',
-    value: plotOverview[3]
+    value: plotOverview[2]
   }]
 
   var pointRatio = 0.7 // 设置开始变成圆弧的位置 0.7
