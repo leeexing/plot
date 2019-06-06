@@ -51,7 +51,7 @@ class HomePage extends Component {
           </Col>
           <Col span={12}>
             <Card title="标注图像概览">
-              {plotOverview.some(item => item !== 0)
+              {plotOverview.filter(item => item !== 0).length > 2
                 ? <PlotOverview plotOverview={plotOverview}></PlotOverview>
                 : <PlotOverview plotOverview={plotOverview.map(item => 10 + Math.floor(Math.random() * 30))}></PlotOverview>
               }

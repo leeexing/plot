@@ -10,12 +10,11 @@ function getPoint(p0, p1, ratio) {
   }
 }
 
+let chart = null
+
 function HomeG2 (props) {
 
   let { plotOverview } = props
-  console.log('+++', plotOverview)
-
-  let chart = null
 
   const data = [{
     type: '上传图像',
@@ -75,6 +74,13 @@ function HomeG2 (props) {
     chart.intervalStack().position('value').color('type').shape('platelet').label('type')
     chart.render()
   }, [])
+
+  useEffect(() => {
+    chart.source(data)
+    chart.coord('theta')
+    chart.intervalStack().position('value').color('type').shape('platelet').label('type')
+    chart.render()
+  }, plotOverview)
 
 
   return (
