@@ -33,7 +33,9 @@ class HomePage extends Component {
     window.onmessage = msgEvent => {
       let { type, id, postData } = msgEvent.data
       if (type === 'submitPlot') {
-        api.updateImgSuspect(id, JSON.parse(postData)).then(res => {}).catch(console.error)
+        api.updateImgSuspect(id, JSON.parse(postData)).then(res => {
+          this.fetchData()
+        }).catch(console.error)
       }
     }
   }

@@ -55,7 +55,7 @@ class ImageBatchList extends Component {
             return '--'
           }
         }, {
-          title: '状态',
+          title: '处理状态',
           dataIndex: 'status',
           key: 'status',
           render: (status) => (

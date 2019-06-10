@@ -45,7 +45,7 @@ class Download extends Component {
         dataIndex: 'downloadCount',
         key: 'downloadCount'
       }, {
-        title: '状态',
+        title: '打包状态',
         dataIndex: 'status',
         key: 'status',
         render: status => {
