@@ -1,0 +1,197 @@
+﻿<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Nuctech DR Viewer</title>
+    <link rel="stylesheet" href="./css/the-Icons/css/iconfont.css">
+    <link rel="stylesheet" href="./css/imgViewer.css">
+    <script src="./js/jquery-3.min.js"></script>
+
+    <script src="./js/wgl/three.min.js"></script>
+    <script src="./js/wgl/Detector.js"></script>
+    <script src="./js/wgl/TrackballControls.js"></script>
+    <script src="./js/wgl/Module3D.js"></script>
+    <script src="./js/wgl/ModuleEncrypted.js"></script>
+    <script src="./js/wgl/Module3D.DRInstanceEn.js"></script>
+    <script src="./js/wgl/Module3D.Event.js"></script>
+    <script src="./js/wgl/ThreeBSP.js"></script>
+
+    <script src="./js/training/lang.js"></script>
+    <script src="./js/nsts.plugin.ajax.js"></script>
+    <script src="./js/sqllite.js"></script>
+    <script src="./js/training/nsts.training.viewers.js"></script>
+    <script src="./js/training/nsts.training_dr.js"></script>
+</head>
+<body>
+    <!--头部标题-->
+    <div class="m-header">
+        <div class="info-left">
+            <p class="info-title j-title plot" data-level="简">DR图像</p>
+            <p class="info-key-topic j-star"><i class="nucfont inuc-star" title="关键题"></i></p>
+            <p class="info-index j-index-info"><span class="cur-index j-cur-index"></span>/<span class="total-index j-total-index"></span></p>
+            <p class="info-time j-time-info"><i class="nucfont inuc-time"></i><span class ="j-time"></span></p>
+        </div>
+        <p class="info-operate j-cur-operate"><span>真彩色</span></p>
+        <div class="info-right">
+            <div class="userinfo j-userinfo">
+                <img class="avatar j-avatar" src="./images/avatar.jpg" alt="avatar">
+                <span class="username j-username"></span>
+            </div>
+        </div>
+    </div>
+    <div class="main">
+
+        <!-- 头部内容 -->
+        <div class="m-title">
+            <div class="text-info">
+                <div class="info-l">
+                    <div class="info-1">
+                        <p>图像名称：<span class="img-name"></span></p>
+                        <p>知识点：<span class="img-kpoint"></span></p>
+                        <p>图像类型：<span class="goods-name"></span></p>
+                    </div>
+                    <p class="info-2">图像描述：<span class="feature-desc"></span></p>
+                </div>
+                <div class="info-r j-info-r">
+                    <p>学习总时长：<span class="total-time">49s</span></p>
+                    <p>该题学习时长：<span class="total-time">4.9s</span></p>
+                </div>
+            </div>
+            <div class="map-info j-header-info">
+                <!-- <a class="u-btn j-map">插入tip</a> -->
+                <!-- <a class="img-index j-cur-index">1</a>/<a class="j-total-index">5</a> -->
+            </div>
+        </div>
+
+        <!-- 图像库占位 -->
+        <!-- <div class="map-menu j-map-menu"></div> -->
+
+        <!-- 上下切图 -->
+        <div class="m-oprate">
+            <div class="btn-wrap prev j-prevbtn-wrap">
+                <a class="btn btn-prev"></a>
+            </div>
+            <div class="btn-wrap next j-nextbtn-wrap">
+                <a class="btn btn-next"></a>
+            </div>
+        </div>
+        <!-- 判图操作 -->
+        <!-- <div class="m-oprate-judge j-judge-btns">
+            <a class="btn btn-pass j-pass" data-ispass="true"></a>
+            <a class="btn btn-nopass j-nopass" data-ispass="false"></a>
+            <a class="btn btn-submit j-submit" title="提交"></a>
+        </div> -->
+        <!-- 图像显示区域 -->
+        <div class="m-content">
+            <!--倒计时效果-->
+            <div id="loading" class="j-loading">
+                <div class="clock">
+                    <div></div>
+                    <div></div>
+                </div>
+            </div>
+            <div class="dr-canvas j-dr-container">
+                <div id="canvasdr"></div>
+                <div id="canvasdr-2" class="canvasdr-2"></div>
+            </div>
+            <div class="dr-entity j-entity-container">
+              <img src="" alt="DR IMAGE" data-url="">
+            </div>
+        </div>
+    </div>
+
+    <!-- 底部图像操作 -->
+    <div class="m-dr-footer">
+        <div class="shade j-shade j-loading"></div>
+        <div class="dr-oprate">
+            <div class="oprate-left">
+              <div class="angle-wrap">
+                <div class="dr-angles j-angles">
+                    <!-- <a class="main-view j-main-view" title="主视角模式">&nbsp;</a> -->
+                    <a class="side-view j-side-view" title="侧视角模式">&nbsp;</a>
+                </div>
+                <div class="dr-amplify">
+                    <p><span class="j-dr-zoomindex">1.0</span> x</p>
+                </div>
+              </div>
+              <div class="entity-wrap j-entity-wrap">
+                <a class="entity-img" title="实物图"></a>
+              </div>
+            </div>
+            <div class="oprate-right j-tools">
+                <div class="side-top">
+                    <!-- BW === gray 灰色-->
+                    <a class="dr-btn bw" data-group="c" data-index="0" data-defaultindex="1" data-tag="blackwhite" data-shortcut="Q" title="灰色显示"></a>
+                    <a class="dr-btn colours active" data-group="c" data-index="1" data-defaultindex="1" data-tag="default" data-shortcut="W" title="真彩色"></a>
+                    <a class="dr-btn ms" data-group="c" data-index="2" data-defaultindex="1" data-tag="ms" data-shortcut="E" title="无机物剔除"></a>
+                    <a class="dr-btn os" data-group="c" data-index="3" data-defaultindex="1" data-tag="os" data-shortcut="R" title="有机物剔除"></a>
+                    <a class="dr-btn marktip" data-group="d" data-index="2" data-defaultindex="-1" data-tag="" data-shortcut="T" title="突出显示嫌疑物"></a>
+                </div>
+                <div class="side-down">
+                    <a class="dr-btn inverse" data-group="e" data-index="0" data-defaultindex="-1" data-tag="inverse" data-shortcut="A" title="反色显示"></a>
+                    <!-- GEN === super 超级增强-->
+                    <a class="dr-btn gen" data-group="a" data-index="0" data-defaultindex="-1" data-tag="super" data-shortcut="S" title="超级增强"></a>
+                    <div>
+                        <a class="dr-btn absor-minus" data-group="absor" data-absor="-5" data-shortcut="⬇" title="可吸收率(-)"></a>
+                        <a class="dr-btn absor-plus" data-group="absor" data-absor="5" data-shortcut="⬆" title="可吸收率(+)"></a>
+                    </div>
+                    <a class="dr-btn hi" data-group="b" data-index="0" data-defaultindex="-1" data-tag="superpenetrate" data-shortcut="D" title="超级穿透"></a>
+                    <a class="dr-btn reset" data-group="f" data-index="6" data-defaultindex="-1" data-tag="" data-shortcut="F" title="还原"></a>
+                </div>
+                <span class="switch-inner show-shortcut j-switch" title="隐藏快捷键"></span>
+            </div>
+        </div>
+        <div class="entity-thumbnail j-thumbnail">
+            <div class="large"></div>
+            <div class="img-wrap">
+                <img class="small animated" src="" alt="">
+            </div>
+        </div>
+    </div>
+
+    <!-- 知识点弹层 -->
+    <div class="nsts-layer j-layer animated">
+        <div class="nsts-mask j-mask"></div>
+        <div class="nsts-container">
+            <a class="close j-layer-close">
+                <i class="nucfont inuc-close"></i>
+            </a>
+            <div class="nsts-header">
+                <h3 class="nsts-header-inner j-header">知识点</h3>
+            </div>
+            <div class="nsts-body">
+                <div class="nsts-tag active" data-kpid="1">
+                    <span class="nsts-tag-dot"></span>
+                    <span class="nsts-tag-text">枪支、军用或警用械具类(含主要零部件)物品</span>
+                </div>
+            </div>
+            <div class="nsts-footer">
+                <button class="nsts-btn nsts-btn-text j-layer-cancel" type="button">取消</button>
+                <button class="nsts-btn nsts-btn-primary j-layer-ensure" type="button">确定</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 信息提示层 -->
+    <div class="nsts-layer j-info-layer animated">
+        <div class="nsts-mask j-info-mask"></div>
+        <div class="nsts-container" style="width:350px">
+            <a class="close j-info-layer-close">
+                <i class="nucfont inuc-close"></i>
+            </a>
+            <div class="nsts-header">
+                <h3 class="nsts-header-inner j-info-header">提示</h3>
+            </div>
+            <div class="nsts-body">
+                <p>作答时间到</p>
+            </div>
+            <div class="nsts-footer">
+                <button class="nsts-btn nsts-btn-primary j-info-layer-ensure" type="button">确定</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="./js/training/map.base.js"></script>
+    <script src="./js/training/drAction.js"></script>
+</body>
+</html>
