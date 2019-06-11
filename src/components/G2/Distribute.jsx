@@ -1,36 +1,30 @@
-import React, {
-  useEffect
-} from 'react'
+import React, { useEffect } from 'react'
 import G2 from '@antv/g2'
-import avatar from '@/assets/admin_avatar.png'
 
-function HomeG2 () {
+import avatar from '@/assets/admin_avatar.png'
+import demoImg from '@/assets/demo.png'
+import patrickImg from '@/assets/patrick.png'
+import damonImg from '@/assets/damon.png'
+
+
+function HomeG2 (props) {
+
+  let { plotRank } = props
 
   let chart = null
+  let username = localStorage.getItem('username')
 
-  const data = [{
-    "name": "John",
-    "vote": 35654
-  }, {
-    "name": "Damon",
-    "vote": 65456
-  }, {
-    "name": "Patrick",
-    "vote": 45724
-  }, {
-    "name": "Mark",
-    "vote": 13654
-  }]
-
-  let imageMap = {
-    'John': 'https://zos.alipayobjects.com/rmsportal/mYhpaYHyHhjYcQf.png',
-    'Damon': avatar,
-    // 'Damon': 'https://zos.alipayobjects.com/rmsportal/JBxkqlzhrlkGlLW.png',
-    'Patrick': 'https://zos.alipayobjects.com/rmsportal/zlkGnEMgOawcyeX.png',
-    'Mark': 'https://zos.alipayobjects.com/rmsportal/KzCdIdkwsXdtWkg.png'
-  }
+  const avatarSrc = [
+    'https://zos.alipayobjects.com/rmsportal/mYhpaYHyHhjYcQf.png',
+    // 'https://zos.alipayobjects.com/rmsportal/JBxkqlzhrlkGlLW.png',
+    damonImg,
+    patrickImg,
+    'https://zos.alipayobjects.com/rmsportal/KzCdIdkwsXdtWkg.png',
+    demoImg
+  ]
 
   useEffect(() => {
+    let srcArr = avatarSrc.slice()
     chart = new G2.Chart({
       container: 'home-dis-g2',
       forceFit: true,
@@ -38,25 +32,36 @@ function HomeG2 () {
       height: 350,
       padding: [60, 20, 40, 60]
     })
-    chart.source(data, {
-      vote: {
+    chart.source(plotRank, {
+      plot: {
         min: 0
       }
     })
     chart.legend(false)
-    chart.axis('vote', {
+    chart.axis('plot', {
       labels: null,
       title: null,
       line: null,
       tickLine: null
     })
-    chart.interval().position('name*vote').color('name', ['#7f8da9', '#fec514', '#db4c3c', '#daf0fd'])
-    chart.point().position('name*vote').size(60).shape('name', function(name) {
-      return ['image', imageMap[name]]
+    chart.interval().position('name*plot').color('name', ['#7f8da9', '#fec514', '#db4c3c', '#daf0fd', '#2fc25b'])
+    chart.point().position('name*plot').size(60).shape('name', function(name) {
+      let data = plotRank.filter(item => item.name === name)[0]
+      let src = data.src
+      if (srcArr.length === 0) {
+        srcArr = avatarSrc.slice()
+      }
+      if (!src) {
+        if (data.name === username) {
+          src = avatar
+        } else {
+          src = srcArr.shift()
+        }
+      }
+      return ['image', src]
     })
     chart.render()
   }, [])
-
 
   return (
     <div id="home-dis-g2" className="m-g2"></div>

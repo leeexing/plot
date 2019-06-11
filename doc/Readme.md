@@ -1,4 +1,4 @@
-# Learn
+# Readme
 
 TOC
 
@@ -114,3 +114,30 @@ class MyResource {
     }
 }
 ```
+
+## 备份小头像地址
+
+```js
+const avatarSrc = [
+  'https://zos.alipayobjects.com/rmsportal/mYhpaYHyHhjYcQf.png',
+  'https://zos.alipayobjects.com/rmsportal/JBxkqlzhrlkGlLW.png',
+  'https://zos.alipayobjects.com/rmsportal/zlkGnEMgOawcyeX.png',
+  'https://zos.alipayobjects.com/rmsportal/KzCdIdkwsXdtWkg.png'
+]
+```
+
+## 关于 文档
+
+1、图像上传
+图像要求：单个的.img文件或者是同包裹名称相同的.img和.jpg文件，jpg文件供生成缩略图使用
+图像处理：将.img文件（或者.img和.jpg文件）按照以下方法整理成压缩包目前仅支持.zip压缩包文件，
+方法一直接压缩，所有图像的img（或者.img和.jpg文件）文件放在一个文件夹内：全选.img文件—>右键—>发送到—>压缩（zipped）文件夹
+方法二间接压缩，一个.img文件（或者.img和.jpg文件）放到文件夹内对应一个文件夹，全选所有文件夹生成zip压缩包：全选文件夹—>右键—>发送到—>压缩（zipped）文件夹；
+
+2、标记图像
+步骤：素材列表——>详情——>点击图像——>图像全屏预览模式——>使用鼠标中键标记危险品位置即可；
+
+3、标图下载
+步骤一打包图像：素材列表——>详情——>点击下载标志【 】——>选择图像——>输入下载包名称——>点击“下载”——图像打包成功；
+
+步骤二标图下载：标图下载——>选择要下载的图包——>点击“下载”——>下载成功供后续使用

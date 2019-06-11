@@ -177,14 +177,14 @@ class MapMenu {
     this.activeIndex = Math.max(0, --this.activeIndex)
     this.mapOuter.find(`li:eq(${this.activeIndex})`).addClass('active').siblings().removeClass('active')
     this.shiftPosition(-1)
-    this.options.imgInstance.showDR(this.imgData[this.activeIndex])
+    this.options.imgInstance.initShow(this.imgData[this.activeIndex])
   }
   nextImgShow () {
     this.options.imgInstance.updateImgSuspect()
-    this.activeIndex = Math.min(this.imgCount, ++this.activeIndex)
+    this.activeIndex = Math.min(this.imgCount - 1, ++this.activeIndex)
     this.mapOuter.find(`li:eq(${this.activeIndex})`).addClass('active').siblings().removeClass('active')
     this.shiftPosition(1)
-    this.options.imgInstance.showDR(this.imgData[this.activeIndex])
+    this.options.imgInstance.initShow(this.imgData[this.activeIndex])
   }
   activeRenderData () {
     return this.imgData[this.activeIndex]

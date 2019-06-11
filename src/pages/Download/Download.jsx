@@ -45,7 +45,7 @@ class Download extends Component {
         dataIndex: 'downloadCount',
         key: 'downloadCount'
       }, {
-        title: '打包状态',
+        title: '状态',
         dataIndex: 'status',
         key: 'status',
         render: status => {
@@ -167,7 +167,7 @@ class Download extends Component {
         {total > 0
           && <Pagination
                 showQuickJumper
-                defaultCurrent={currentPage}
+                current={currentPage}
                 total={total}
                 pageSize={limit}
                 showTotal={total => `总共 ${total} 条`}

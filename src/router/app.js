@@ -7,12 +7,14 @@ import Upload from 'components/GlobalUploader'
 import NotFound from 'pages/404page'
 import ServerError from 'pages/500page'
 import Download from 'pages/Download'
+import About from 'pages/About'
 import Refresh from 'components/RefreshBlank'
 
 export const menuRoutes = [
   { path: '', name: '首页', icon: 'appstore', component: Home },
   { path: 'plot', name: '标图素材', icon: 'pie-chart', component: ImagePlotList },
   { path: 'download', name: '标图下载', icon: 'cloud-download', component: Download },
+  { path: 'about', name: '关于', icon: 'info-circle', component: About}
 ]
 
 export default {

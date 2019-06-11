@@ -6,7 +6,7 @@ import { Avatar, Button, Divider, Input, Select, Progress,
 import api from '@/api'
 import { calculateSize } from '@/util'
 
-const statusText = ['转码未开始', '转码中...', '成功', '失败']
+const statusText = ['转码未开始', '转码中...', '转码成功', '转码失败']
 const statusColor = ['geekblue', '#a0d911', 'green', 'red']
 
 
@@ -50,12 +50,13 @@ class ImageBatchList extends Component {
           key: 'total',
           render: (total, record) => {
             if (record.status === 2) {
-              return <Progress percent={(record.finished * 100 / total).toFixed(3)} />
+              let percent = (record.finished * 100 / total)
+              return <Progress percent={percent === 0 ? 0 : percent.toFixed(3)} />
             }
             return '--'
           }
         }, {
-          title: '处理状态',
+          title: '状态',
           dataIndex: 'status',
           key: 'status',
           render: (status) => (
@@ -204,11 +205,11 @@ class ImageBatchList extends Component {
               <Select.Option value="0" label="全部">
                 全部
               </Select.Option>
-              <Select.Option value="1" label="转码成功">
-                转码成功
-              </Select.Option>
-              <Select.Option value="2" label="标图完成">
+              <Select.Option value="1" label="标图完成">
                 标图完成
+              </Select.Option>
+              <Select.Option value="2" label="转码成功">
+                转码成功
               </Select.Option>
             </Select>
           </div>
@@ -223,7 +224,7 @@ class ImageBatchList extends Component {
         {total > 0
           && <Pagination
                 showQuickJumper
-                defaultCurrent={currentPage}
+                current={currentPage}
                 total={total}
                 pageSize={limit}
                 showTotal={total => `总共 ${total} 条`}

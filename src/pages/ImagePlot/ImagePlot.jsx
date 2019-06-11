@@ -14,7 +14,7 @@ class HomePage extends Component {
       isDataLoaded: false,
       imageList: [],
       currentPage: 1,
-      limit: 500,
+      limit: 10000,
       total: 0,
       isFull: false,
       src: '',
@@ -40,7 +40,7 @@ class HomePage extends Component {
     }
   }
 
-  fetchData () {
+  fetchData (updatePageNum=false) {
     let { batchId } = this.props.match.params
     let { limit, plotStatus, imageName } = this.state
     let data = {
@@ -55,26 +55,29 @@ class HomePage extends Component {
     // -其他请求获取图像标记列表
     api.fetchPlotUploadBatchDetail(batchId, data).then(res => {
       if (res.result) {
-        this.setState({
+        let updateData = {
           imageList: res.data.images,
           total: res.data.count,
-          currentPage: 1,
           loading: false
-        })
+        }
+        if (updatePageNum) {
+          updateData.currentPage = 1
+        }
+        this.setState(updateData)
       }
     }).catch(console.log)
   }
 
-  handleSelectChange = value => {
+  handlePlotStatusChange = value => {
     this.setState({
       plotStatus: value
-    }, this.fetchData)
+    }, this.fetchData.bind(this, true))
   }
 
   search = value => {
     this.setState({
       imageName: value.trim()
-    }, this.fetchData)
+    }, this.fetchData.bind(this, true))
   }
 
   handlePageChange = currentPage => {
@@ -205,7 +208,7 @@ class HomePage extends Component {
               style={{ width: '30%' }}
               placeholder="标图状态"
               defaultValue="全部"
-              onChange={this.handleSelectChange}
+              onChange={this.handlePlotStatusChange}
             >
               <Select.Option value="all" label="全部">
                 全部
@@ -284,8 +287,8 @@ class HomePage extends Component {
           {this.state.imageList.length > 0
             && <Pagination
                 showQuickJumper
-                defaultCurrent={currentPage}
                 total={total}
+                current={currentPage}
                 pageSize={20}
                 showTotal={total => `总共 ${total} 张`}
                 onChange={this.handlePageChange} />

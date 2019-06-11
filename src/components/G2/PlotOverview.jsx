@@ -3,6 +3,7 @@ import React, {
 } from 'react'
 import G2 from '@antv/g2'
 
+
 function getPoint(p0, p1, ratio) {
   return {
     x: (1 - ratio) * p0.x + ratio * p1.x,
@@ -20,14 +21,14 @@ function HomeG2 (props) {
     type: '上传图像',
     value: plotOverview[0]
   }, {
-    type: '标记图像',
+    type: '已标记图像',
     value: plotOverview[1]
-  }, {
-    type: '已下载图像',
-    value: plotOverview[3]
   }, {
     type: '未标记图像',
     value: plotOverview[2]
+  }, {
+    type: '已下载图像',
+    value: plotOverview[3]
   }]
 
   var pointRatio = 0.7 // 设置开始变成圆弧的位置 0.7
