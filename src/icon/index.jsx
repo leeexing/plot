@@ -1,6 +1,6 @@
 import React from 'react'
 import { Icon } from 'antd'
-import DRSVG from './svg/DR.svg'
+import DRSVG from './svg/dr.svg'
 import PACKSVG from './svg/pack.svg'
 import PACKAGESVG from './svg/packackeload.svg'
 import FULLSCREEN from './svg/fullScreen.svg'

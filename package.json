@@ -137,6 +137,5 @@
   "devDependencies": {
     "babel-plugin-transform-decorators-legacy": "^1.3.5",
     "babel-preset-mobx": "^2.0.0"
-  },
-  "proxy": "http://localhost:7012"
+  }
 }

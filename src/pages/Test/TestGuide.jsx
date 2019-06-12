@@ -1,6 +1,6 @@
 import React from 'react'
 import { Alert, Button, Steps, Icon } from 'antd'
-import guidebg from '../../assets/login_bg.svg'
+import guidebg from '@/icon/svg/login_bg.svg'
 
 const Step = Steps.Step
 

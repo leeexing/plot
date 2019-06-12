@@ -1,11 +1,12 @@
-import React, {
-  useEffect
-} from 'react'
+import React, { useEffect } from 'react'
 import G2 from '@antv/g2'
+
 
 function HomeG2 () {
 
   let chart = null
+  let view1 = null
+  let view2 = null
 
   var otherRatio = 6.67 / 100 // Other 的占比
   var otherOffsetAngle = otherRatio * Math.PI // other 占的角度的一半
@@ -13,15 +14,14 @@ function HomeG2 () {
   const data = [{
     type: '上传文件夹',
     value: 86.66
-    // value: 93.333333
   }, {
-    type: '目录一',
+    type: '文件夹一',
     value: 6.67
   }, {
-    type: '目录二',
+    type: '文件夹二',
     value: 6.67
   }]
-  var other = [{
+  let other = [{
     type: 'test_xxx_0.img',
     value: 1.77
   }, {
@@ -52,7 +52,8 @@ function HomeG2 () {
       padding: [0, 20, 0, 0]
     })
     chart.legend(false)
-    var view1 = chart.view({
+
+    view1 = chart.view({
       start: {
         x: 0,
         y: 0
@@ -78,11 +79,10 @@ function HomeG2 () {
         useHtml: true,
         htmlTemplate: function htmlTemplate(text, item) {
           var d = item.point
-          // var percent = text + "%"
-          if (d.type === '目录一') {
-            return '<p style="width: 50px; margin-top: 20px; margin-right: -10px; font-size: 12px; color: #fff; transform: rotate(-30deg)">' + d.type + '</p>'
+          if (d.type === '文件夹一') {
+            return '<p style="width: 50px; margin-top: 25px; margin-right: -10px; font-size: 12px; color: #fff; transform: rotate(-25deg)">' + d.type + '</p>'
           }
-          if (d.type === '目录二') {
+          if (d.type === '文件夹二') {
             return '<p style="width: 50px; margin-top: 15px; margin-right: -10px; font-size: 12px; color: #fff;">' + d.type + '</p>'
           }
           return '<p style="width: 80px; margin-top: 10px; font-size: 16px; color: #fff;">' + d.type + '</p>'
@@ -90,7 +90,7 @@ function HomeG2 () {
       }
     })
 
-    var view2 = chart.view({
+    view2 = chart.view({
       start: {
         x: 0.5,
         y: 0.1
@@ -115,10 +115,11 @@ function HomeG2 () {
         return d.type
       }
     })
+
     chart.render()
     drawLinkArea()
     chart.on('afterpaint', function() {
-      drawLinkArea()
+      chart && drawLinkArea()
     })
 
     /*---------绘制连接区间-----------*/
@@ -159,6 +160,13 @@ function HomeG2 () {
       canvas.draw()
     }
   }, [])
+
+  const stopChartRender = () => {
+    chart.clear()
+    chart = null
+  }
+
+  useEffect(() => stopChartRender, [])
 
 
   return (

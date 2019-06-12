@@ -9,7 +9,7 @@ import api from '@/api'
 import './style.less'
 
 const defaultPlotTopFive = [{
-  name: 'John',
+  name: 'Romana',
   plot: 35654,
 }, {
   name: 'Damon',
@@ -65,6 +65,8 @@ class HomePage extends Component {
 
   render () {
     let { drAngleView, plotRank, plotOverview, loading } = this.state
+    let hasPlotOverviewData = plotOverview.filter(item => item !== 0).length > 1
+    let hasDrAngleViewData = drAngleView.some(item => item !== 0)
     return (
       <div className="app-home">
         <Row gutter={15} style={{marginBottom: '10px'}}>
@@ -74,10 +76,13 @@ class HomePage extends Component {
             </Card>
           </Col>
           <Col span={12}>
-            <Card title="标注图像概览">
+            <Card title={hasDrAngleViewData
+                          ? '标注图像概览'
+                          : <div>标注图像概览<span style={{color: '#999', fontSize: '12px'}}>(暂无真实图像数据)</span></div>}
+            >
               {loading
                 ? <Spin size="large" />
-                : plotOverview.filter(item => item !== 0).length > 1
+                : hasPlotOverviewData
                   ? <PlotOverview plotOverview={plotOverview}></PlotOverview>
                   : <PlotOverview plotOverview={plotOverview.map(item => 10 + Math.floor(Math.random() * 30))} type="demo" />
               }
@@ -86,12 +91,15 @@ class HomePage extends Component {
         </Row>
         <Row gutter={15}>
           <Col span={12}>
-            <Card title="图像类型分布">
+            <Card title={hasDrAngleViewData
+                          ? '图像类型分布'
+                          : <div>图像类型分布<span style={{color: '#999', fontSize: '12px'}}>(暂无真实数据)</span></div>}
+            >
               {loading
                 ? <Spin size="large" />
-                : drAngleView.some(item => item !== 0)
+                : hasDrAngleViewData
                   ? <DrCount drViewData={drAngleView}></DrCount>
-                  : '暂无数据'
+                  : <DrCount drViewData={defaultDrAngleView}></DrCount>
               }
             </Card>
           </Col>

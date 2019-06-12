@@ -1,5 +1,5 @@
 import React from 'react'
-import guidebg from '../../assets/login_bg.svg'
+import guidebg from '@/icon/svg/login_bg.svg'
 
 
 const TestThanks = () => (

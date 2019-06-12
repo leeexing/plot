@@ -34,6 +34,10 @@ function HomeG2 (props) {
     chart.render()
   }, [])
 
+  const stopChartRender = () => chart.clear()
+
+  useEffect(() => stopChartRender, [])
+
 
   return (
     <div id="home-dr-g2" className="m-g2"></div>
