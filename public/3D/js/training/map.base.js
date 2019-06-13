@@ -51,7 +51,7 @@ class MapMenu {
         </li>
     `
     })
-    this.imgListHtml[`page-${this.page}`] || (this.imgListHtml[`page-${this.page}`] = mapListHtml)
+    this.imgListHtml[`page-${this.page}`] = mapListHtml
   }
   renderImgList () {
     this.mapContent.html(this.imgListHtml[`page-${this.page}`])
@@ -113,6 +113,7 @@ class MapMenu {
         $.NstsDEL(APIURI + 'api/plot/' + id, res => {
           if (!res.result) {
             NSTS.Plugin.Alert.Error(res.msg)
+            return
           }
           that.fetchImgData()
         })
@@ -180,6 +181,9 @@ class MapMenu {
     this.options.imgInstance.initShow(this.imgData[this.activeIndex])
   }
   nextImgShow () {
+    if (this.activeIndex === this.imgCount - 1) {
+      return
+    }
     this.options.imgInstance.updateImgSuspect()
     this.activeIndex = Math.min(this.imgCount - 1, ++this.activeIndex)
     this.mapOuter.find(`li:eq(${this.activeIndex})`).addClass('active').siblings().removeClass('active')

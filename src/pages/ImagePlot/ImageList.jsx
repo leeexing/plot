@@ -208,8 +208,8 @@ class ImageBatchList extends Component {
               <Select.Option value="1" label="标图完成">
                 标图完成
               </Select.Option>
-              <Select.Option value="2" label="转码成功">
-                转码成功
+              <Select.Option value="2" label="标图未完成">
+                标图未完成
               </Select.Option>
             </Select>
           </div>

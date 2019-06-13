@@ -20,8 +20,9 @@ TOC
 三个地方需要修改
 
 1. scripts/build.js (modify)
-2. scripts/build_test.js (create)
-3. config/env.js (modify)
+2. scripts/start.js (modify)
+3. scripts/build_test.js (create)
+4. config/env.js (modify)
 
 ```js 重要需改
 // HERE: build.js
@@ -29,10 +30,15 @@ process.env.BABEL_ENV = 'production';
 process.env.NODE_ENV = 'production';
 + process.env.BUILD_TYPE = 'production';
 
-// HERE: build_test.js
+// HERE: build_test.js (new)
 process.env.BABEL_ENV = 'production';
 process.env.NODE_ENV = 'production';
 + process.env.BUILD_TYPE = 'test';
+
+// HERE: start.js
++ process.env.BABEL_ENV = 'development';
++ process.env.NODE_ENV = 'development';
++ process.env.BUILD_TYPE = 'development';
 
 // HERE: env.js
 {
@@ -191,10 +197,14 @@ class MyResource {
 
 ```js
 const avatarSrc = [
+  'https://plotapi.anjianba.cn/images/plotrank/patrick.png',
+  'https://plotapi.anjianba.cn/images/plotrank/damon.png',
+  'https://plotapi.anjianba.cn/images/plotrank/stewardess.png',
+  'https://plotapi.anjianba.cn/images/plotrank/seaman.png',
+  'https://plotapi.anjianba.cn/images/plotrank/pilot.png',
   'https://zos.alipayobjects.com/rmsportal/mYhpaYHyHhjYcQf.png',
   'https://zos.alipayobjects.com/rmsportal/JBxkqlzhrlkGlLW.png',
-  'https://zos.alipayobjects.com/rmsportal/zlkGnEMgOawcyeX.png',
-  'https://zos.alipayobjects.com/rmsportal/KzCdIdkwsXdtWkg.png'
+  'https://zos.alipayobjects.com/rmsportal/KzCdIdkwsXdtWkg.png',
 ]
 ```
 

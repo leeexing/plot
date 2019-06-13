@@ -9,7 +9,7 @@ const baseUrlMap = {
 const signalrUrlMap = {
   test: 'https://stgws.anjianba.cn/browser',
   development: 'https://stgws.anjianba.cn/browser',
-  production: 'https://debug.anjianba.cn:8080/browser'
+  production: 'https://ws.anjianba.cn/browser'
 }
 
 const TOKEN_KEY = 'source_data_ols_token'

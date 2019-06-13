@@ -9,7 +9,7 @@ import api from '@/api'
 import './style.less'
 
 const defaultPlotTopFive = [{
-  name: 'Romana',
+  name: 'John',
   plot: 35654,
 }, {
   name: 'Damon',

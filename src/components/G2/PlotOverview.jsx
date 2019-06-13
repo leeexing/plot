@@ -72,13 +72,6 @@ function HomeG2 (props) {
     })
     chart.source(data)
     chart.coord('theta')
-    chart.legend('data', {
-      position: 'left-top',
-      color: 'red',
-      title: {
-        fill: '#404040', // 文本的颜色
-      }
-    })
     chart.intervalStack().position('value').color('type').shape('platelet').label('type')
     chart.render()
   }, [])
