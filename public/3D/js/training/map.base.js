@@ -102,9 +102,9 @@ class MapMenu {
     // 删除图像
     $('.j-delete-plot-image').click(function() {
       let id = $(this).data('deleteid')
-      let $parent = $(this).parent('li')
+      let $parent = $(this).parents('li')
       let index = $parent.index()
-      if (index === 0) {
+      if (index === that.imgCount - 1) {
         that.activeID = $parent.prev().data('id')
       } else {
         that.activeID = $parent.next().data('id')
