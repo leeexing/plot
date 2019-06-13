@@ -1,8 +1,9 @@
 'use strict';
 
 // Do this as the first thing so that any code reading it knows the right env.
-process.env.BABEL_ENV = 'patch';
-process.env.NODE_ENV = 'patch';
+process.env.BABEL_ENV = 'production';
+process.env.NODE_ENV = 'production';
+process.env.BUILD_TYPE = 'test';
 
 // Makes the script crash on unhandled rejections instead of silently
 // ignoring them. In the future, promise rejections that are not handled will
@@ -85,6 +86,7 @@ checkBrowsers(paths.appPath, isInteractive)
             ' to the line before.\n'
         );
       } else {
+        console.log(chalk.green(process.env.BUILD_TYPE + ' 环境变量\n'));
         console.log(chalk.green('Compiled successfully.\n'));
       }
 

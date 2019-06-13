@@ -1,9 +1,81 @@
-# Readme
+# Important
 
 TOC
 
-1. mobx
-2. react-router
+* npm run build/patch
+* react-router
+* mobx
+* 备份小头像地址
+* 关于页面文档
+
+## npm run build/patch
+
+> 针对不同场景进行打包
+
+有两种业务场景需要打包
+
+* 线上部署环境  npm run build
+* 测试环境      npm run build:test
+
+三个地方需要修改
+
+1. scripts/build.js (modify)
+2. scripts/build_test.js (create)
+3. config/env.js (modify)
+
+```js 重要需改
+// HERE: build.js
+process.env.BABEL_ENV = 'production';
+process.env.NODE_ENV = 'production';
++ process.env.BUILD_TYPE = 'production';
+
+// HERE: build_test.js
+process.env.BABEL_ENV = 'production';
+process.env.NODE_ENV = 'production';
++ process.env.BUILD_TYPE = 'test';
+
+// HERE: env.js
+{
+  // Useful for determining whether we’re running in production mode.
+  // Most importantly, it switches React into the correct mode.
+  NODE_ENV: process.env.NODE_ENV || 'development',
+  + BUILD_TYPE: process.env.BUILD_TYPE || 'production',
+  // Useful for resolving the correct path to static assets in `public`.
+  // For example, <img src={process.env.PUBLIC_URL + '/img/logo.png'} />.
+  // This should only be used as an escape hatch. Normally you would put
+  // images into the `src` and `import` them in code to get their paths.
+  PUBLIC_URL: publicUrl,
+}
+```
+
+最后在 `src/api/config.js`中使用
+
+```js
+const baseUrlMap = {
+  test: 'https://stgplotapi.anjianba.cn',
+  development: 'http://localhost:5281',
+  production: 'https://plotapi.anjianba.cn'
+}
+const signalrUrlMap = {
+  test: 'https://stgws.anjianba.cn/browser',
+  development: 'https://stgws.anjianba.cn/browser',
+  production: 'https://debug.anjianba.cn:8080/browser'
+}
+
+const TOKEN_KEY = 'source_data_ols_token'
+const baseURL = baseUrlMap[process.env.BUILD_TYPE]
+const SIGNALR_URL = signalrUrlMap[process.env.BUILD_TYPE]
+
+window.localStorage.setItem('app_api_url', baseURL + '/v1/')
+
+export {
+  baseURL,
+  TOKEN_KEY,
+  SIGNALR_URL
+}
+```
+
+`env.js` 那里一定要添加，不然在 `config.js` 中获取不到 `process.env.BUILD_TYPE` 的值
 
 ## react-router
 
@@ -126,7 +198,7 @@ const avatarSrc = [
 ]
 ```
 
-## 关于 文档
+## 关于页面文档
 
 1、图像上传
 图像要求：单个的.img文件或者是同包裹名称相同的.img和.jpg文件，jpg文件供生成缩略图使用
