@@ -51,7 +51,7 @@ class ImageBatchList extends Component {
           render: (total, record) => {
             if (record.status === 2) {
               let percent = (record.finished * 100 / total)
-              return <Progress percent={percent === 0 ? 0 : percent.toPrecision(3).replace(/\.0+$/, '')} />
+              return <Progress percent={percent === 0 ? 0 : +percent.toPrecision(3).replace(/\.0+$/, '')} />
             }
             return '--'
           }

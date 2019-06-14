@@ -317,14 +317,18 @@ class MapPreviewDR extends TrainingBaseDR {
                 parent.postMessage({type: 'submitPlot', postData: JSON.stringify(putData), id}, location.origin)
             }
         }
+        $('.j-backout-plot').click(() => {
+            this.backoutPlotImageSuspect()
+        })
     }
     init(options) {
         let {img_sql, initShowId, url} = options
         this.mapMenu = new MapMenu({imgInstance: this, img_sql, initShowId, url})
     }
     initShow(imgInfo) {
-      this.Viewer.showDR(imgInfo)
-      this.doSubclassThing(imgInfo)
+        this.activeImageData = imgInfo
+        this.Viewer.showDR(imgInfo)
+        this.doSubclassThing(imgInfo)
     }
     doSubclassThing(imgInfo) {
         this.showImgInfo(imgInfo)
@@ -357,7 +361,11 @@ class MapPreviewDR extends TrainingBaseDR {
     }
     updateImgSuspect () {
         let renderData = this.mapMenu.activeRenderData()
-        let id = renderData.id
+        // 如果是看到最后衣服图像时进行删除操作
+        if (!renderData) {
+            return
+        }
+        let { id } = renderData
         let putData = {
             markPos: [...this.Viewer.userSelectRegion]
         }
@@ -366,7 +374,32 @@ class MapPreviewDR extends TrainingBaseDR {
                 if (!res.result) {
                     console.log(res.msg)
                 }
+                this.mapMenu.imgData.filter(item => item.id === id)[0].plot = true
             })
         }
+    }
+    backoutPlotImageSuspect() {
+        // let renderData = this.mapMenu.activeRenderData()
+        let { id, plot } = this.activeImageData
+        let markPos = this.Viewer.userSelectRegion
+        if (markPos.length > 0) {
+            this.Viewer.clearUserSelectRegion()
+        }
+        if (!plot) {
+            return
+        }
+        let postData = {suspectNum: this.activeImageData.dr.length}
+        console.log(postData)
+        $.NstsPOST(APIURI + 'api/plot/' + id, JSON.stringify(postData), res => {
+            if (!res.result) {
+                NSTS.Plugin.Alert.Error(res.msg)
+                return
+            }
+            this.Viewer.showDR(this.activeImageData)
+            this.doSubclassThing(this.activeImageData)
+            this.activeImageData.plot = false
+        }, {
+            contentType: 'application/json'
+        })
     }
 }

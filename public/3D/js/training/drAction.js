@@ -18,7 +18,7 @@ $(function(){
           let img_sql = {
             count: action.count,
             page: action.page,
-            limit: action.limit || 50,
+            limit: action.limit || 40,
             imageName: action.imageName,
             plotStatus: action.plotStatus
           }

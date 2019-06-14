@@ -14,6 +14,7 @@ class HomePage extends Component {
       isDataLoaded: false,
       imageList: [],
       currentPage: 1,
+      pageSize: 20,
       limit: 10000,
       total: 0,
       isFull: false,
@@ -163,14 +164,14 @@ class HomePage extends Component {
 
   plotImage (item) {
     let { batchId } = this.props.match.params
-    let { imageName, plotStatus, total, currentPage } = this.state
+    let { imageName, plotStatus, total, currentPage, pageSize } = this.state
     let url = `api/upload/${batchId}`
     this.setState({
       isFull: true,
       src: `/3D/DR_base.html?type=MAP_BROWSE
           &count=${total}
-          &page=${Math.ceil(currentPage * 20 / 40)}
-          &limit=40&url=${url}
+          &page=${currentPage}
+          &limit=${pageSize}&url=${url}
           &initShowId=${item.id}
           &imageName=${encodeURI(imageName)}
           &plotStatus=${plotStatus}`.replace(/\s+/g, '')
@@ -189,8 +190,8 @@ class HomePage extends Component {
   }
 
   render () {
-    let { currentPage, total } = this.state
-    let imageList = this.state.imageList.slice((currentPage - 1) * 20, currentPage * 20)
+    let { currentPage, total, pageSize } = this.state
+    let imageList = this.state.imageList.slice((currentPage - 1) * pageSize, currentPage * pageSize)
     return (
       <div className="m-plot-image">
         {/* 查询、筛选、打包 */}
@@ -289,7 +290,7 @@ class HomePage extends Component {
                 showQuickJumper
                 total={total}
                 current={currentPage}
-                pageSize={20}
+                pageSize={pageSize}
                 showTotal={total => `总共 ${total} 张`}
                 onChange={this.handlePageChange} />
           }

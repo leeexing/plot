@@ -16,12 +16,13 @@ class MapMenu {
   init () {
     this.activeIndex = 0
     this.activeID = null
-    this.pagesCount = Math.ceil(this.options.img_sql.count / 50)
+    this.pagesCount = Math.ceil(this.options.img_sql.count / 20)
     this.page = this.options.img_sql.page
     this.imgData = null
     this.imgListHtml = {}
     this.initElement()
     this.attachEvent()
+    this.bindDeleteEvent()
     this.fetchImgData()
   }
   fetchImgData () {
@@ -29,10 +30,9 @@ class MapMenu {
     $.NstsGET(APIURI + this.options.url, this.options.img_sql, function (data) {
         that.imgData = data.data.images
         that.imgCount = data.data.images.length
-        that.pagesCount = that.pagesCount || Math.ceil(that.imgCount / 50)
+        that.pagesCount = that.pagesCount || Math.ceil(that.imgCount / 20)
         that.generateImgList(data.data.images)
         that.renderImgList()
-        that.bindDeleteEvent()
         that.initShow()
     },{
         traditional: true
@@ -40,9 +40,13 @@ class MapMenu {
   }
   generateImgList (data) {
     let mapListHtml = ''
-    data.forEach(item => {
+    data.forEach((item, index) => {
     mapListHtml += `
-        <li data-id="${item.id}" data-isdanger="${item.isTip ? true : false}" class="${item.id === this.activeID ? 'active' : ''}">
+        <li
+          data-id="${item.id}"
+          data-isdanger="${item.isTip ? true : false}"
+          class="${this.activeID && this.activeIndex === index ? 'active' : ''}"
+        >
           <div class="thumbnail">
             <img src="${item.thumbnails.length > 0 && item.thumbnails[0].url ? item.thumbnails[0].url : item.dr[0].url || './images/common-icons/no-img.png'}" />
             <i class="delete-image j-delete-plot-image" title="删除图像" data-deleteid="${item.id}"></i>
@@ -86,34 +90,50 @@ class MapMenu {
     }
   }
   initShow () {
+    // 删除后的重新渲染走这个逻辑
     if (this.activeID) {
-      this.mapOuter.find(`li[data-id="${this.activeID}"]`).click()
+      if (this.deleteIndex === this.activeIndex) {
+        let index = this.imgData.findIndex(item => item.id === this.activeID)
+        this.mapOuter.find('li').eq(index).addClass('active')
+        this.recordPlotAndRender(index)
+      } else {
+        this.mapOuter.find(`li[data-id="${this.activeID}"]`).click()
+      }
       return
     }
     if (this.options.initShowId) {
-        this.mapOuter.find(`li[data-id="${this.options.initShowId}"]`).click()
-        this.options.initShowId = null
+      this.mapOuter.find(`li[data-id="${this.options.initShowId}"]`).click()
+      this.options.initShowId = null
     } else {
       this.mapOuter.find('li').eq(0).click()
     }
   }
+  // - 删除图像
   bindDeleteEvent () {
     let that = this
-    // 删除图像
-    $('.j-delete-plot-image').click(function() {
+    this.mapOuter.on('click', '.j-delete-plot-image', function(e) {
+      e.stopPropagation()
       let id = $(this).data('deleteid')
       let $parent = $(this).parents('li')
-      let index = $parent.index()
-      if (index === that.imgCount - 1) {
-        that.activeID = $parent.prev().data('id')
+      that.deleteIndex = $parent.index()
+      // 如果删除的是当前渲染的图像
+      if ($parent.hasClass('active')) {
+        if (that.deleteIndex === that.imgCount - 1) {
+          that.activeID = $parent.prev().data('id')
+        } else {
+          that.activeID = $parent.next().data('id')
+        }
       } else {
-        that.activeID = $parent.next().data('id')
+        that.activeID = that.activeRenderData().id
       }
       NSTS.Plugin.Alert.Confirm('确定删除该图像吗？', () => {
         $.NstsDEL(APIURI + 'api/plot/' + id, res => {
           if (!res.result) {
             NSTS.Plugin.Alert.Error(res.msg)
             return
+          }
+          if (that.imgCount === 1) {
+            that.options.img_sql.page -= 1
           }
           that.fetchImgData()
         })
@@ -173,7 +193,15 @@ class MapMenu {
       }
     })
   }
+  recordPlotAndRender (index) {
+    this.shiftPosition()
+    this.activeIndex = index
+    this.options.imgInstance.initShow(this.imgData[index])
+  }
   prevImgShow () {
+    if (this.activeIndex === 0) {
+      return
+    }
     this.options.imgInstance.updateImgSuspect()
     this.activeIndex = Math.max(0, --this.activeIndex)
     this.mapOuter.find(`li:eq(${this.activeIndex})`).addClass('active').siblings().removeClass('active')
@@ -196,6 +224,9 @@ class MapMenu {
   shiftPosition(type = 1) {
     let activeItem = this.mapOuter.find('li.active')
     let index = activeItem.index()
+    if (index === -1) {
+      return
+    }
     if (index === 0) {
       this.mapContent.scrollTop(0)
       return

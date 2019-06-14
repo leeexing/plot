@@ -774,6 +774,24 @@ body {
             }
         }
     }
+    .amplify {
+      position: absolute;
+      right: 250px;
+      color: #fff;
+      a {
+          display: inline-block;
+          line-height: 46px;
+          padding-left: 28px;
+          background: url(../images/common-icons/btn_amplify.png) no-repeat left center;
+          font-family: '微软雅黑';
+          color: #666;
+      }
+      span {
+          display: inline-block;
+          width: 40px;
+          text-align: center;
+      }
+  }
 }
 
 /**
@@ -1327,57 +1345,51 @@ body {
   display: flex;
   flex-direction: column;
   width: 45%;
+  .dr-canvas1 {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    height: 55%;
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      height: 1px;
+      width: 60%;
+      margin-left: -30%;
+      background: #ddd;
+    }
+    .dr-angles {
+      position: absolute;
+      top: 10px;
+      left: 50px;
+      z-index: 9;
+      a {
+        display: inline-block;
+        margin-right: 5px;
+        padding: 5px 10px;
+        background: #aaa;
+        border-radius: 2px;
+        color: #fff;
+        font-size: 14px;
+        cursor: pointer;
+        &:hover {
+          opacity: .8;
+        }
+        &.active {
+          background: #00bcd4;
+        }
+      }
+    }
+    .canvas-dr {
+      align-self: center;
+      /*width:90%;
+        height:90%;*/
+    }
+  }
 }
 
-.m-content .leftside .dr-canvas1 {
-  position: relative;
-  display: flex;
-  justify-content: center;
-  height: 55%;
-}
-
-.m-content .leftside .dr-canvas1::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  height: 1px;
-  width: 60%;
-  margin-left: -30%;
-  background: #ddd;
-}
-
-.m-content .dr-canvas1 .dr-angles {
-  position: absolute;
-  top: 10px;
-  left: 50px;
-  z-index: 9;
-}
-
-.m-content .dr-angles a {
-  display: inline-block;
-  margin-right: 5px;
-  padding: 5px 10px;
-  background: #aaa;
-  border-radius: 2px;
-  color: #fff;
-  font-size: 14px;
-  cursor: pointer;
-}
-
-.m-content .dr-angles a:hover {
-  opacity: .8;
-}
-
-.m-content .dr-angles a.active {
-  background: #00bcd4;
-}
-
-.m-content .dr-canvas1 .canvas-dr {
-  align-self: center;
-  /*width:90%;
-    height:90%;*/
-}
 
 .m-content .leftside .slice-canvas {
   position: relative;
@@ -1873,6 +1885,7 @@ body {
     .angle-wrap {
         display: flex;
         justify-content: space-between;
+        align-items: center;
         .dr-angles {
             a {
                 width: 50px;
@@ -1895,6 +1908,20 @@ body {
             &.disabled {
                 background-image: url(../images/common-icons/side_view_normal.png);
             }
+        }
+
+        .backout-plot {
+          padding: 10px 8px;
+          color: #eee;
+          border: 1px solid #eee;
+          border-radius: 4px;
+          transition: .4s;
+          cursor: pointer;
+          &:hover {
+            background: #373a41;
+            border-color: #00bcd4;
+            color: #00bcd4;
+          }
         }
 
     }
