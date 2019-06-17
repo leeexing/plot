@@ -2091,6 +2091,9 @@ body {
           transform: scale(1.1); }
         .map-menu .map-content li:hover .thumbnail .delete-image {
           opacity: 1; }
+      .map-menu .map-content li.ploted {
+        background: #f6ffed;
+        color: #52c41a; }
       .map-menu .map-content li.active {
         background: #e4e7ed;
         color: #22b9ff; }
@@ -2140,6 +2143,8 @@ body {
     .map-menu.mini .map-content li {
       display: flex;
       justify-content: center; }
+      .map-menu.mini .map-content li.ploted .thumbnail {
+        border: 2px solid #52c41a; }
     .map-menu.mini .map-content .thumbnail {
       border-radius: 36px; }
     .map-menu.mini .map-content .byname {

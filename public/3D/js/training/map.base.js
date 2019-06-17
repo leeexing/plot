@@ -41,19 +41,21 @@ class MapMenu {
   generateImgList (data) {
     let mapListHtml = ''
     data.forEach((item, index) => {
-    mapListHtml += `
-        <li
-          data-id="${item.id}"
-          data-isdanger="${item.isTip ? true : false}"
-          class="${this.activeID && this.activeIndex === index ? 'active' : ''}"
-        >
-          <div class="thumbnail">
-            <img src="${item.thumbnails.length > 0 && item.thumbnails[0].url ? item.thumbnails[0].url : item.dr[0].url || './images/common-icons/no-img.png'}" />
-            <i class="delete-image j-delete-plot-image" title="删除图像" data-deleteid="${item.id}"></i>
-          </div>
-          <div class="byname" title="${item.name}">${item.name}</div>
-        </li>
-    `
+      let liClassname = this.activeID && this.activeIndex === index ? 'active' : ''
+      liClassname += item.plot ? ' ploted' : ''
+      mapListHtml += `
+          <li
+            data-id="${item.id}"
+            data-isdanger="${item.isTip ? true : false}"
+            class="${liClassname}"
+          >
+            <div class="thumbnail">
+              <img src="${item.thumbnails.length > 0 && item.thumbnails[0].url ? item.thumbnails[0].url : item.dr[0].url || './images/common-icons/no-img.png'}" />
+              <i class="delete-image j-delete-plot-image" title="删除图像" data-deleteid="${item.id}"></i>
+            </div>
+            <div class="byname" title="${item.name}">${item.name}</div>
+          </li>
+      `
     })
     this.imgListHtml[`page-${this.page}`] = mapListHtml
   }
@@ -220,6 +222,9 @@ class MapMenu {
   }
   activeRenderData () {
     return this.imgData[this.activeIndex]
+  }
+  activeDom (id) {
+    return  this.mapOuter.find(`li[data-id="${id}"]`)
   }
   shiftPosition(type = 1) {
     let activeItem = this.mapOuter.find('li.active')

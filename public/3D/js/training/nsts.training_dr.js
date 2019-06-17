@@ -375,6 +375,8 @@ class MapPreviewDR extends TrainingBaseDR {
                     console.log(res.msg)
                 }
                 this.mapMenu.imgData.filter(item => item.id === id)[0].plot = true
+                console.log(this.mapMenu.activeDom(id))
+                this.mapMenu.activeDom(id).addClass('ploted')
             })
         }
     }
@@ -398,6 +400,7 @@ class MapPreviewDR extends TrainingBaseDR {
             this.Viewer.showDR(this.activeImageData)
             this.doSubclassThing(this.activeImageData)
             this.activeImageData.plot = false
+            this.mapMenu.activeDom(id).removeClass('ploted')
         }, {
             contentType: 'application/json'
         })

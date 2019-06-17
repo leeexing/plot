@@ -2646,6 +2646,10 @@ body {
               opacity: 1;
             }
         }
+        &.ploted {
+          background: #f6ffed;
+          color: #52c41a;
+        }
         &.active {
             background: #e4e7ed;
             color: #22b9ff;
@@ -2707,6 +2711,11 @@ body {
         li {
             display: flex;
             justify-content: center;
+            &.ploted {
+              .thumbnail {
+                border: 2px solid #52c41a;
+              }
+            }
         }
         .thumbnail {
             border-radius: 36px;
