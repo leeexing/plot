@@ -21,6 +21,14 @@ export function kebabCase (s) {
   return s.replace(/[A-Z]/g, (m) => `-${m.toLowerCase()}`)
 }
 
+export function getNowDate () {
+  let now = new Date()
+  let year = now.getFullYear()
+  let month = String(now.getMonth() + 1)
+  let date = now.getDate() + ''
+  return `${year}-${month.padStart(2, 0)}-${date.padStart(2, 0)}`
+}
+
 export function secondsToStr (temp) {
   const years = Math.floor(temp / 31536000)
   if (years) {

@@ -1,12 +1,15 @@
 import React, { useEffect } from 'react'
 import G2 from '@antv/g2'
 
+import { getNowDate } from '@/util'
+
 
 function Calendar (props) {
 
   let { data, monthes } = props
 
   const monthMap = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+  const nowDate = getNowDate()
 
   let chart = null
 
@@ -44,11 +47,27 @@ function Calendar (props) {
               zIndex: 1,
               attrs: {
                 path: this.parsePath([['M', points[1].x, points[1].y], ['L', points[2].x, points[2].y]]),
-                lineWidth: 1,
+                lineWidth: 2,
                 stroke: '#404040'
               }
             })
           }
+        }
+        if (cfg.origin._origin.date === nowDate) {
+          container.addShape('path', {
+            zIndex: 1,
+            attrs: {
+              path: this.parsePath([
+                ['M', points[1].x, points[1].y],
+                ['L', points[2].x, points[2].y],
+                ['L', points[3].x, points[3].y],
+                ['L', points[0].x, points[0].y],
+                ['L', points[1].x, points[1].y]
+              ]),
+              lineWidth: 1,
+              stroke: '#eb2f96'
+            }
+          })
         }
         container.sort()
         return polygon
@@ -71,7 +90,7 @@ function Calendar (props) {
       week: {
         type: 'cat'
       },
-      commits: {
+      plots: {
         sync: true
       }
     })
