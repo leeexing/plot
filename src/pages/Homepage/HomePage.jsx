@@ -4,7 +4,8 @@ import { Row, Col, Card, Spin } from 'antd'
 import PlotOverview from 'components/G2/PlotOverview'
 import Distribute from 'components/G2/Distribute'
 import DrCount from 'components/G2/DrCount'
-import FileStruc from 'components/G2/Directory'
+// import FileStruc from 'components/G2/Directory'
+import Calendar from 'components/G2/Calendar'
 import api from '@/api'
 import './style.less'
 
@@ -38,7 +39,10 @@ class HomePage extends Component {
       drAngleView: [],
       plotOverview: [0, 0, 0, 0],
       plotRank: [],
-      loading: true
+      calendarPlot: [],
+      calendarMonth: [],
+      loading: true,
+      calendarLoading: true
     }
   }
   componentDidMount () {
@@ -61,18 +65,41 @@ class HomePage extends Component {
           loading: false
         })
       })
+
+    api.fetchHomeCalendarPlotInfo().then(res => {
+      console.log(res)
+      let { calendarPlotData, monthes } = res.data
+      if (res.result) {
+        this.setState({
+          calendarPlot: calendarPlotData,
+          calendarMonth: monthes
+        })
+      }
+    }).catch(console.log)
+      .finally(() => {
+        this.setState({
+          calendarLoading: false
+        })
+      })
   }
 
   render () {
-    let { drAngleView, plotRank, plotOverview, loading } = this.state
+    let { drAngleView, plotRank, plotOverview, loading, calendarPlot, calendarLoading, calendarMonth } = this.state
     let hasPlotOverviewData = plotOverview.filter(item => item !== 0).length > 1
     let hasDrAngleViewData = drAngleView.some(item => item !== 0)
     return (
       <div className="app-home">
         <Row gutter={15} style={{marginBottom: '10px'}}>
           <Col span={12}>
-            <Card title="上传文件目录结构示例">
-              <FileStruc></FileStruc>
+            <Card title={<div>平台标注日历<span style={{color: '#999', fontSize: '12px'}}>(近三个月)</span></div>}>
+              {/* <FileStruc></FileStruc> */}
+              {calendarLoading
+                ? <Spin size="large" />
+                : calendarPlot.length > 0
+                  ? <Calendar data={calendarPlot} monthes={calendarMonth} />
+                  : '日历'
+
+              }
             </Card>
           </Col>
           <Col span={12}>

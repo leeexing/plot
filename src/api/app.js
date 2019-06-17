@@ -17,6 +17,9 @@ export default {
     fetchHomePageinfo (data) {
         return http.get('/api/home/pageinfo', data)
     },
+    fetchHomeCalendarPlotInfo (data) {
+        return http.get('/api/home/calendar', data)
+    },
     // -zip文件上传
     fetchUploadImageStatus (data) {
         return http.get('/api/upload/file', data)
