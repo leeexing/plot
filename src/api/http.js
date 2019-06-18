@@ -19,7 +19,7 @@ const routeSkip = path => {
 // !创建axios实例
 const service = axios.create({
   baseURL: baseURL + '/v1',
-  timeout: 5000
+  timeout: 8000
 })
 
 // !请求拦截
@@ -42,6 +42,14 @@ service.interceptors.response.use(response => {
   }
   return response
 }, error => {
+  let originalRequest = error.config
+  // -请求超时，只能再请求一次
+  if(error.code === 'ECONNABORTED' && error.message.indexOf('timeout') !==-1 && !originalRequest._retry){
+    originalRequest._retry = true
+    console.error(error)
+    message.error('请求超时~')
+    return axios.request(originalRequest)
+  }
   if (error.response) {
     switch (error.response.status) {
       case 401:

@@ -40,6 +40,7 @@ class Router extends Component {
       } else if (item.children) {
         item.children.forEach(item => renderRoute(item, newCtxPath))
       } else {
+        // 重定向
         children.push(
           <Route
             key="redirect"

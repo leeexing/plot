@@ -2,11 +2,78 @@
 
 TOC
 
+* axios 请求超时
+* react-router Redirect
 * npm run build/patch
 * react-router
 * mobx
 * 备份小头像地址
 * 关于页面文档
+
+## axios 请求超时
+
+REFER: https://juejin.im/post/5abe0f94518825558a06bcd9
+
+```js
+//在main.js设置全局的请求次数，请求的间隙
+axios.defaults.retry = 4;
+axios.defaults.retryDelay = 1000;
+
+axios.interceptors.response.use(undefined, function axiosRetryInterceptor(err) {
+  var config = err.config;
+  // If config does not exist or the retry option is not set, reject
+  if (!config || !config.retry) return Promise.reject(err);
+
+  // Set the variable for keeping track of the retry count
+  config.__retryCount = config.__retryCount || 0;
+
+  // Check if we've maxed out the total number of retries
+  if (config.__retryCount >= config.retry) {
+    // Reject with the error
+    return Promise.reject(err);
+  }
+
+  // Increase the retry count
+  config.__retryCount += 1;
+
+  // Create new promise to handle exponential backoff
+  var backoff = new Promise(function (resolve) {
+    setTimeout(function () {
+      resolve();
+    }, config.retryDelay || 1);
+  });
+
+  // Return the promise in which recalls axios to retry the request
+  return backoff.then(function () {
+    return axios(config);
+  });
+});
+```
+
+## react-router Redirect
+
+react中路由重定向
+
+```jsx
+} else if (item.children) {
+    item.children.forEach(item => renderRoute(item, newCtxPath))
+  } else {
+    children.push(
+      <Route
+        key="redirect"
+        path="/"
+        exact
+        render={() => (
+          this.props.userStore.isLogined
+          ? <Redirect to="/home"/>
+          : <Redirect to="/login"/>
+        )}
+      />
+    )
+  }
+```
+
+目前是这么处理的。通过是否登录与否进行相应的路由跳转
 
 ## npm run build/patch
 
