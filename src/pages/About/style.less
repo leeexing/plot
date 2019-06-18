@@ -18,4 +18,16 @@
       }
     }
   }
+  .directory {
+    position: absolute;
+    opacity: 0;
+    transition: all 1s;
+    transform: translateY(-100px);
+    &-show {
+      position: inherit;
+      display: block;
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
 }

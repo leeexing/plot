@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
-import { Alert, Avatar, Divider, Steps, Tag, Icon } from 'antd'
+import { Alert, Avatar, Divider, Steps, Tag, Icon, Collapse, Button } from 'antd'
 
+import Directory from 'components/G2/Directory'
 import { PlotIcon } from '@/icon'
 import './style.less'
 
@@ -9,11 +10,14 @@ const { Step } = Steps
 function AboutPlot(props) {
 
   const [current, setCurrent] = useState(0)
+  const [isShowDirectory, setShowDirectory] = useState(false)
 
   const onChange = current => {
     console.log('onChange:', current)
     setCurrent(current)
   }
+
+  const imageUploadTitle = <div>图像上传 <Button size="small" onClick={() => setShowDirectory(!isShowDirectory)}>示例</Button></div>
 
   const imageUpload = <div className="step-wrap">
     <div>
@@ -31,6 +35,9 @@ function AboutPlot(props) {
     <div>
       <Tag color="green">方法二</Tag>
       间接压缩，一个<strong>.img</strong>文件（或者<strong>.img</strong>和<i className="jpg">.jpg</i>件）放到文件夹内对应一个文件夹，全选所有文件夹生成zip压缩包：全选文件夹——>右键——>发送到——>压缩（zipped）文件夹
+    </div>
+    <div className={isShowDirectory ? 'directory directory-show' : 'directory'}>
+      <Directory></Directory>
     </div>
   </div>
 
@@ -55,7 +62,7 @@ function AboutPlot(props) {
       <Divider></Divider>
 
       <Steps current={current} onChange={onChange} direction="vertical">
-        <Step title="图像上传" description={imageUpload} icon={<Icon type="cloud-upload" />} />
+        <Step title={imageUploadTitle} description={imageUpload} icon={<Icon type="cloud-upload" />} />
         <Step title="标记图像" description={plotImage} icon={<PlotIcon /> } />
         <Step title="标图下载" description={imageDownload}  icon={<Icon type="cloud-download" />} />
       </Steps>

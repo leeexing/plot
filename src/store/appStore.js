@@ -10,7 +10,7 @@ class AppStore {
   @observable isUploaderMini = false
 
   @observable navBreadcrumbRouters = JSON.parse(localStorage.getItem('navbreads')) || [{
-    path: '',
+    path: 'home',
     name: '首页'
   }]
 
@@ -33,7 +33,7 @@ class AppStore {
 
   @action('动态更改面包屑')
   updateNavBreadcrumb = (route, multi=false) => {
-    if (route.some(item => item.path === '')) {
+    if (route.some(item => item.path === 'home')) {
       this.navBreadcrumbRouters.splice(1)
       localStorage.setItem('navbreads', JSON.stringify(this.navBreadcrumbRouters.toJS()))
       return

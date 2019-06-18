@@ -15,10 +15,6 @@ function SignalrMessage () {
         .catch(err => console.log('Error opening connection：', err))
   }
 
-  const stopSignal = () => {
-    connection.stop().then(res => {}).catch(err => {})
-  }
-
   useEffect(() => {
     connection = new signalR.HubConnectionBuilder()
     .withUrl(SIGNALR_URL, {accessTokenFactory: () => localStorage.getItem('signalrToken')})
@@ -45,6 +41,10 @@ function SignalrMessage () {
 
     startSignal()
   }, [])
+
+  const stopSignal = () => {
+    connection.stop().then(res => {}).catch(err => {})
+  }
 
   useEffect(() => stopSignal, [])
 

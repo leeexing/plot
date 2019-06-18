@@ -1,17 +1,17 @@
-// export { default } from './router'
-
 import React, { Component } from 'react'
-import { BrowserRouter, Route, Switch } from 'react-router-dom'
+import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom'
+import { inject, observer } from 'mobx-react'
+
 import routes from './config'
 
 
-class Root extends Component {
-  static defaultProps = {
-    isLogin: false
-  }
+@inject('userStore')
+@observer
+class Router extends Component {
 
   /**
    * 根据路由表生成路由组件
+   * 根据用户是否登录判断，当用户输入跟路由 '/' 时，是跳转到 '/home' 还是 '/login' 页面
    */
   renderRoutes (routes, contextPath) {
     const children = []
@@ -39,6 +39,19 @@ class Root extends Component {
         )
       } else if (item.children) {
         item.children.forEach(item => renderRoute(item, newCtxPath))
+      } else {
+        children.push(
+          <Route
+            key="redirect"
+            path="/"
+            exact
+            render={() => (
+              this.props.userStore.isLogined
+              ? <Redirect to="/home"/>
+              : <Redirect to="/login"/>
+            )}
+          />
+        )
       }
     }
 
@@ -55,5 +68,5 @@ class Root extends Component {
   }
 }
 
-export default Root
+export default Router
 

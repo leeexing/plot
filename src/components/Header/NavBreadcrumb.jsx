@@ -19,8 +19,7 @@ class NavBreadcrumb extends Component {
     const routes = this.props.appStore.navBreadcrumbRouters
     return (
       <Breadcrumb>
-      {
-        routes.map((route, index) => {
+      {routes.map((route, index) => {
           if (index === routes.length - 1) {
             return <Breadcrumb.Item className="Item" key={route.path}><span>{route.name}</span></Breadcrumb.Item>
           } else {

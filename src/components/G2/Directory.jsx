@@ -15,30 +15,21 @@ function HomeG2 () {
     type: '上传文件夹',
     value: 86.66
   }, {
-    type: '文件夹一',
+    type: 'lx910_0015',
     value: 6.67
   }, {
-    type: '文件夹二',
+    type: 'lx910_0016',
     value: 6.67
   }]
   let other = [{
-    type: 'test_xxx_0.img',
+    type: 'lx910_0016.img',
     value: 1.77
   }, {
-    type: 'test_xxx_0.jpg',
+    type: 'lx910_0016.jpg',
     value: 1.44
   }, {
-    type: 'test_xxx_0_screen.txt',
+    type: 'lx910_0016_side.jpg',
     value: 1.12
-  }, {
-    type: 'test_xxx_1.img',
-    value: 1.05
-  }, {
-    type: 'test_xxx_1.jpg',
-    value: 0.81
-  }, {
-    type: 'test_xxx_1_screen.txt',
-    value: 0.39
   }, {
     type: '...',
     value: 0.37
@@ -47,8 +38,9 @@ function HomeG2 () {
   useEffect(() => {
     chart = new G2.Chart({
       container: 'home-file-g2',
-      forceFit: true,
-      height: 350,
+      // forceFit: true,
+      width: 600,
+      height: 300,
       padding: [0, 20, 0, 0]
     })
     chart.legend(false)
@@ -79,13 +71,13 @@ function HomeG2 () {
         useHtml: true,
         htmlTemplate: function htmlTemplate(text, item) {
           var d = item.point
-          if (d.type === '文件夹一') {
-            return '<p style="width: 50px; margin-top: 25px; margin-right: -10px; font-size: 12px; color: #fff; transform: rotate(-25deg)">' + d.type + '</p>'
+          if (d.type === 'lx910_0015') {
+            return '<p style="width: 50px; margin-top: 35px; margin-left: -10px; font-size: 12px; color: #fff; transform: rotate(-20deg)">' + d.type + '</p>'
           }
-          if (d.type === '文件夹二') {
-            return '<p style="width: 50px; margin-top: 15px; margin-right: -10px; font-size: 12px; color: #fff;">' + d.type + '</p>'
+          if (d.type === 'lx910_0016') {
+            return '<p style="width: 50px; margin-top: 15px; margin-left: -5px; font-size: 12px; color: #fff;">' + d.type + '</p>'
           }
-          return '<p style="width: 80px; margin-top: 10px; font-size: 16px; color: #fff;">' + d.type + '</p>'
+          return '<p style="width: 80px; margin-top: -20px; font-size: 16px; color: #fff;">' + d.type + '</p>'
         }
       }
     })

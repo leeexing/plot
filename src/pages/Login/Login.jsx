@@ -23,7 +23,7 @@ class Login extends Component {
             let expires = res.data.expires_in / (60 * 60 * 24)
             Auth.setToken(res.data.accessToken, expires)
             this.props.userStore.login(res.data)
-            this.props.history.push('/')
+            this.props.history.push('/home')
           }
         }).catch(console.log)
       }

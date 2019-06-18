@@ -6,7 +6,7 @@ import Auth from '@/util/auth'
 class UserStore {
   @observable username = localStorage.getItem('username') || ''
   @observable avatar = localStorage.getItem('avatar') || ''
-  @observable isLogined = false
+  @observable isLogined = false || !!Auth.getToken()
 
   @computed get getUsername () {
     return this.username

@@ -4,7 +4,6 @@ import { Row, Col, Card, Spin } from 'antd'
 import PlotOverview from 'components/G2/PlotOverview'
 import Distribute from 'components/G2/Distribute'
 import DrCount from 'components/G2/DrCount'
-// import FileStruc from 'components/G2/Directory'
 import Calendar from 'components/G2/Calendar'
 import api from '@/api'
 import './style.less'
@@ -87,26 +86,29 @@ class HomePage extends Component {
     let { drAngleView, plotRank, plotOverview, loading, calendarPlot, calendarLoading, calendarMonth } = this.state
     let hasPlotOverviewData = plotOverview.filter(item => item !== 0).length > 1
     let hasDrAngleViewData = drAngleView.some(item => item !== 0)
+    let plotOverviewTitle = hasPlotOverviewData
+                            ? '标注图像概览'
+                            : <div>标注图像概览<span style={{color: '#999', fontSize: '12px'}}>(暂无真实图像数据)</span></div>
+    let drAngleViewTitle = hasDrAngleViewData
+                            ? '图像类型分布'
+                            : <div>图像类型分布<span style={{color: '#999', fontSize: '12px'}}>(暂无真实数据)</span></div>
     return (
       <div className="app-home">
         <Row gutter={15} style={{marginBottom: '10px'}}>
+          {/* 平台标注日历 */}
           <Col span={12}>
             <Card title={<div>平台标注日历<span style={{color: '#999', fontSize: '12px'}}>(近三个月)</span></div>}>
-              {/* <FileStruc></FileStruc> */}
               {calendarLoading
                 ? <Spin size="large" />
                 : calendarPlot.length > 0
                   ? <Calendar data={calendarPlot} monthes={calendarMonth} />
                   : '暂无数据'
-
               }
             </Card>
           </Col>
+          {/* 标注图像概览 */}
           <Col span={12}>
-            <Card title={hasDrAngleViewData
-                          ? '标注图像概览'
-                          : <div>标注图像概览<span style={{color: '#999', fontSize: '12px'}}>(暂无真实图像数据)</span></div>}
-            >
+            <Card title={plotOverviewTitle}>
               {loading
                 ? <Spin size="large" />
                 : hasPlotOverviewData
@@ -117,11 +119,9 @@ class HomePage extends Component {
           </Col>
         </Row>
         <Row gutter={15}>
+          {/* 图像类型分布 */}
           <Col span={12}>
-            <Card title={hasDrAngleViewData
-                          ? '图像类型分布'
-                          : <div>图像类型分布<span style={{color: '#999', fontSize: '12px'}}>(暂无真实数据)</span></div>}
-            >
+            <Card title={drAngleViewTitle}>
               {loading
                 ? <Spin size="large" />
                 : hasDrAngleViewData
@@ -130,6 +130,7 @@ class HomePage extends Component {
               }
             </Card>
           </Col>
+          {/* 在线标注排行榜 */}
           <Col span={12}>
             <Card title="在线标注排行榜(Top5)">
               {loading
