@@ -8,7 +8,8 @@ function Calendar (props) {
 
   let { data, monthes } = props
 
-  const monthMap = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+  const monthMap = ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月']
+  // const monthMap = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
   const nowDate = getNowDate()
 
   let chart = null
@@ -47,7 +48,7 @@ function Calendar (props) {
               zIndex: 1,
               attrs: {
                 path: this.parsePath([['M', points[1].x, points[1].y], ['L', points[2].x, points[2].y]]),
-                lineWidth: 2,
+                lineWidth: 1,
                 stroke: '#404040'
               }
             })
@@ -65,7 +66,7 @@ function Calendar (props) {
                 ['L', points[1].x, points[1].y]
               ]),
               lineWidth: 1,
-              stroke: '#eb2f96'
+              stroke: '#13c2c2'
             }
           })
         }
@@ -129,7 +130,11 @@ function Calendar (props) {
     })
     chart.legend(false)
     chart.tooltip({
-      title: 'date'
+      title: 'date',
+      itemTpl: `<li data-index={index}>
+        <span style="background-color:{color};width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:8px;"></span>
+        标注数量<span style="margin-left: 20px;">{value}</span>
+      </li>`
     })
     chart.coord().reflect('y')
     chart.polygon().position('week*day*date').color('plots', '#bae7ff-#597ef7').shape('boundary-polygon')

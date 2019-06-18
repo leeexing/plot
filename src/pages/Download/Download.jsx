@@ -131,7 +131,11 @@ class Download extends Component {
   }
 
   recordDownloadCount = id => {
-    api.recordDownloadCount(id).then(res => {}).catch(console.error)
+    api.recordDownloadCount(id).then(res => {
+      if (res.result) {
+        this.fetchData()
+      }
+    }).catch(console.error)
   }
 
   search = value => {
