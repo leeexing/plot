@@ -8,7 +8,7 @@ function Calendar (props) {
 
   let { data, monthes } = props
 
-  const monthMap = ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月']
+  const monthMap = ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二']
   // const monthMap = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
   const nowDate = getNowDate()
 
@@ -101,7 +101,7 @@ function Calendar (props) {
       tickLine: null,
       line: null,
       label: {
-        offset: 12,
+        offset: 2,
         textStyle: {
           fontSize: 12,
           fill: '#666',
@@ -114,12 +114,6 @@ function Calendar (props) {
             return monthMap[monthes[1] - 1]
           } else if (val === '10') {
             return monthMap[monthes[2] - 1]
-          } else if (val === '15') {
-            return 'AUG'
-          } else if (val === '19') {
-            return 'SEP'
-          } else if (val === '24') {
-            return 'OCT'
           }
           return ''
         }

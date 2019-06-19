@@ -55,7 +55,7 @@
       justify-content: space-between;
       height: 60px;
       padding: 0 10px;
-      .nav-breadcrumb, .nav-app-titie, .nav-user {
+      .nav-breadcrumb, .nav-app-title, .nav-user {
         display: flex;
         align-items: center;
       }
@@ -67,8 +67,15 @@
           color: #40a9ff;
         }
       }
-      .nav-app-titie {
-        font-size: 18px;
+      .nav-app {
+        &-title {
+          font-size: 18px;
+          &-mini {
+            display: none;
+            align-items: center;
+            font-size: 16px;
+          }
+        }
       }
       .nav-user {
         .ant-dropdown-link {

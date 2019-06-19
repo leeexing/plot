@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Alert, Avatar, Divider, Steps, Tag, Icon, Collapse, Button } from 'antd'
+import { Alert, Avatar, Divider, Steps, Tag, Icon, Button } from 'antd'
 
 import Directory from 'components/G2/Directory'
 import { PlotIcon } from '@/icon'
@@ -13,7 +13,6 @@ function AboutPlot(props) {
   const [isShowDirectory, setShowDirectory] = useState(false)
 
   const onChange = current => {
-    console.log('onChange:', current)
     setCurrent(current)
   }
 
@@ -30,7 +29,7 @@ function AboutPlot(props) {
     </div>
     <div>
       <Tag color="green">方法一</Tag>
-      直接压缩，所有图像的img（或者<strong>.img</strong>和<i className="jpg">.jpg</i>文件）文件放在一个文件夹内：全选<strong>.img</strong>文件——>右键——>发送到——>压缩（zipped）文件夹
+      直接压缩，所有图像的<strong>.img</strong>（或者<strong>.img</strong>和<i className="jpg">.jpg</i>文件）文件放在一个文件夹内：全选<strong>.img</strong>文件——>右键——>发送到——>压缩（zipped）文件夹
     </div>
     <div>
       <Tag color="green">方法二</Tag>
@@ -39,6 +38,7 @@ function AboutPlot(props) {
     <div className={isShowDirectory ? 'directory directory-show' : 'directory'}>
       <Directory></Directory>
     </div>
+    <div><Tag color="#f50">强调</Tag><strong>.img</strong>文件对应的缩略图<i className="jpg">.jpg</i>，两者名称<strong>必须相同</strong></div>
   </div>
 
   const plotImage = <div className="step-wrap">
@@ -52,7 +52,7 @@ function AboutPlot(props) {
       <Avatar size={32} icon="cloud-download" style={{background: '#f6caa8'}} />
       ——>选择图像——>输入下载包名称——>点击 <Tag color="#108ee9">下载</Tag>按钮——>图像打包成功；</div>
     <div><Tag color="blue">步骤二：</Tag>标图下载：标图下载——>选择要下载的图包——>点击<a>下载</a>链接——>下载成功供后续使用</div>
-    <div><Tag color="#f50">注意</Tag>下载的图像包只保留60天，请及时下载</div>
+    <div><Tag color="#f50">注意</Tag>下载的图像包只保留60天，请及时下载；下载的压缩包是经过加密的，不能直接打开查看</div>
   </div>
 
   return (

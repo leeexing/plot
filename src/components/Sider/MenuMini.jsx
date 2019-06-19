@@ -3,7 +3,6 @@ import { withRouter } from 'react-router-dom'
 import { inject, observer } from 'mobx-react'
 import { Menu, Icon, Dropdown } from 'antd'
 
-import logoMd from 'assets/logo-md.png'
 import logoMini from 'assets/logo-mini.png'
 import { menuRoutes } from '@/router/app'
 

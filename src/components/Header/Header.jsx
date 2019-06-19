@@ -54,9 +54,13 @@ class NavBar extends Component {
             <NavBreadcrumb></NavBreadcrumb>
           </div>
           <MenuMini></MenuMini>
-          <div className="nav-app-titie">
+          <div className="nav-app-title">
             <Icon type="cloud" style={{marginRight: "5px"}} />
             安培云·在线标注平台
+          </div>
+          <div className="nav-app-title-mini">
+            <Icon type="cloud" style={{marginRight: "5px"}} />
+            在线标注平台
           </div>
           <div className="nav-user">
             <Dropdown overlay={menu} trigger={['click']} placement="bottomRight">

@@ -96,7 +96,7 @@ class HomePage extends Component {
       <div className="app-home">
         <Row gutter={15} style={{marginBottom: '10px'}}>
           {/* 平台标注日历 */}
-          <Col span={12}>
+          <Col xs={{ span: 24}} md={{ span: 12}}>
             <Card title={<div>平台标注日历<span style={{color: '#999', fontSize: '12px'}}>(近三个月)</span></div>}>
               {calendarLoading
                 ? <Spin size="large" />
@@ -107,7 +107,7 @@ class HomePage extends Component {
             </Card>
           </Col>
           {/* 标注图像概览 */}
-          <Col span={12}>
+          <Col xs={{ span: 24}} md={{ span: 12}}>
             <Card title={plotOverviewTitle}>
               {loading
                 ? <Spin size="large" />
@@ -120,7 +120,7 @@ class HomePage extends Component {
         </Row>
         <Row gutter={15}>
           {/* 图像类型分布 */}
-          <Col span={12}>
+          <Col xs={{ span: 24}} md={{ span: 12}}>
             <Card title={drAngleViewTitle}>
               {loading
                 ? <Spin size="large" />
@@ -131,7 +131,7 @@ class HomePage extends Component {
             </Card>
           </Col>
           {/* 在线标注排行榜 */}
-          <Col span={12}>
+          <Col xs={{ span: 24}} md={{ span: 12}}>
             <Card title="在线标注排行榜(Top5)">
               {loading
                 ? <Spin size="large" />
