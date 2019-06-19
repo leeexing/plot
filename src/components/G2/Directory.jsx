@@ -38,7 +38,6 @@ function HomeG2 () {
   useEffect(() => {
     chart = new G2.Chart({
       container: 'home-file-g2',
-      // forceFit: true,
       width: 600,
       height: 300,
       padding: [0, 20, 0, 0]

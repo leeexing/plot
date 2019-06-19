@@ -1,1 +1,7 @@
-export  { default } from './Login'
+import Login from "./Login"
+import Signin from "./Signin"
+
+export  {
+  Login,
+  Signin
+}

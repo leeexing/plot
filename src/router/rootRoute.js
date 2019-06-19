@@ -1,8 +1,9 @@
-import Login from 'pages/Login'
+import { Login, Signin } from 'pages/Login'
 
 export default {
   path: '',
   children: [
-    {path: 'login', component: Login},
+    {path: 'login', component: Signin},
+    {path: 'signin', component: Login},
   ]
 }
