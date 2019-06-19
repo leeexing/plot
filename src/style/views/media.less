@@ -14,11 +14,27 @@
     .loading {
       width: 100%;
     }
+    // 登录相关
     .app-login {
       justify-content: center;
-      .app-login-wrap {
+      &-wrap {
+        display: flex;
+        justify-content: center;
         width: 300px;
         margin: 0;
+        padding: 10px;
+        background-image: none !important;
+
+        .login-form {
+          padding-left: 0;
+        }
+        .app-login-title {
+          margin-top: 10px;
+        }
+      }
+      &-form {
+        padding-right: 0;
+        width: 250px;
       }
     }
   }
