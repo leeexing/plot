@@ -3,6 +3,7 @@ import { inject, observer }  from 'mobx-react'
 import { Avatar, Menu, Icon, Dropdown } from 'antd'
 import { withRouter } from 'react-router-dom'
 
+import { MenuMini } from 'components/Sider'
 import NavBreadcrumb from './NavBreadcrumb'
 import avatarImg from '@/assets/admin_avatar.png'
 
@@ -52,6 +53,7 @@ class NavBar extends Component {
           <div className="nav-breadcrumb">
             <NavBreadcrumb></NavBreadcrumb>
           </div>
+          <MenuMini></MenuMini>
           <div className="nav-app-titie">
             <Icon type="cloud" style={{marginRight: "5px"}} />
             安培云·在线标注平台

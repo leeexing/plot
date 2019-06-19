@@ -1,0 +1,31 @@
+@media screen and (max-width: 736px) {
+  .loading {
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  #root {
+    .nav-breadcrumb {
+      display: none;
+    }
+    .app {
+      &-menu {
+        display: none;
+        &-mini {
+          display: flex;
+        }
+      }
+    }
+    .loading {
+      width: 100%;
+    }
+    .app-login {
+      justify-content: center;
+      .app-login-wrap {
+        width: 300px;
+        margin: 0;
+      }
+    }
+  }
+}

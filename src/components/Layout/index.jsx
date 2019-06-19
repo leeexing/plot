@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import { Layout, BackTop } from 'antd'
 import Header from 'components/Header'
-import AppSider from 'components/Sider'
+import { MenuSider } from 'components/Sider'
 import Upload from 'components/GlobalUploader'
 import SignalrMessage from 'components/Signalr'
 import './index.less'
@@ -24,15 +24,11 @@ class WebLayout extends Component {
     return (
       <Layout className="app-container">
         <div className="main-wrapper">
-          <AppSider />
+          <MenuSider />
           <div className="app-main">
             <Header />
             <div className="content-wrapper">
-              {/* <div className="content-inner-wrapper">{this.props.children}</div> */}
               {this.props.children}
-              {/* <Footer className="footer">
-                © 2019 <Icon type="user" /> Leecin
-              </Footer> */}
             </div>
           </div>
         </div>
