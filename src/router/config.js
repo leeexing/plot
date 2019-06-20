@@ -1,11 +1,11 @@
-import mobileRoutes from './mobile'
+// import mobileRoutes from './mobile' // -测试手机端图像显示相关的页面
 import rootRoutes from './rootRoute'
 import appRoutes from './app'
 
 let childRoutes = [
   rootRoutes,
-  mobileRoutes,
-  appRoutes
+  // mobileRoutes,
+  appRoutes,
 ]
 
 const routes = [

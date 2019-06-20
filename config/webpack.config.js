@@ -23,6 +23,8 @@ const getClientEnvironment = require('./env');
 const ModuleNotFoundPlugin = require('react-dev-utils/ModuleNotFoundPlugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin-alt');
 const typescriptFormatter = require('react-dev-utils/typescriptFormatter');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin'); // -压缩混淆
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer'); // -打包分析
 
 
 // Source maps are resource heavy and can cause out of memory issue for large source files.
@@ -331,6 +333,11 @@ module.exports = function(webpackEnv) {
                 limit: 10000,
                 name: 'static/media/[name].[hash:8].[ext]',
               },
+              // -添加图片压缩。结果有些图片丢失了。不行啊
+              // loader: [
+              //   require.resolve('url-loader') + '?limit=10000&name=static/media/[name].[hash:8].[ext]',
+              //   'image-webpack-loader'
+              // ]
             },
             {
               test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
@@ -508,6 +515,8 @@ module.exports = function(webpackEnv) {
       ],
     },
     plugins: [
+      // -webpack的新特性。比较复杂，但是可以缩小体积
+      new webpack.optimize.ModuleConcatenationPlugin(),
       // Generates an `index.html` file with the <script> injected.
       new HtmlWebpackPlugin(
         Object.assign(
@@ -632,6 +641,11 @@ module.exports = function(webpackEnv) {
           silent: true,
           formatter: typescriptFormatter,
         }),
+      // -压缩混淆
+      new UglifyJsPlugin(),
+      // -打包优化分析
+      new BundleAnalyzerPlugin({ analyzerPort: 8919 })
+
     ].filter(Boolean),
     // Some libraries import Node modules but don't use them in the browser.
     // Tell Webpack to provide empty mocks for them so importing them works.

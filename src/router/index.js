@@ -29,12 +29,13 @@ class Router extends Component {
           />
         )
       } else if (item.component) {
+        let PView = item.component
         children.push(
           <Route
-            key={newCtxPath}
-            component={item.component}
-            path={newCtxPath}
             exact
+            key={newCtxPath}
+            path={newCtxPath}
+            render={props => <PView {...props} />}
           />
         )
       } else if (item.children) {
@@ -43,9 +44,9 @@ class Router extends Component {
         // 重定向
         children.push(
           <Route
+            exact
             key="redirect"
             path="/"
-            exact
             render={() => (
               this.props.userStore.isLogined
               ? <Redirect to="/home"/>

@@ -85,6 +85,7 @@ checkBrowsers(paths.appPath, isInteractive)
             ' to the line before.\n'
         );
       } else {
+        console.log(chalk.green('\n' + process.env.BUILD_TYPE + ': 生产环境打包\n'));
         console.log(chalk.green('Compiled successfully.\n'));
       }
 

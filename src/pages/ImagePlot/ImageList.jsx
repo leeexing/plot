@@ -3,6 +3,7 @@ import { inject, observer } from 'mobx-react'
 import { Avatar, Button, Divider, Input, Select, Progress,
  Table, Tag, Modal, message, Pagination } from 'antd'
 
+import './style.less'
 import api from '@/api'
 import { calculateSize } from '@/util'
 

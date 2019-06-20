@@ -1,10 +1,9 @@
 import React, { Component } from 'react'
 import { Avatar, Button, Badge, Input, Pagination, Tooltip, Skeleton, Select, message } from 'antd'
 
-import FullScreen from 'components/FullScreen'
-import { PackIcon } from '@/icon'
 import api from '@/api'
-import './style.less'
+import { PackIcon } from '@/icon'
+import FullScreen from 'components/FullScreen'
 
 
 class HomePage extends Component {
