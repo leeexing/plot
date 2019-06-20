@@ -29,6 +29,13 @@ function HomeG2 (props) {
       startAngle: Math.PI, // 起始角度
       endAngle: Math.PI * (3 / 2) // 结束角度
     })
+    chart.tooltip({
+      title: 'type',
+      itemTpl: `<li data-index={index}>
+        <span style="background-color:{color};width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:8px;"></span>
+        数量<span style="margin-left: 20px;">{value}</span>
+      </li>`
+    })
     chart.intervalStack().position('value').color('type').label('type')
     chart.render()
   }, [])

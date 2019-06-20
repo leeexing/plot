@@ -71,6 +71,13 @@ function HomeG2 (props) {
     })
     chart.source(data)
     chart.coord('theta')
+    chart.tooltip({
+      title: 'type',
+      itemTpl: `<li data-index={index}>
+        <span style="background-color:{color};width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:8px;"></span>
+        数量<span style="margin-left: 20px;">{value}</span>
+      </li>`
+    })
     chart.intervalStack().position('value').color('type').shape('platelet').label('type')
     chart.render()
   }, [])
