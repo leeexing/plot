@@ -5,6 +5,7 @@ import { SIGNALR_URL } from '@/api/config'
 
 const signalR = require('@aspnet/signalr')
 
+
 function SignalrMessage () {
 
   let connection

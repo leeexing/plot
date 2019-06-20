@@ -26,6 +26,7 @@ const ACCEPT_CONFIG = {
   }
 }
 
+
 @inject('appStore')
 @observer
 class ImageUpload extends Component {

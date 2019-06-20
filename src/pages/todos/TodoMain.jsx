@@ -2,10 +2,10 @@ import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
 import { Card } from 'antd'
 
-import TodoHeader from './TodoHeader'
-import TodoList from './TodoList'
-import TodoFooter from './TodoFooter'
 import './todo.less'
+import TodoList from './TodoList'
+import TodoHeader from './TodoHeader'
+import TodoFooter from './TodoFooter'
 
 @inject('todoStore')
 @observer

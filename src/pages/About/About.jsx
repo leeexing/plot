@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
 import { Alert, Avatar, Divider, Steps, Tag, Icon, Button } from 'antd'
 
-import Directory from 'components/G2/Directory'
-import { PlotIcon } from '@/icon'
 import './style.less'
+import { PlotIcon } from '@/icon'
+import Directory from 'components/G2/Directory'
 
 const { Step } = Steps
+
 
 function AboutPlot(props) {
 

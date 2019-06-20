@@ -1,7 +1,6 @@
-import React, {
-  useEffect
-} from 'react'
+import React, { useEffect } from 'react'
 import G2 from '@antv/g2'
+
 
 function HomeG2 (props) {
 

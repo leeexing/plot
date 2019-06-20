@@ -44,6 +44,13 @@ function HomeG2 (props) {
       line: null,
       tickLine: null
     })
+    chart.tooltip({
+      title: 'name',
+      itemTpl: `<li data-index={index}>
+        <span style="background-color:{color};width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:8px;"></span>
+        标注总量<span style="margin-left: 20px;">{value}</span>
+      </li>`
+    })
     chart.interval().position('name*plot').color('name', ['#f6c27d', '#fec514', '#db4c3c', '#a9dff3', '#2fc25b'])
     chart.point().position('name*plot').size(60).shape('name', function(name) {
       let data = plotRank.filter(item => item.name === name)[0]

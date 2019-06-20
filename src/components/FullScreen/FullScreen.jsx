@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import { Button } from 'antd'
+
 import './style.less'
+
 
 class FullScreen extends Component {
 

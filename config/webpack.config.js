@@ -147,6 +147,15 @@ module.exports = function(webpackEnv) {
       // initialization, it doesn't blow up the WebpackDevServer client, and
       // changing JS code would still trigger a refresh.
     ].filter(Boolean),
+    // - ADD: by myself
+    // entry: {
+    //   index: [
+    //     isEnvDevelopment &&
+    //       require.resolve('react-dev-utils/webpackHotDevClient'),
+    //     paths.appIndexJs,
+    //   ].filter(Boolean),
+    //   vendor: ['react','react-dom','react-router-dom','mbox'] //在此处配置
+    // },
     output: {
       // The build folder.
       path: isEnvProduction ? paths.appBuild : undefined,
@@ -328,16 +337,57 @@ module.exports = function(webpackEnv) {
             // A missing `test` is equivalent to a match.
             {
               test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/],
-              loader: require.resolve('url-loader'),
-              options: {
-                limit: 10000,
-                name: 'static/media/[name].[hash:8].[ext]',
-              },
-              // -添加图片压缩。结果有些图片丢失了。不行啊
-              // loader: [
-              //   require.resolve('url-loader') + '?limit=10000&name=static/media/[name].[hash:8].[ext]',
-              //   'image-webpack-loader'
-              // ]
+              // loader: require.resolve('url-loader'),
+              // options: {
+              //   limit: 10000, // -size <= 1KB
+              //   name: 'static/media/[name].[hash:8].[ext]',
+              // },
+              // -添加图片压缩
+              use: [
+                {
+                  loader: require.resolve('url-loader'),
+                  options: {
+                    limit: 10000, // -size <= 1KB
+                    name: 'static/media/[name].[hash:8].[ext]',
+                  },
+                },
+                // -这个插件更加好
+                {
+                  loader: 'image-webpack-loader',
+                  options: {
+                    mozjpeg: {
+                      progressive: true,
+                      quality: 65
+                    },
+                    // optipng.enabled: false will disable optipng
+                    optipng: {
+                      enabled: false,
+                    },
+                    pngquant: {
+                      quality: '65-90',
+                      speed: 4
+                    },
+                    gifsicle: {
+                      interlaced: false,
+                    },
+                    // the webp option will enable WEBP
+                    webp: {
+                      quality: 75
+                    }
+                  }
+                },
+                // -这个插件有局限，只能对png图片做处理
+                // {
+                //   loader: "img-loader",
+                //   options: {
+                //     plugins: [
+                //       require("imagemin-pngquant")({
+                //         quality: [0.4, 0.6] // the quality of zip 指定压缩率
+                //       })
+                //     ]
+                //   }
+                // }
+              ]
             },
             {
               test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
@@ -642,9 +692,15 @@ module.exports = function(webpackEnv) {
           formatter: typescriptFormatter,
         }),
       // -压缩混淆
-      new UglifyJsPlugin(),
+      new UglifyJsPlugin({
+        uglifyOptions: {
+          compress: {
+            drop_console: true
+          }
+        }
+      }),
       // -打包优化分析
-      new BundleAnalyzerPlugin({ analyzerPort: 8919 })
+      // new BundleAnalyzerPlugin({ analyzerPort: 8919 })
 
     ].filter(Boolean),
     // Some libraries import Node modules but don't use them in the browser.

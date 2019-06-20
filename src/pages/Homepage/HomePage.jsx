@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
 import { Row, Col, Card, Spin } from 'antd'
 
-import PlotOverview from 'components/G2/PlotOverview'
-import Distribute from 'components/G2/Distribute'
+import './style.less'
+import api from '@/api'
 import DrCount from 'components/G2/DrCount'
 import Calendar from 'components/G2/Calendar'
-import api from '@/api'
-import './style.less'
+import PlotTop5 from 'components/G2/PlotTop5'
+import PlotOverview from 'components/G2/PlotOverview'
 
 const defaultPlotTopFive = [{
   name: 'John',
@@ -26,6 +26,7 @@ const defaultPlotTopFive = [{
 }]
 
 const defaultDrAngleView = [10, 20]
+
 
 class HomePage extends Component {
   constructor (props) {
@@ -136,7 +137,7 @@ class HomePage extends Component {
               {loading
                 ? <Spin size="large" />
                 : plotRank.length > 0
-                  ? <Distribute plotRank={plotRank}></Distribute>
+                  ? <PlotTop5 plotRank={plotRank} />
                   : '暂无数据'
               }
             </Card>

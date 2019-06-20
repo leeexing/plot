@@ -3,8 +3,8 @@ import { withRouter } from 'react-router-dom'
 import { inject, observer } from 'mobx-react'
 import { Menu, Icon, Dropdown } from 'antd'
 
-import logoMini from 'assets/logo-mini.png'
 import { menuRoutes } from '@/router/app'
+import logoMini from 'assets/logo-mini.png'
 
 
 @withRouter

@@ -1,6 +1,4 @@
-import React, {
-  useEffect
-} from 'react'
+import React, { useEffect } from 'react'
 import G2 from '@antv/g2'
 
 
@@ -11,11 +9,12 @@ function getPoint(p0, p1, ratio) {
   }
 }
 
-let chart = null
 
 function HomeG2 (props) {
 
   let { plotOverview } = props
+
+  let chart = null
 
   const data = [{
     type: '上传图像',

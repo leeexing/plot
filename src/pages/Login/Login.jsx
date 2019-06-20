@@ -2,12 +2,13 @@ import React, { Component } from 'react'
 import { Form, Icon, Input, Button, Checkbox } from 'antd'
 import { inject, observer } from 'mobx-react'
 
-import Auth from '@/util/auth'
-import api from '@/api'
-import logo from '@/assets/logo.jpg'
 import './style.less'
+import api from '@/api'
+import Auth from '@/util/auth'
+import logo from '@/assets/logo.png'
 
 const FormItem = Form.Item
+
 
 @inject('userStore')
 @observer

@@ -2,6 +2,8 @@
 
 TOC
 
+* webpack 相关配置
+* react-router 报错
 * axios 请求超时
 * react-router Redirect
 * npm run build/patch
@@ -9,6 +11,192 @@ TOC
 * mobx
 * 备份小头像地址
 * 关于页面文档
+
+## webpack相关配置
+
+REFER: https://www.webpackjs.com/plugins/uglifyjs-webpack-plugin/
+
+1.压缩混淆
+2.create-react-app webpack配置打包清除console.log
+
+```js
+// -压缩混淆
+new UglifyJsPlugin({
+  compress: {
+    drop_console: true
+  }
+})
+```
+
+3.自动化分析
+
+```js
+// -打包优化分析
+new BundleAnalyzerPlugin({ analyzerPort: 8919 })
+```
+
+4.`CommonsChunkPlugin` 这个已经被`webpack` 弃用了
+
+```js
+// -提取公共文件
+new webpack.optimize.CommonsChunkPlugin({
+  name: 'vendor',
+  filename: 'vendor.bundle.js'
+}),
+```
+
+5.url-loader 图片压缩
+
+```js
+test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/],
+loader: require.resolve('url-loader'),
+options: {
+  limit: 50000,
+  // limit: 10000,
+  name: 'static/media/[name].[hash:8].[ext]',
+},
+```
+
+通过配置 url-loader 的 limit 选项，可以根据图片大小来决定是否进行 base64 编码。这次配置的是：小于 20kb 的图片进行 base64 编码。
+
+另外一种方式
+
+图片压缩需要使用 img-loader ，除此之外，针对不同的图片类型，还要引用不同的插件。比如，我们项目中使用的是 png 图片，因此，需要引入 imagemin-pngquant ，并且指定压缩率。
+
+```js
+use: [
+  {
+    loader: require.resolve('url-loader'),
+    options: {
+      // limit: 50000,
+      limit: 10000,
+      name: 'static/media/[name].[hash:8].[ext]',
+    },
+  },
+  {
+    loader: "img-loader",
+    options: {
+      plugins: [
+        require("imagemin-pngquant")({
+          quality: [0.4, 0.6] // the quality of zip 指定压缩率
+        })
+      ]
+    }
+  }
+]
+```
+
+可以进一步的缩小图片体积
+
+最后，**这个方法更好**：
+
+```js
+use: [
+  {
+    loader: require.resolve('url-loader'),
+    options: {
+      limit: 10000, // -size <= 1KB
+      name: 'static/media/[name].[hash:8].[ext]',
+    },
+  },
+  {
+    loader: 'image-webpack-loader',
+    options: {
+      mozjpeg: {
+        progressive: true,
+        quality: 65
+      },
+      // optipng.enabled: false will disable optipng
+      optipng: {
+        enabled: false,
+      },
+      pngquant: {
+        quality: '65-90',
+        speed: 4
+      },
+      gifsicle: {
+        interlaced: false,
+      },
+      // the webp option will enable WEBP
+      webp: {
+        quality: 75
+      }
+    }
+  },
+  // {
+  //   loader: "img-loader",
+  //   options: {
+  //     plugins: [
+  //       require("imagemin-pngquant")({
+  //         quality: [0.4, 0.6] // the quality of zip 指定压缩率
+  //       })
+  //     ]
+  //   }
+  // }
+]
+```
+
+ TIP: -
+图片一部分没有出现在 `media` 打包文件夹中，是因为一部分图片被处理成 base64 的数据格式了
+
+## react-router报错
+
+```js
+// 之前是这么写的
+if (item.component && item.children) {
+  const childRoutes = this.renderRoutes(item.children, newCtxPath)
+  children.push(
+    <Route
+      key={newCtxPath}
+      render={props => <item.component {...props}>{childRoutes}</item.component>}
+    />
+  )
+} else if (item.component) {
+  // NOTE: 这里会报错。
+  children.push(
+    <Route
+      exact
+      key={newCtxPath}
+      path={newCtxPath}
+      component={item.component}
+    />
+  )
+} else if (item.children) {
+  item.children.forEach(item => renderRoute(item, newCtxPath))
+}
+```
+
+报错信息：
+**Warning: Failed prop type: Invalid prop `component` of type `object` supplied to `Route`, expected `function`**
+主要原因可能是因为
+由于添加了 `@loadable/component` 进行懒加载，结果报错
+
+然后搜索相关资料，修改如下，可以了
+
+```js
+// 修改之后
+if (item.component && item.children) {
+  const childRoutes = this.renderRoutes(item.children, newCtxPath)
+  children.push(
+    <Route
+      key={newCtxPath}
+      render={props => <item.component {...props}>{childRoutes}</item.component>}
+    />
+  )
+} else if (item.component) {
+  let PView = item.component // UPDATE: 这里修改了
+  children.push(
+    <Route
+      exact
+      key={newCtxPath}
+      path={newCtxPath}
+      render={props => <PView {...props} />}
+    />
+  )
+} else if (item.children) {
+  item.children.forEach(item => renderRoute(item, newCtxPath))
+}
+```
 
 ## axios 请求超时
 

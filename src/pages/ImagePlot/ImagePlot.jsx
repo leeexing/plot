@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import { Avatar, Button, Badge, Input, Pagination, Tooltip, Skeleton, Select, message } from 'antd'
+import { Avatar, Button, Badge, Input, Pagination,
+  Tooltip, Skeleton, Select, message } from 'antd'
 
 import api from '@/api'
 import { PackIcon } from '@/icon'

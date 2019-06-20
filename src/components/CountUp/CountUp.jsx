@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import CountUp from 'countup.js'
-import './countUp.less'
+
+import './style.less'
+
 
 class Countup extends Component {
   constructor (props) {
