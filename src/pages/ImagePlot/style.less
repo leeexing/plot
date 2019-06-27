@@ -3,6 +3,7 @@
     display: flex;
     justify-content: space-between;
   }
+
   &-search {
     width: 50%;
     display: flex;
@@ -12,18 +13,22 @@
     height: 68px;
     background: #F7F9FA;
   }
+
   &-upload {
     flex: 1;
   }
+
   &-upload-icon {
     position: relative;
     margin-bottom: 10px;
     text-align: center;
     cursor: pointer;
+
     &,
     span {
       transition: all .5s;
     }
+
     p {
       position: absolute;
       left: 0;
@@ -35,27 +40,33 @@
       height: 100%;
       transition: all .4s linear;
       opacity: 0;
+
       span {
         font-size: 12px;
         color: #666;
       }
     }
+
     &:hover {
       background: #A1C4FD;
-      > span {
+
+      >span {
         opacity: 0;
         transform: translateY(-50%);
       }
+
       p {
         opacity: 1;
       }
     }
   }
+
   &-info {
     padding: 30px 10px;
     text-align: center;
     font-size: 18px;
   }
+
   &-image {
     .m-plot {
       &-download {
@@ -67,30 +78,38 @@
         padding: 2px;
         margin-bottom: 10px;
         background: #E7F0FD;
+
         &,
         span {
           transition: all .5s;
         }
-        span{
+
+        span {
           transform: scale(.9);
           cursor: pointer;
           animation: fadeIn .3s linear;
         }
+
         &:hover {
           background: #A1C4FD;
-          > span {
+
+          >span {
             transform: scale(1);
           }
+
           // p {
           //   opacity: 1;
           // }
         }
+
         .download {
           background-color: #fde3cf;
           color: #f56a00;
+
           &-btns {
             transition: all .3s;
             animation: fadeIn .3s linear;
+
             button:not(fist-child) {
               margin-left: 5px;
             }
@@ -98,6 +117,7 @@
         }
       }
     }
+
     .image-content {
       flex: 1;
       padding: 10px 15px 15px 10px;
@@ -106,14 +126,17 @@
       background: #fff;
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.09);
       overflow-y: auto;
+
       &::-webkit-scrollbar-thumb {
         display: none;
       }
+
       &:hover {
         &::-webkit-scrollbar-thumb {
           display: block;
         }
       }
+
       .no-match {
         height: 200px;
         line-height: 200px;
@@ -122,12 +145,14 @@
         color: #888;
       }
     }
+
     .image-list {
       float: left;
       position: relative;
       width: 20%;
       padding-top: 20%;
     }
+
     .image-item {
       position: absolute;
       top: 8px;
@@ -143,6 +168,7 @@
       border-radius: 2px;
       transition: all .3s;
       overflow: hidden;
+
       // cursor: pointer;
       .image-operate {
         position: absolute;
@@ -153,19 +179,23 @@
         width: 100%;
         height: 20px;
         padding: 5px;
+
         .image-check {
           position: absolute;
           left: 5px;
+
           i {
             position: relative;
             // padding: 5px 50px 50px 5px;
             z-index: 1;
             cursor: pointer;
+
             &:hover {
               &::after {
-                background: rgba(0,0,0,.04);
+                background: rgba(0, 0, 0, .04);
               }
             }
+
             &::after {
               content: "";
               position: absolute;
@@ -179,12 +209,14 @@
             }
           }
         }
+
         .image-handle {
           opacity: 0;
           transition: opacity 0.3s;
           cursor: pointer;
         }
       }
+
       .image-wrap {
         flex: 1;
         display: flex;
@@ -192,11 +224,13 @@
         align-items: center;
         flex-direction: column;
         cursor: pointer;
+
         img {
           max-width: 100%;
           max-height: 100%;
         }
       }
+
       .image-name {
         flex-shrink: 0;
         display: flex;
@@ -205,6 +239,7 @@
         box-shadow: 0 0 4px 4px #F7F9FA;
         color: #888;
         z-index: 9;
+
         h3 {
           margin-right: 5px;
           overflow: hidden;
@@ -212,27 +247,33 @@
           text-overflow: ellipsis;
           color: #666;
         }
+
         .plot-status {
           flex-shrink: 0;
           font-size: 12px;
           line-height: 22px;
+
           &.ploted {
             color: #1890ff;
             font-weight: 600;
           }
+
           &.unplot {
             color: #8c8c8c;
           }
         }
       }
+
       &:hover {
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.09);
         transform: translateY(-5px);
+
         .image-handle {
           opacity: 1;
         }
       }
     }
+
     .pagination {
       margin-top: 10px;
       text-align: right;
@@ -240,29 +281,35 @@
   }
 
 }
+
 // -标图详情
 .m-plot-detail {
   .image-plot-wrap {
     display: flex;
     width: 100%;
     height: 500px;
+
     .dr-canvas {
       flex: 1;
     }
   }
+
   .dr-canvas {
     position: relative;
     width: 100%;
     height: 100%;
     padding-right: 6px;
+
     canvas {
-        display: block;
+      display: block;
     }
+
     .dr-angles {
       position: absolute;
       top: 10px;
       right: 15px;
       z-index: 9;
+
       a {
         display: inline-block;
         margin-left: 10px;
@@ -270,8 +317,11 @@
         background: #2d8cf0;
         color: #fff;
         cursor: pointer;
+
         &.active {
-          &:hover, &:focus {
+
+          &:hover,
+          &:focus {
             background-color: #b24;
           }
         }

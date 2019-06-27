@@ -10,7 +10,7 @@ function getPoint(p0, p1, ratio) {
 }
 
 
-function HomeG2 (props) {
+function HomeG2(props) {
 
   let { plotOverview } = props
 
@@ -92,7 +92,6 @@ function HomeG2 (props) {
   const stopChartRender = () => chart.clear()
 
   useEffect(() => stopChartRender, [])
-
 
   return (
     <div id="home-g2" className="m-g2"></div>

@@ -8,7 +8,7 @@ import FullScreen from 'components/FullScreen'
 
 
 class HomePage extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       isDataLoaded: false,
@@ -29,7 +29,7 @@ class HomePage extends Component {
     }
   }
 
-  componentDidMount () {
+  componentDidMount() {
     this.fetchData()
     window.onmessage = msgEvent => {
       let { type, id, postData } = msgEvent.data
@@ -41,7 +41,7 @@ class HomePage extends Component {
     }
   }
 
-  fetchData (updatePageNum=false) {
+  fetchData(updatePageNum=false) {
     let { batchId } = this.props.match.params
     let { limit, plotStatus, imageName } = this.state
     let data = {
@@ -99,7 +99,7 @@ class HomePage extends Component {
     })
   }
 
-  onHandleSelectAll = (value=true) => {
+  onHandleSelectAll = (value = true) => {
     let imageList = this.state.imageList.slice()
     imageList.map(item => {
       item.isSelected = value ? true : !item.isSelected
@@ -112,7 +112,7 @@ class HomePage extends Component {
     })
   }
 
-  onHandleDownload (isPack = true)  {
+  onHandleDownload(isPack = true)  {
     if (!isPack) {
       this.resetDownloadStatus()
       return
@@ -136,19 +136,19 @@ class HomePage extends Component {
     })
   }
 
-  resetDownloadStatus () {
+  resetDownloadStatus() {
     let imageList = this.state.imageList.slice()
     imageList.forEach(item => item.isSelected = false)
     this.setState({
+      imageList,
       wantToDownload: false,
       selectedImageIds: new Set(),
       selectedImageCount: 0,
-      tag: '',
-      imageList
+      tag: ''
     })
   }
 
-  onHandleSelect (item, index, value) {
+  onHandleSelect(item, index, value) {
     if (value) {
       this.state.selectedImageIds.add(item.id)
     } else {
@@ -162,7 +162,7 @@ class HomePage extends Component {
     })
   }
 
-  plotImage (item) {
+  plotImage(item) {
     let { batchId } = this.props.match.params
     let { imageName, plotStatus, total, currentPage, pageSize } = this.state
     let url = `api/upload/${batchId}`
@@ -179,7 +179,7 @@ class HomePage extends Component {
     this.refs.fullScreen.openFullScreen()
   }
 
-  closeFullScreen = (type='esc') => {
+  closeFullScreen = (type = 'esc') => {
     if (type === 'esc') {
       this.setState({
         isFull: false,
@@ -189,7 +189,7 @@ class HomePage extends Component {
     }
   }
 
-  render () {
+  render() {
     let { currentPage, total, pageSize } = this.state
     let imageList = this.state.imageList.slice((currentPage - 1) * pageSize, currentPage * pageSize)
     return (
@@ -211,22 +211,16 @@ class HomePage extends Component {
               defaultValue="全部"
               onChange={this.handlePlotStatusChange}
             >
-              <Select.Option value="all" label="全部">
-                全部
-              </Select.Option>
-              <Select.Option value="unplot" label="未标图">
-                未标图
-              </Select.Option>
-              <Select.Option value="ploted" label="已标图">
-                已标图
-              </Select.Option>
+              <Select.Option value="all" label="全部">全部</Select.Option>
+              <Select.Option value="unplot" label="未标图">未标图</Select.Option>
+              <Select.Option value="ploted" label="已标图">已标图</Select.Option>
             </Select>
           </div>
           <div className="m-plot-download">
             {!this.state.wantToDownload
               ? <Avatar onClick={this.onHandleWantToDownload} size={64} icon="cloud-download" className="download" />
               : <React.Fragment>
-                  <Input onChange={this.onhandleTag} placeholder="请输入此次下载的标签名" style={{width: '35%'}} />
+                  <Input onChange={this.onhandleTag} placeholder="请输入此次下载的标签名" style={{ width: '35%' }} />
                   <div className="download-btns">
                       <Button onClick={this.onHandleSelectAll.bind(this)} type="primary">全选</Button>
                       <Button onClick={this.onHandleSelectAll.bind(this, false)} type="primary" ghost>反选</Button>
@@ -247,18 +241,18 @@ class HomePage extends Component {
           <ul className="image-container">
             {this.state.imageList.length < 1
               ? <Skeleton loading={this.state.loading} rows="8">
-                <p className="no-match">暂无结果~</p>
-              </Skeleton>
+                  <p className="no-match">暂无结果~</p>
+                </Skeleton>
               : imageList.map((item, index) => (
                   <li className="image-list" key={index}>
                     <div className="image-item">
                       <div className="image-operate">
                         <div className="image-check">
-                          {
-                            (this.state.wantToDownload && !item.isSelected) && <PackIcon onClick={this.onHandleSelect.bind(this, item, index, true)} />
-                          }
-                          {
-                            (this.state.wantToDownload && item.isSelected) && <PackIcon onClick={this.onHandleSelect.bind(this, item, index, false)} style={{color: "#eb2f96"}} />
+                          {this.state.wantToDownload
+                            ? item.isSelected
+                              ? <PackIcon onClick={this.onHandleSelect.bind(this, item, index, false)} style={{ color: '#eb2f96' }} />
+                              : <PackIcon onClick={this.onHandleSelect.bind(this, item, index, true)} />
+                            : null
                           }
                         </div>
                       </div>
@@ -269,8 +263,8 @@ class HomePage extends Component {
                         <h3>
                           {item.name.length > 10
                             ? <Tooltip title={item.name} placement="top">
-                              {item.name.slice(0, 10) + '...'}
-                            </Tooltip>
+                                {item.name.slice(0, 10) + '...'}
+                              </Tooltip>
                             : item.name
                           }
                         </h3>
@@ -292,7 +286,8 @@ class HomePage extends Component {
                 current={currentPage}
                 pageSize={pageSize}
                 showTotal={total => `总共 ${total} 张`}
-                onChange={this.handlePageChange} />
+                onChange={this.handlePageChange}
+              />
           }
         </div>
 

@@ -29,7 +29,7 @@ class WebLayout extends Component {
         </div>
         <Upload />
         <SignalrMessage />
-        <BackTop target={() => document.querySelector('.content-wrapper')} style={{right: '30px'}} />
+        <BackTop target={() => document.querySelector('.content-wrapper')} style={{ right: '30px' }} />
       </Layout>
     )
   }

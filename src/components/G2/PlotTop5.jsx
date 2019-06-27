@@ -9,7 +9,7 @@ import pilotImg from '@/assets/plotrank/pilot.png'
 import stewardessImg from '@/assets/plotrank/stewardess.png'
 
 
-function HomeG2 (props) {
+function HomeG2(props) {
 
   let { plotRank } = props
 

@@ -6,7 +6,7 @@ import './style.less'
 
 
 class Countup extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       startValue: this.props.startValue || 0,
@@ -15,20 +15,23 @@ class Countup extends Component {
       duration: this.props.duration || 2
     }
   }
-  componentDidMount () {
+
+  componentDidMount() {
     let demo = {}
     demo = new CountUp(this.props.id, this.state.startValue, this.state.endValue, this.state.decimal, this.setState.duration)
     if (!demo.error) {
       demo.start()
     }
   }
-  componentDidUpdate () {
+
+  componentDidUpdate() {
     let demo = new CountUp(this.props.id, this.state.startValue, this.props.endValue, this.state.decimal, this.setState.duration)
     if (!demo.error) {
       demo.start()
     }
   }
-  render () {
+
+  render() {
     return (
       <div className="count-up">
         <h2>

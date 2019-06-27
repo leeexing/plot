@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import G2 from '@antv/g2'
 
 
-function HomeG2 () {
+function HomeG2() {
 
   let chart = null
   let view1 = null
@@ -158,7 +158,6 @@ function HomeG2 () {
   }
 
   useEffect(() => stopChartRender, [])
-
 
   return (
     <div id="home-file-g2" className="m-g2"></div>

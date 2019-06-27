@@ -1,4 +1,10 @@
-import { computed, observable, action, runInAction, flow} from 'mobx'
+import {
+  computed,
+  observable,
+  action,
+  runInAction,
+  flow
+} from 'mobx'
 // import { autorun, trace } from 'mobx'
 import api from '@/api'
 
@@ -49,35 +55,33 @@ import api from '@/api'
 // console.groupEnd('简单学习Mobx')
 
 class TodoStore {
-  @observable todos = [
-    {
-      id: 1,
-      title: '元旦放假结束后第一天工作',
-      isFinished: false
-    }
-  ]
+  @observable todos = [{
+    id: 1,
+    title: '元旦放假结束后第一天工作',
+    isFinished: false
+  }]
 
-  @computed get remainingTodos () {
+  @computed get remainingTodos() {
     return this.todos.filter(item => !item.isFinished).length
   }
 
-  @computed get isAllChecked () {
+  @computed get isAllChecked() {
     return this.todos.length > 0 && this.todos.filter(item => item.isFinished).length === this.todos.length
   }
 
   @action.bound
-  toggleTodo (item) {
+  toggleTodo(item) {
     item.isFinished = !item.isFinished
   }
 
   @action.bound
-  addTodo (todo) {
+  addTodo(todo) {
     console.log(this, todo)
     this.todos.push(todo)
   }
 
   @action('删除待办事项')
-  deleteTodo = (todo) => {
+  deleteTodo = todo => {
     this.todos.remove(todo) // -observable array 自带`remove`方法
     console.log(this.todos.toJS())
     /* let index = this.todos.findIndex(item => item.id === id)
@@ -98,7 +102,7 @@ class TodoStore {
 
   // -异步处理逻辑
   @action
-  getTodos () {
+  getTodos() {
     api.fetchTodos().then(action('获取todos列表', res => {
       console.log(res)
       let newTodos = res.data.tenements.map(item => {
@@ -131,7 +135,7 @@ class TodoStore {
   }
 
   // -flow写法
-  fetchFlowTodos = flow(function *fetchFlowTodosData() {
+  fetchFlowTodos = flow(function* fetchFlowTodosData() {
     try {
       let data = yield api.fetchTodos()
       this.todos = data.data.tenements.map(item => {
@@ -151,7 +155,9 @@ class TodoStore {
   @action
   testBlob = () => {
     let data = new Array(100).fill('test')
-    let blob = new Blob([JSON.stringify(data, null, 2)], {type: 'application/json'})
+    let blob = new Blob([JSON.stringify(data, null, 2)], {
+      type: 'application/json'
+    })
     let formData = new FormData()
     formData.append('equipmentDataFile', blob)
     let reader = new FileReader()
@@ -162,7 +168,9 @@ class TodoStore {
       }
     }
     console.log(blob)
-    api.testBlob(formData, {contentType: 'file'}).then(res => {
+    api.testBlob(formData, {
+      contentType: 'file'
+    }).then(res => {
       console.log(res)
     }).catch(console.log)
   }

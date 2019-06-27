@@ -10,7 +10,7 @@ const events = ['fileProgress', 'fileSuccess', 'fileComplete', 'fileError']
 @inject('appStore')
 @observer
 class UploadFile extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       paused: false,
@@ -31,138 +31,8 @@ class UploadFile extends Component {
       list: true
     }
   }
-  fileCategory () {
-    const extension = this.extension
-    const isFolder = this.file.isFolder
-    let type = isFolder ? 'folder' : 'unknown'
-    const categoryMap = this.file.uploader.opts.categoryMap
-    const typeMap = categoryMap || {
-      image: ['gif', 'jpg', 'jpeg', 'png', 'bmp', 'webp'],
-      video: ['mp4', 'm3u8', 'rmvb', 'avi', 'swf', '3gp', 'mkv', 'flv'],
-      audio: ['mp3', 'wav', 'wma', 'ogg', 'aac', 'flac'],
-      document: ['doc', 'txt', 'docx', 'pages', 'epub', 'pdf', 'numbers', 'csv', 'xls', 'xlsx', 'keynote', 'ppt', 'pptx']
-    }
-    Object.keys(typeMap).forEach((_type) => {
-      const extensions = typeMap[_type]
-      if (extensions.indexOf(extension) > -1) {
-        type = _type
-      }
-    })
-    return type
-  }
-  progressStyle () {
-    const progress = Math.floor(this.state.progress * 100)
-    const style = `translateX(${Math.floor(progress - 100)}%)`
-    return {
-      progress: `${progress}%`,
-      transform: style
-    }
-  }
-  formatedAverageSpeed () {
-    return `${Uploader.utils.formatSize(this.state.averageSpeed)} / s`
-  }
-  status () {
-    const isUploading = this.state.isUploading
-    const isComplete = this.state.isComplete
-    const isError = this.state.error
-    const paused = this.state.paused
-    if (isComplete) {
-      return 'success'
-    } else if (isError) {
-      return 'error'
-    } else if (isUploading) {
-      return 'uploading'
-    } else if (paused) {
-      return 'paused'
-    } else {
-      return 'waiting'
-    }
-  }
-  statusText () {
-    const status = this.status()
-    return this.state.file.uploader.fileStatusText[status] || status
-  }
-  formatedTimeRemaining () {
-    const timeRemaining = this.state.timeRemaining
-    const file = this.state.file
-    console.log(timeRemaining)
-    if (timeRemaining === Number.POSITIVE_INFINITY || timeRemaining === 0) {
-      return ''
-    }
-    let parsedTimeRemaining = secondsToStr(timeRemaining)
-    const parseTimeRemaining = file.uploader.opts.parseTimeRemaining
-    if (parseTimeRemaining) {
-      parsedTimeRemaining = parseTimeRemaining(timeRemaining, parsedTimeRemaining)
-    }
-    console.log(parsedTimeRemaining)
-    return parsedTimeRemaining
-  }
 
-  _actionCheck () {
-    this.setState({
-      paused: this.state.file.paused,
-      error: this.state.file.error,
-      isUploading: this.state.file.isUploading()
-    })
-  }
-  pause () {
-    this.state.file.pause()
-    this._actionCheck()
-    this._fileProgress()
-  }
-  resume () {
-    this.state.file.resume()
-    this._actionCheck()
-  }
-  remove () {
-    this.state.file.cancel()
-  }
-  retry () {
-    this.state.file.retry()
-    this._actionCheck()
-  }
-  fileEventsHandler (event, args) {
-    const rootFile = args[0]
-    const file = args[1]
-    const target = this.state.list ? rootFile : file
-    if (this.state.file === target) {
-      if (this.list && event === 'fileSuccess') {
-        return
-      }
-      this[`_${event}`].apply(this, args)
-    }
-  }
-  _fileProgress () {
-    this.setState({
-      progress: this.state.file.progress(),
-      averageSpeed: this.state.file.averageSpeed,
-      currentSpeed: this.state.file.currentSpeed,
-      timeRemaining: this.state.file.timeRemaining(),
-      uploadedSize: this.state.file.sizeUploaded()
-    })
-    this._actionCheck()
-  }
-  _fileSuccess () {
-    this._fileProgress()
-    this.setState({
-      error: false,
-      isComplete: true,
-      isUploading: false
-    })
-  }
-  _fileComplete () {
-    this._fileSuccess()
-  }
-  _fileError () {
-    this._fileProgress()
-    this.setState({
-      error: false,
-      isComplete: false,
-      isUploading: false
-    })
-  }
-
-  componentDidMount () {
+  componentDidMount() {
     const staticProps = ['paused', 'error', 'averageSpeed', 'currentSpeed']
     const fnProps = [
       'isComplete',
@@ -219,14 +89,158 @@ class UploadFile extends Component {
     })
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     events.forEach((event) => {
       this.state.file.uploader.off(event, this._handlers[event])
     })
     this._handlers = null
   }
 
-  render () {
+  fileCategory() {
+    const extension = this.extension
+    const isFolder = this.file.isFolder
+    let type = isFolder ? 'folder' : 'unknown'
+    const categoryMap = this.file.uploader.opts.categoryMap
+    const typeMap = categoryMap || {
+      image: ['gif', 'jpg', 'jpeg', 'png', 'bmp', 'webp'],
+      video: ['mp4', 'm3u8', 'rmvb', 'avi', 'swf', '3gp', 'mkv', 'flv'],
+      audio: ['mp3', 'wav', 'wma', 'ogg', 'aac', 'flac'],
+      document: ['doc', 'txt', 'docx', 'pages', 'epub', 'pdf', 'numbers', 'csv', 'xls', 'xlsx', 'keynote', 'ppt', 'pptx']
+    }
+    Object.keys(typeMap).forEach((_type) => {
+      const extensions = typeMap[_type]
+      if (extensions.indexOf(extension) > -1) {
+        type = _type
+      }
+    })
+    return type
+  }
+
+  progressStyle() {
+    const progress = Math.floor(this.state.progress * 100)
+    const style = `translateX(${Math.floor(progress - 100)}%)`
+    return {
+      progress: `${progress}%`,
+      transform: style
+    }
+  }
+
+  formatedAverageSpeed() {
+    return `${Uploader.utils.formatSize(this.state.averageSpeed)} / s`
+  }
+
+  status() {
+    const isUploading = this.state.isUploading
+    const isComplete = this.state.isComplete
+    const isError = this.state.error
+    const paused = this.state.paused
+    if (isComplete) {
+      return 'success'
+    } else if (isError) {
+      return 'error'
+    } else if (isUploading) {
+      return 'uploading'
+    } else if (paused) {
+      return 'paused'
+    } else {
+      return 'waiting'
+    }
+  }
+
+  statusText() {
+    const status = this.status()
+    return this.state.file.uploader.fileStatusText[status] || status
+  }
+
+  formatedTimeRemaining() {
+    const timeRemaining = this.state.timeRemaining
+    const file = this.state.file
+    console.log(timeRemaining)
+    if (timeRemaining === Number.POSITIVE_INFINITY || timeRemaining === 0) {
+      return ''
+    }
+    let parsedTimeRemaining = secondsToStr(timeRemaining)
+    const parseTimeRemaining = file.uploader.opts.parseTimeRemaining
+    if (parseTimeRemaining) {
+      parsedTimeRemaining = parseTimeRemaining(timeRemaining, parsedTimeRemaining)
+    }
+    console.log(parsedTimeRemaining)
+    return parsedTimeRemaining
+  }
+
+  _actionCheck() {
+    this.setState({
+      paused: this.state.file.paused,
+      error: this.state.file.error,
+      isUploading: this.state.file.isUploading()
+    })
+  }
+
+  pause() {
+    this.state.file.pause()
+    this._actionCheck()
+    this._fileProgress()
+  }
+
+  resume() {
+    this.state.file.resume()
+    this._actionCheck()
+  }
+
+  remove() {
+    this.state.file.cancel()
+  }
+  retry() {
+    this.state.file.retry()
+    this._actionCheck()
+  }
+
+  fileEventsHandler(event, args) {
+    const rootFile = args[0]
+    const file = args[1]
+    const target = this.state.list ? rootFile : file
+    if (this.state.file === target) {
+      if (this.list && event === 'fileSuccess') {
+        return
+      }
+      this[`_${event}`].apply(this, args)
+    }
+  }
+
+  _fileProgress() {
+    this.setState({
+      progress: this.state.file.progress(),
+      averageSpeed: this.state.file.averageSpeed,
+      currentSpeed: this.state.file.currentSpeed,
+      timeRemaining: this.state.file.timeRemaining(),
+      uploadedSize: this.state.file.sizeUploaded()
+    })
+    this._actionCheck()
+  }
+
+  _fileSuccess() {
+    this._fileProgress()
+    this.setState({
+      error: false,
+      isComplete: true,
+      isUploading: false
+    })
+  }
+
+  _fileComplete() {
+    this._fileSuccess()
+  }
+
+  _fileError() {
+    this._fileProgress()
+    this.setState({
+      error: false,
+      isComplete: false,
+      isUploading: false
+    })
+  }
+
+  render() {
     const status = this.status()
     return (
       <li className="uploader-file" status={status}>

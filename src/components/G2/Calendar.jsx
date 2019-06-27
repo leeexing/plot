@@ -4,7 +4,7 @@ import G2 from '@antv/g2'
 import { getNowDate } from '@/util'
 
 
-function Calendar (props) {
+function Calendar(props) {
 
   let { data, monthes } = props
 
@@ -142,7 +142,6 @@ function Calendar (props) {
   }
 
   useEffect(() => stopChartRender, [])
-
 
   return (
     <div id="calendar-plot-g2" className="m-g2"></div>

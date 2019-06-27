@@ -4,7 +4,7 @@ import { observer } from 'mobx-react'
 
 @observer
 class TodoHeader extends Component {
-  handleKeyUp (e) {
+  handleKeyUp(e) {
     if (e.keyCode === 13) {
       let value = e.target.value
       if (!value.trim()) {
@@ -19,7 +19,8 @@ class TodoHeader extends Component {
       e.target.value = ''
     }
   }
-  render () {
+
+  render() {
     return (
       <div className="todo-header">
         <Input onPressEnter={this.handleKeyUp.bind(this)} placeholder="请输入待办事项"/>

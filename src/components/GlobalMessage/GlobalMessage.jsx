@@ -5,11 +5,11 @@ import { notification  } from 'antd'
 
 class GlobalMessage extends Component {
 
-  handleMessage (data) {
+  handleMessage(data) {
     console.log(data, 999)
   }
 
-  componentDidMount () {
+  componentDidMount() {
     const socket = io.connect('http://localhost:5281/IMAGE_PLOT')
     socket.on('connect', () => {
       console.log('前端连接了socket，和后台无关')
@@ -22,10 +22,9 @@ class GlobalMessage extends Component {
     })
   }
 
-  render () {
+  render() {
     return (
-      <div className="app-message">
-      </div>
+      <div className="app-message"></div>
     )
   }
 }

@@ -10,8 +10,7 @@ const statusColor = ['#666', 'geekblue', 'green']
 
 
 class Download extends Component {
-
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       loading: true,
@@ -80,10 +79,9 @@ class Download extends Component {
     }
   }
 
-  componentDidMount () {
+  componentDidMount() {
     this.fetchData()
-  }1
-
+  }
 
   onDelete = data => {
     api.deletePlotDownload(data.id).then(res => {
@@ -150,14 +148,14 @@ class Download extends Component {
     }, this.fetchData)
   }
 
-  render () {
+  render() {
     let { dataSource, columns, loading, currentPage, total, limit } = this.state
     const local = {
-      emptyText: <p style={{padding: '30px', fontSize: '18px', textAlign: 'center'}}>暂时没有下载数据，请先上传标图素材</p>
+      emptyText: <p style={{ padding: '30px', fontSize: '18px', textAlign: 'center' }}>暂时没有下载数据，请先上传标图素材</p>
     }
     return (
       <div className="m-download">
-        <div className="m-download-header" style={{marginBottom: '10px'}}>
+        <div className="m-download-header" style={{ marginBottom: '10px' }}>
           <Input.Search
             style={{ width: '30%' }}
             allowClear
@@ -176,12 +174,11 @@ class Download extends Component {
                 pageSize={limit}
                 showTotal={total => `总共 ${total} 条`}
                 onChange={this.handlePageChange}
-                style={{float: 'right', marginTop: '12px'}} />
+                style={{ float: 'right', marginTop: '12px' }} />
         }
       </div>
     )
   }
-
 }
 
 export default Download

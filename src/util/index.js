@@ -1,12 +1,16 @@
 /**
  * 工具
-*/
+ */
 
 export const util = {
-  getname () {
+  getname() {
     return ''
   }
 }
+
+export const setProp = (key, value) => ({
+  key: value
+})
 
 export const calculateSize = size => {
   if (size < 1024) {
@@ -17,11 +21,11 @@ export const calculateSize = size => {
   return (size / (1024 * 1024)).toFixed(1) + 'G'
 }
 
-export function kebabCase (s) {
+export function kebabCase(s) {
   return s.replace(/[A-Z]/g, (m) => `-${m.toLowerCase()}`)
 }
 
-export function getNowDate () {
+export function getNowDate() {
   let now = new Date()
   let year = now.getFullYear()
   let month = String(now.getMonth() + 1)
@@ -29,7 +33,7 @@ export function getNowDate () {
   return `${year}-${month.padStart(2, 0)}-${date.padStart(2, 0)}`
 }
 
-export function secondsToStr (temp) {
+export function secondsToStr(temp) {
   const years = Math.floor(temp / 31536000)
   if (years) {
     return years + ' year' + numberEnding(years)
@@ -48,7 +52,8 @@ export function secondsToStr (temp) {
   }
   const seconds = temp % 60
   return seconds + ' second' + numberEnding(seconds)
-  function numberEnding (number) {
+
+  function numberEnding(number) {
     return (number > 1) ? 's' : ''
   }
 }

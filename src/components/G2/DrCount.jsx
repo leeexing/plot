@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import G2 from '@antv/g2'
 
 
-function HomeG2 (props) {
+function HomeG2(props) {
 
   let { drViewData } = props
 
@@ -43,7 +43,6 @@ function HomeG2 (props) {
   const stopChartRender = () => chart.clear()
 
   useEffect(() => stopChartRender, [])
-
 
   return (
     <div id="home-dr-g2" className="m-g2"></div>

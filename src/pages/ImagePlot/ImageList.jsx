@@ -15,7 +15,7 @@ const statusColor = ['geekblue', '#a0d911', 'green', 'red']
 @observer
 class ImageBatchList extends Component {
 
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       loading: true,
@@ -33,9 +33,7 @@ class ImageBatchList extends Component {
           title: '文件名称',
           dataIndex: 'id',
           key: 'id',
-          render: (id, record) => (
-            <span>{record.uploadName}</span>
-          )
+          render: (id, record) => <span>{record.uploadName}</span>
         }, {
           title: '文件大小',
           dataIndex: 'size',
@@ -60,9 +58,7 @@ class ImageBatchList extends Component {
           title: '状态',
           dataIndex: 'status',
           key: 'status',
-          render: (status) => (
-            <Tag color={statusColor[status]}>{statusText[status]}</Tag>
-          )
+          render: status => <Tag color={statusColor[status]}>{statusText[status]}</Tag>
         }, {
           title: '操作', // 0: 未转码；1：转码中；2：成功；3：失败
           width: 150,
@@ -81,11 +77,11 @@ class ImageBatchList extends Component {
     }
   }
 
-  componentDidMount () {
+  componentDidMount() {
     this.fetchData()
   }
 
-  fetchData () {
+  fetchData() {
     let data = {
       page: this.state.currentPage,
       limit: 20,
@@ -139,9 +135,9 @@ class ImageBatchList extends Component {
 
   onHandleDelete = data => {
     Modal.confirm({
-      title: `你确定要删除该文件吗？`,
+      title: '你确定要删除该文件吗？',
       content: <div>
-        <p>文件名：<span style={{fontWeight: 600, color: 'red'}}>{data.uploadName}</span></p>
+        <p>文件名：<span style={{ fontWeight: 600, color: 'red' }}>{data.uploadName}</span></p>
         <p>该操作不可逆，请慎重考虑!</p>
       </div>,
       okText: '确认',
@@ -155,7 +151,7 @@ class ImageBatchList extends Component {
         })
         this.deleteUploadFile(data.id)
       },
-      onCancel () {
+      onCancel() {
         console.log('cancel')
       }
     })
@@ -179,7 +175,7 @@ class ImageBatchList extends Component {
     }, this.fetchData)
   }
 
-  render () {
+  render() {
     let { loading, dataSource, columns, total, currentPage, limit } = this.state
     let local = {
       emptyText: <p className="m-plot-info">暂时没有标图数据，请先上传标图素材</p>
@@ -203,15 +199,9 @@ class ImageBatchList extends Component {
               defaultValue="0"
               onChange={this.handleSelectChange}
             >
-              <Select.Option value="0" label="全部">
-                全部
-              </Select.Option>
-              <Select.Option value="1" label="标图完成">
-                标图完成
-              </Select.Option>
-              <Select.Option value="2" label="标图未完成">
-                标图未完成
-              </Select.Option>
+              <Select.Option value="0" label="全部">全部</Select.Option>
+              <Select.Option value="1" label="标图完成">标图完成</Select.Option>
+              <Select.Option value="2" label="标图未完成">标图未完成</Select.Option>
             </Select>
           </div>
           <div className="m-plot-upload">
@@ -221,7 +211,11 @@ class ImageBatchList extends Component {
             </div>
           </div>
         </div>
+
+        {/* 列表 */}
         <Table dataSource={dataSource} columns={columns} loading={loading} locale={local} pagination={false} rowKey="id" />
+
+        {/* 分页 */}
         {total > 0
           && <Pagination
                 showQuickJumper
@@ -230,7 +224,8 @@ class ImageBatchList extends Component {
                 pageSize={limit}
                 showTotal={total => `总共 ${total} 条`}
                 onChange={this.handlePageChange}
-                style={{float: 'right', marginTop: '12px'}} />
+                style={{ float: 'right', marginTop: '12px' }}
+              />
         }
       </div>
     )

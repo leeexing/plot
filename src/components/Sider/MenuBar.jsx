@@ -12,10 +12,10 @@ import { menuRoutes } from '@/router/app'
 @inject('appStore')
 @observer
 class MenuBar extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
-      collapsed: false,
+      collapsed: false
     }
   }
 

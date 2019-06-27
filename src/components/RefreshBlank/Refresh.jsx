@@ -1,15 +1,13 @@
 import React, { useEffect } from 'react'
 
 
-function Refresh (props) {
+function Refresh(props) {
 
   useEffect(() => {
     props.history.go(-1)
   }, [])
 
-  return (
-    <div></div>
-  )
+  return <div></div>
 }
 
 export default Refresh

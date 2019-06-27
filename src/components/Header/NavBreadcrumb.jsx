@@ -10,12 +10,12 @@ import { menuRoutes } from '@/router/app'
 @observer
 class NavBreadcrumb extends Component {
 
-  onHandleRouteChange (key) {
+  onHandleRouteChange(key) {
     let route = menuRoutes.filter(item => item.path === key)
     this.props.appStore.updateNavBreadcrumb(route)
   }
 
-  render () {
+  render() {
     const routes = this.props.appStore.navBreadcrumbRouters
     return (
       <Breadcrumb>

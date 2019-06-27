@@ -12,7 +12,8 @@ const routes = [
   ...childRoutes.filter(route => route.children && route.children.length > 0)
 ]
 
-function handleIndexRoute (route) {
+
+function handleIndexRoute(route) {
   if (!route.children || !route.children.length) {
     return
   }

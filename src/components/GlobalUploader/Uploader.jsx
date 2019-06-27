@@ -11,7 +11,6 @@ import UploadList from './UploadList'
 import { baseURL } from '@/api/config'
 import Uploader from 'simple-uploader.js'
 
-
 const FILE_ADDED_EVENT = 'fileAdded'
 const FILES_ADDED_EVENT = 'filesAdded'
 const UPLOAD_START_EVENT = 'uploadStart'
@@ -20,7 +19,7 @@ const ACCEPT_CONFIG = {
   video: ['.mp4', '.rmvb', '.mkv', '.wmv', '.flv'],
   document: ['.zip'],
   // document: ['.doc', '.docx', '.xls', '.xlsx', '.ppt', '.pptx', '.pdf', '.txt', '.tif', '.tiff', '.zip', '.rar'],
-  getAll () {
+  getAll() {
     return [...this.document]
     // return [...this.image, ...this.video, ...this.document]
   }
@@ -30,8 +29,7 @@ const ACCEPT_CONFIG = {
 @inject('appStore')
 @observer
 class ImageUpload extends Component {
-
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       options: {
@@ -69,7 +67,34 @@ class ImageUpload extends Component {
     }
   }
 
-  uploadStart () {
+  componentDidMount() {
+    const uploader = new Uploader(this.state.options)
+    this.uploader = uploader
+    this.uploader.fileStatusText = this.state.fileStatusText
+    uploader.on('catchAll', this.allEvent.bind(this))
+    uploader.on(FILE_ADDED_EVENT, this.fileAdded.bind(this))
+    uploader.on(FILES_ADDED_EVENT, this.filesAdded.bind(this))
+    uploader.on('fileRemoved', this.fileRemoved)
+    uploader.on('filesSubmitted', this.filesSubmitted.bind(this))
+
+    uploader.on('fileProgress', this.onFileProgress.bind(this))
+    uploader.on('fileSuccess', this.onFileSuccess.bind(this))
+    uploader.on('fileError', this.onFileError.bind(this))
+
+    this.uploader.assignBrowse(this.refs.uploadBtn, false, false, {accept: ACCEPT_CONFIG.getAll()})
+  }
+
+  componentWillUnmount() {
+    const uploader = this.uploader
+    uploader.off('catchAll', this.allEvent)
+    uploader.off(FILE_ADDED_EVENT, this.fileAdded)
+    uploader.off(FILES_ADDED_EVENT, this.filesAdded)
+    uploader.off('fileRemoved', this.fileRemoved)
+    uploader.off('filesSubmitted', this.filesSubmitted)
+    this.uploader = null
+  }
+
+  uploadStart() {
     this.setState({
       started: true
     })
@@ -85,7 +110,7 @@ class ImageUpload extends Component {
       return false
     }
   }
-  computeMD5 (file) {
+  computeMD5(file) {
     let fileReader = new FileReader()
     let time = new Date().getTime()
     let md5 = ''
@@ -125,14 +150,14 @@ class ImageUpload extends Component {
       file.cancel()
     }
   }
-  extracrtMd5Blob (file) {
+  extracrtMd5Blob(file) {
     let { size } = file
     if (size > 1024 * 1024 * 1024) {
       return file.slice(-1024 * 1024 * 200, size)
     }
     return file
   }
-  statusSet (id, status) {
+  statusSet(id, status) {
     let statusMap = {
       md5: {
         text: 'res.checkMD5',
@@ -149,10 +174,10 @@ class ImageUpload extends Component {
     }
     console.log(statusMap)
   }
-  statusRemove (id) {
+  statusRemove(id) {
     // console.log(id)
   }
-  fileRemoved = (file) => {
+  fileRemoved = file => {
     this.setState({
       files: this.uploader.files,
       fileList: this.uploader.fileList
@@ -190,7 +215,7 @@ class ImageUpload extends Component {
   onFileError = (rootFile, file, response, chunk) => {
     message.error(response)
   }
-  error = (msg) => {
+  error = msg => {
     notification.error({
       message: '提示',
       description: msg,
@@ -244,34 +269,7 @@ class ImageUpload extends Component {
     this.props.appStore.toggleUploaderGlobal(false)
   }
 
-  componentDidMount () {
-    const uploader = new Uploader(this.state.options)
-    this.uploader = uploader
-    this.uploader.fileStatusText = this.state.fileStatusText
-    uploader.on('catchAll', this.allEvent.bind(this))
-    uploader.on(FILE_ADDED_EVENT, this.fileAdded.bind(this))
-    uploader.on(FILES_ADDED_EVENT, this.filesAdded.bind(this))
-    uploader.on('fileRemoved', this.fileRemoved)
-    uploader.on('filesSubmitted', this.filesSubmitted.bind(this))
-
-    uploader.on('fileProgress', this.onFileProgress.bind(this))
-    uploader.on('fileSuccess', this.onFileSuccess.bind(this))
-    uploader.on('fileError', this.onFileError.bind(this))
-
-    this.uploader.assignBrowse(this.refs.uploadBtn, false, false, {accept: ACCEPT_CONFIG.getAll()})
-  }
-
-  componentWillUnmount () {
-    const uploader = this.uploader
-    uploader.off('catchAll', this.allEvent)
-    uploader.off(FILE_ADDED_EVENT, this.fileAdded)
-    uploader.off(FILES_ADDED_EVENT, this.filesAdded)
-    uploader.off('fileRemoved', this.fileRemoved)
-    uploader.off('filesSubmitted', this.filesSubmitted)
-    this.uploader = null
-  }
-
-  render () {
+  render() {
     let isUploadShow = this.props.appStore.isUploadShow
     let isMini = this.props.appStore.isUploaderMini
     let uploaderClassName = ''

@@ -50,7 +50,7 @@ function AboutPlot(props) {
   const imageDownload = <div className="step-wrap">
     <div>
       <Tag color="blue">步骤一：</Tag>打包图像：素材列表——>详情——>点击下载标志
-      <Avatar size={32} icon="cloud-download" style={{background: '#f6caa8'}} />
+      <Avatar size={32} icon="cloud-download" style={{ background: '#f6caa8' }} />
       ——>选择图像——>输入下载包名称——>点击 <Tag color="#108ee9">下载</Tag>按钮——>图像打包成功；</div>
     <div><Tag color="blue">步骤二：</Tag>标图下载：标图下载——>选择要下载的图包——>点击<a>下载</a>链接——>下载成功供后续使用</div>
     <div><Tag color="#f50">注意</Tag>下载的图像包只保留60天，请及时下载；下载的压缩包是经过加密的，不能直接打开查看</div>
@@ -60,11 +60,11 @@ function AboutPlot(props) {
     <div className="m-about">
       <Alert message="关于标注平台的使用及注意事项" type="info" showIcon />
 
-      <Divider></Divider>
+      <Divider />
 
       <Steps current={current} onChange={onChange} direction="vertical">
         <Step title={imageUploadTitle} description={imageUpload} icon={<Icon type="cloud-upload" />} />
-        <Step title="标记图像" description={plotImage} icon={<PlotIcon /> } />
+        <Step title="标记图像" description={plotImage} icon={<PlotIcon />} />
         <Step title="标图下载" description={imageDownload}  icon={<Icon type="cloud-download" />} />
       </Steps>
     </div>

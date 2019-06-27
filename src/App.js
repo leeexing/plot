@@ -5,6 +5,7 @@ import { configure } from 'mobx'
 import Routes from '@/router'
 import store from './store'
 
+
 // 不允许在动作外部修改状态
 configure({ enforceActions: 'observed' })
 

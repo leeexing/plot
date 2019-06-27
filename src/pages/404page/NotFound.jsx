@@ -6,13 +6,14 @@ import notFoundImg from 'assets/404.png'
 
 
 class NotFound extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       remainTime: 3
     }
   }
-  componentDidMount () {
+
+  componentDidMount() {
     // let timer = setInterval(() => {
     //   this.setState({
     //     remainTime: this.state.remainTime - 1
@@ -23,7 +24,8 @@ class NotFound extends Component {
     //   }
     // }, 1000)
   }
-  render () {
+
+  render() {
     return (
       <div className="notfound">
         <div className="notfound-img">

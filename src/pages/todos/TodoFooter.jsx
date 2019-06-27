@@ -24,5 +24,4 @@ const TodoFooter = inject('todoStore')(observer(({todoStore}) => (
   </footer>
 )))
 
-
 export default TodoFooter

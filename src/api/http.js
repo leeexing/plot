@@ -4,10 +4,16 @@
 import qs from 'qs'
 import axios from 'axios'
 
-import { message } from 'antd'
+import {
+  message
+} from 'antd'
 import Auth from '@/util/auth'
-import { baseURL } from './config'
-import { BrowserRouter } from 'react-router-dom'
+import {
+  baseURL
+} from './config'
+import {
+  BrowserRouter
+} from 'react-router-dom'
 
 
 const router = new BrowserRouter()
@@ -44,7 +50,7 @@ service.interceptors.response.use(response => {
 }, error => {
   let originalRequest = error.config
   // -请求超时，只能再请求一次
-  if(error.code === 'ECONNABORTED' && error.message.indexOf('timeout') !==-1 && !originalRequest._retry){
+  if (error.code === 'ECONNABORTED' && error.message.indexOf('timeout') !== -1 && !originalRequest._retry) {
     originalRequest._retry = true
     console.error(error)
     message.error('请求超时~')
@@ -76,11 +82,13 @@ const CONTENT_TYPE_FILE = 'multipart/form-data'
 const CONTENT_TYPE_FORM = 'application/x-www-form-urlencoded;charset=utf-8'
 
 export default {
-  get (url, data = {}, options = {}) {
+  get(url, data = {}, options = {}) {
     let config = {
       params: data,
       paramsSerializer: params => {
-        return qs.stringify(params, {arrayFormat: 'brackets'})
+        return qs.stringify(params, {
+          arrayFormat: 'brackets'
+        })
       },
       ...options
     }
@@ -90,7 +98,7 @@ export default {
         .catch(reject)
     })
   },
-  post (url, data = {}, options = {}) {
+  post(url, data = {}, options = {}) {
     let contentType = CONTENT_TYPE_JSON
     switch (options.contentType) {
       case 'form':
@@ -115,7 +123,7 @@ export default {
         .catch(reject)
     })
   },
-  put (url, data = {}, options = {}) {
+  put(url, data = {}, options = {}) {
     let contentType = CONTENT_TYPE_JSON
     if (options.contentType === 'form') {
       contentType = CONTENT_TYPE_FORM
@@ -134,7 +142,7 @@ export default {
         .catch(reject)
     })
   },
-  delete (url, data = {}, options = {}) {
+  delete(url, data = {}, options = {}) {
     let contentType = CONTENT_TYPE_JSON
     if (options.contentType === 'form') {
       contentType = CONTENT_TYPE_FORM

@@ -29,7 +29,7 @@ const defaultDrAngleView = [10, 20]
 
 
 class HomePage extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       isDataLoaded: false,
@@ -45,10 +45,10 @@ class HomePage extends Component {
       calendarLoading: true
     }
   }
-  componentDidMount () {
+  componentDidMount() {
     this.fetchData()
   }
-  fetchData () {
+  fetchData() {
     api.fetchHomePageinfo().then(res => {
       console.log(res)
       if (res.result) {
@@ -83,22 +83,23 @@ class HomePage extends Component {
       })
   }
 
-  render () {
+  render() {
     let { drAngleView, plotRank, plotOverview, loading, calendarPlot, calendarLoading, calendarMonth } = this.state
     let hasPlotOverviewData = plotOverview.filter(item => item !== 0).length > 1
     let hasDrAngleViewData = drAngleView.some(item => item !== 0)
+    let titleStyle = { color: '#999', fontSize: '12px' }
     let plotOverviewTitle = hasPlotOverviewData
                             ? '标注图像概览'
-                            : <div>标注图像概览<span style={{color: '#999', fontSize: '12px'}}>(暂无真实图像数据)</span></div>
+                            : <div>标注图像概览<span style={titleStyle}>(暂无真实图像数据)</span></div>
     let drAngleViewTitle = hasDrAngleViewData
                             ? '图像类型分布'
-                            : <div>图像类型分布<span style={{color: '#999', fontSize: '12px'}}>(暂无真实数据)</span></div>
+                            : <div>图像类型分布<span style={titleStyle}>(暂无真实数据)</span></div>
     return (
       <div className="app-home">
-        <Row gutter={15} style={{marginBottom: '10px'}}>
+        <Row gutter={15} style={{ marginBottom: '10px' }}>
           {/* 平台标注日历 */}
-          <Col xs={{ span: 24}} md={{ span: 12}}>
-            <Card title={<div>平台标注日历<span style={{color: '#999', fontSize: '12px'}}>(近三个月)</span></div>}>
+          <Col xs={{ span: 24 }} md={{ span: 12 }}>
+            <Card title={<div>平台标注日历<span style={titleStyle}>(近三个月)</span></div>}>
               {calendarLoading
                 ? <Spin size="large" />
                 : calendarPlot.length > 0
@@ -108,20 +109,20 @@ class HomePage extends Component {
             </Card>
           </Col>
           {/* 标注图像概览 */}
-          <Col xs={{ span: 24}} md={{ span: 12}}>
+          <Col xs={{ span: 24 }} md={{ span: 12 }}>
             <Card title={plotOverviewTitle}>
               {loading
                 ? <Spin size="large" />
                 : hasPlotOverviewData
                   ? <PlotOverview plotOverview={plotOverview}></PlotOverview>
-                  : <PlotOverview plotOverview={plotOverview.map(item => 10 + Math.floor(Math.random() * 30))} type="demo" />
+                  : <PlotOverview plotOverview={plotOverview.map(item => 10 + Math.floor(Math.random() * 30))} />
               }
             </Card>
           </Col>
         </Row>
         <Row gutter={15}>
           {/* 图像类型分布 */}
-          <Col xs={{ span: 24}} md={{ span: 12}}>
+          <Col xs={{ span: 24 }} md={{ span: 12 }}>
             <Card title={drAngleViewTitle}>
               {loading
                 ? <Spin size="large" />
@@ -132,7 +133,7 @@ class HomePage extends Component {
             </Card>
           </Col>
           {/* 在线标注排行榜 */}
-          <Col xs={{ span: 24}} md={{ span: 12}}>
+          <Col xs={{ span: 24 }} md={{ span: 12 }}>
             <Card title="在线标注排行榜(Top5)">
               {loading
                 ? <Spin size="large" />

@@ -14,7 +14,7 @@ const FormItem = Form.Item
 
 @inject('userStore')
 @observer
-class Login extends Component {
+class Signin extends Component {
   handleSubmit = (e) => {
     e.preventDefault()
     this.props.form.validateFields((err, values) => {
@@ -34,24 +34,20 @@ class Login extends Component {
   render () {
     const { getFieldDecorator } = this.props.form
     return (
-      <div className="app-login app-signin" style={{backgroundImage: `url(${logo})`}}>
-        <div className="app-login-wrap" style={{backgroundImage: `url(${login_bgi})`}}>
+      <div className="app-login app-signin" style={{ backgroundImage: `url(${logo})` }}>
+        <div className="app-login-wrap" style={{ backgroundImage: `url(${login_bgi})` }}>
           <div className="app-login-form">
-            <div className="app-login-header" style={{backgroundImage: `url(${login_title})`}}></div>
+            <div className="app-login-header" style={{ backgroundImage: `url(${login_title})` }}></div>
             <div className="app-login-header-sub">安全检查标注平台</div>
             <Form onSubmit={this.handleSubmit} className="login-form">
-              <FormItem
-                label="账号"
-              >
+              <FormItem label="账号">
                 {getFieldDecorator('username', {
                   rules: [{ required: true, message: '请输入您的安培云账号' }],
                 })(
                   <Input prefix={<Icon type="user" style={{ color: '#1890ff' }} />} placeholder="请输入安培云账号" />
                 )}
               </FormItem>
-              <FormItem
-                label="密码"
-              >
+              <FormItem label="密码">
                 {getFieldDecorator('password', {
                   rules: [{ required: true, message: '请输入账号密码' }],
                 })(
@@ -73,4 +69,4 @@ class Login extends Component {
   }
 }
 
-export default  Form.create()(Login)
+export default Form.create()(Signin)

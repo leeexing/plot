@@ -4,7 +4,7 @@ import { Button, Tag } from 'antd'
 import { DRIcon } from '@/icon'
 
 
-function Message () {
+function Message() {
   const [count, setCount] = useState(0)
   const preCount = usePrevious(count)
   const forceUdate = useForceUpdate()
@@ -32,8 +32,8 @@ function Message () {
 
   return (
     <div className="m-message">
-      <h3>个人消息 <DRIcon style={{fontSize: '28px'}}></DRIcon></h3>
-      <div style={{padding: '10px'}}>
+      <h3>个人消息 <DRIcon style={{ fontSize: '28px' }}></DRIcon></h3>
+      <div style={{ padding: '10px' }}>
         <Tag>{preCount} - {count}</Tag>
       </div>
       <Button type="primary" onClick={() => setCount(count + 2)}>点击</Button>
@@ -42,17 +42,17 @@ function Message () {
   )
 }
 
-function useMount (fn) {
+function useMount(fn) {
   useEffect(() => {
     fn()
   }, [])
 }
 
-function useUnmount (fn) {
+function useUnmount(fn) {
   useEffect(() => fn, [])
 }
 
-function useUpdate (fn) {
+function useUpdate(fn) {
   const mounting = useRef(true)
   useEffect(() => {
     if (mounting.current) {
@@ -63,11 +63,11 @@ function useUpdate (fn) {
   })
 }
 
-function useForceUpdate () {
+function useForceUpdate() {
   return useState(0)[1]
 }
 
-function useIsMounted () {
+function useIsMounted() {
   const [isMount, setIsMount] = useState(false)
   useEffect(() => {
     if (!isMount) {
@@ -78,7 +78,7 @@ function useIsMounted () {
   return isMount
 }
 
-function usePrevious (value) {
+function usePrevious(value) {
   const ref = useRef()
   useEffect(() => {
     ref.current = value

@@ -5,7 +5,7 @@ import './style.less'
 import serverErrorImg from 'assets/500.png'
 
 
-function ServerError (props)  {
+function ServerError(props)  {
 
   const backToPrev = () => {
     props.history.go(-1)

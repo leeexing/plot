@@ -13,7 +13,7 @@ class Router extends Component {
    * 根据路由表生成路由组件
    * 根据用户是否登录判断，当用户输入跟路由 '/' 时，是跳转到 '/home' 还是 '/login' 页面
    */
-  renderRoutes (routes, contextPath) {
+  renderRoutes(routes, contextPath) {
     const children = []
 
     const renderRoute = (item, routeCtxPath) => {
@@ -60,11 +60,10 @@ class Router extends Component {
     routes.forEach(item => renderRoute(item, contextPath))
 
     // console.log('children', children)
-
     return <Switch>{children}</Switch>
   }
 
-  render () {
+  render() {
     const children = this.renderRoutes(routes, '/')
     return <BrowserRouter>{children}</BrowserRouter>
   }

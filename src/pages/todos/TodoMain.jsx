@@ -19,14 +19,15 @@ class Todo extends Component {
     // this.props.todoStore.fetchAsyncTodos()
     this.props.todoStore.fetchFlowTodos()
   }
+
   render () {
-    let {todos, addTodo, toggleTodo, deleteTodo} = this.props.todoStore
+    let { todos, addTodo, toggleTodo, deleteTodo } = this.props.todoStore
     // let {finishAllTodos, clearTodos} = this.props.todoStore
     return (
       <div className="m-todo">
         <Card
           title="Todo List"
-          style={{width: '50%'}}
+          style={{ width: '50%' }}
         >
           <TodoHeader addTodo={addTodo}/>
           <TodoList todos={todos} toggleTodo={toggleTodo} deleteTodo={deleteTodo} />

@@ -49,11 +49,7 @@ function SignalrMessage () {
 
   useEffect(() => stopSignal, [])
 
-
-
-  return (
-    <div></div>
-  )
+  return <div></div>
 }
 
 export default SignalrMessage

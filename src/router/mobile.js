@@ -3,9 +3,9 @@ import { TestHomepage, TestImage, TestFeedback, TestThanks } from 'pages/TestMob
 export default {
   path: 'mobile',
   children: [
-    {path: '/', component: TestHomepage},
-    {path: 'drimage', component: TestImage},
-    {path: 'feedback', component: TestFeedback},
-    {path: 'thanks', component: TestThanks},
+    { path: '/', component: TestHomepage },
+    { path: 'drimage', component: TestImage },
+    { path: 'feedback', component: TestFeedback },
+    { path: 'thanks', component: TestThanks }
   ]
 }

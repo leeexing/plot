@@ -11,7 +11,7 @@ import logoMini from 'assets/logo-mini.png'
 @inject('appStore')
 @observer
 class MenuBar extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       collapsed: false,
@@ -62,7 +62,7 @@ class MenuBar extends Component {
         </div>
         <Dropdown overlay={menu} trigger={['click']}>
           <span className="ant-dropdown-link app-menu-mini-icon" href="#">
-            <Icon type="menu" style={{color: "#69c0ff"}} /> 菜单
+            <Icon type="menu" style={{ color: '#69c0ff' }} /> 菜单
           </span>
         </Dropdown>
       </div>

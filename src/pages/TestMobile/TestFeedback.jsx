@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { Breadcrumb, Button, Icon, Form, Input, message } from 'antd'
 import axios from 'axios'
 
-
 const http = axios.create({
   // baseURL: 'http://localhost:5282', // 本地，需要开启 source-test-api
   baseURL: 'http://132.232.18.77:5282', // -服务器
@@ -16,7 +15,7 @@ class Feedback extends Component {
     hasProblem: false
   }
 
-  componentDidMount () {
+  componentDidMount() {
     document.addEventListener('touchstart', function (event) {
       if (event.touches.length > 1 && event.scale !== 1) {
         event.preventDefault()
@@ -24,7 +23,7 @@ class Feedback extends Component {
     })
   }
 
-  handleSubmit = (e) => {
+  handleSubmit = e => {
     e.preventDefault()
     this.props.form.validateFields((err, values) => {
       if (!err) {
@@ -49,7 +48,7 @@ class Feedback extends Component {
     })
   }
 
-  render () {
+  render() {
     const { getFieldDecorator } = this.props.form
     return (
       <div className="m-test-feedback">
@@ -102,7 +101,7 @@ class Feedback extends Component {
                   <TextArea type="text" placeholder='请您详细描述测试中图像产生的问题以及提出建议，以便我们做出更好的优化和改进' autosize={{ minRows: 3, maxRows: 6 }} />
                 )}
             </Form.Item>
-            <Form.Item style={{textAlign: "center"}}>
+            <Form.Item style={{ textAlign: 'center' }}>
               <Button type="primary" htmlType="submit" className="login-form-button">
                 提交反馈
               </Button>

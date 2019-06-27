@@ -12,7 +12,7 @@ import avatarImg from '@/assets/admin_avatar.png'
 @inject('appStore', 'userStore')
 @observer
 class NavBar extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       isSignIn: this.props.hasLogin || false,
@@ -25,7 +25,7 @@ class NavBar extends Component {
           name: '安培云',
           path: '/study'
         }
-      ],
+      ]
     }
   }
 
@@ -41,8 +41,8 @@ class NavBar extends Component {
       <Menu onClick={this.onClick}>
         {/* <Menu.Item key="0">
           <Link to="/todo">个人中心</Link>
-        </Menu.Item> */}
-        {/* <Menu.Divider /> */}
+        </Menu.Item>
+        <Menu.Divider /> */}
         <Menu.Item key="logout">退出登录</Menu.Item>
       </Menu>
     )
@@ -55,18 +55,18 @@ class NavBar extends Component {
           </div>
           <MenuMini></MenuMini>
           <div className="nav-app-title">
-            <Icon type="cloud" style={{marginRight: "5px"}} />
+            <Icon type="cloud" style={{ marginRight: '5px' }} />
             安培云·在线标注平台
           </div>
           <div className="nav-app-title-mini">
-            <Icon type="cloud" style={{marginRight: "5px"}} />
+            <Icon type="cloud" style={{ marginRight: '5px' }} />
             在线标注平台
           </div>
           <div className="nav-user">
             <Dropdown overlay={menu} trigger={['click']} placement="bottomRight">
               <span className="ant-dropdown-link">
                 {username || 'Nuctech'}
-                <Icon type="down" size="24" style={{marginLeft: '5px'}} />
+                <Icon type="down" size="24" style={{ marginLeft: '5px' }} />
               </span>
             </Dropdown>
             <Avatar className="nav-user-avatar" src={avatar || avatarImg} />
