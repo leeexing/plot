@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Avatar, Button, Badge, Input, Pagination,
   Tooltip, Skeleton, Select, message } from 'antd'
 
+import './style.less'
 import api from '@/api'
 import { PackIcon } from '@/icon'
 import FullScreen from 'components/FullScreen'
