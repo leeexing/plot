@@ -82,13 +82,6 @@ function HomeG2(props) {
     chart.render()
   }, [])
 
-  useEffect(() => {
-    chart.source(data)
-    chart.coord('theta')
-    chart.intervalStack().position('value').color('type').shape('platelet').label('type')
-    chart.render()
-  }, plotOverview)
-
   const stopChartRender = () => chart.clear()
 
   useEffect(() => stopChartRender, [])

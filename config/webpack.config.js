@@ -565,8 +565,6 @@ module.exports = function(webpackEnv) {
       ],
     },
     plugins: [
-      // -webpack的新特性。比较复杂，但是可以缩小体积
-      new webpack.optimize.ModuleConcatenationPlugin(),
       // Generates an `index.html` file with the <script> injected.
       new HtmlWebpackPlugin(
         Object.assign(
@@ -691,14 +689,17 @@ module.exports = function(webpackEnv) {
           silent: true,
           formatter: typescriptFormatter,
         }),
+      // -webpack的新特性。比较复杂，但是可以缩小体积
+      isEnvProduction && new webpack.optimize.ModuleConcatenationPlugin(),
       // -压缩混淆
-      new UglifyJsPlugin({
-        uglifyOptions: {
-          compress: {
-            drop_console: true
+      isEnvProduction &&
+        new UglifyJsPlugin({
+          uglifyOptions: {
+            compress: {
+              drop_console: true
+            }
           }
-        }
-      }),
+        }),
       // -打包优化分析
       // new BundleAnalyzerPlugin({ analyzerPort: 8919 })
 

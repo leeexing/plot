@@ -152,10 +152,7 @@ function HomeG2() {
     }
   }, [])
 
-  const stopChartRender = () => {
-    chart.clear()
-    chart = null
-  }
+  const stopChartRender = () => chart.clear()
 
   useEffect(() => stopChartRender, [])
 

@@ -26,6 +26,7 @@ const defaultPlotTopFive = [{
 }]
 
 const defaultDrAngleView = [10, 20]
+const defaultPlotOverview = Array.from({length: 4}, item => 10 + Math.floor(Math.random() * 30))
 
 
 class HomePage extends Component {
@@ -55,8 +56,8 @@ class HomePage extends Component {
         let { drAngleView, plotOverview, plotRank } = res.data
         this.setState({
           plotOverview,
-          drAngleView: drAngleView.length > 0 ? drAngleView : defaultDrAngleView,
-          plotRank: plotRank.length > 0 ? plotRank : defaultPlotTopFive
+          drAngleView,
+          plotRank
         })
       }
     }).catch(console.log)
@@ -85,8 +86,9 @@ class HomePage extends Component {
 
   render() {
     let { drAngleView, plotRank, plotOverview, loading, calendarPlot, calendarLoading, calendarMonth } = this.state
-    let hasPlotOverviewData = plotOverview.filter(item => item !== 0).length > 1
-    let hasDrAngleViewData = drAngleView.some(item => item !== 0)
+    let hasPlotOverviewData = plotOverview.some(item => item > 0)
+    let hasDrAngleViewData = drAngleView.some(item => item > 0)
+    let hasPlotRankData = plotRank.length > 0
     let titleStyle = { color: '#999', fontSize: '12px' }
     let plotOverviewTitle = hasPlotOverviewData
                             ? '标注图像概览'
@@ -94,6 +96,12 @@ class HomePage extends Component {
     let drAngleViewTitle = hasDrAngleViewData
                             ? '图像类型分布'
                             : <div>图像类型分布<span style={titleStyle}>(暂无真实数据)</span></div>
+    let plotRankDataTitle = hasPlotRankData
+                            ? '在线标注排行榜(Top5)'
+                            : <div>在线标注排行榜(Top5)<span style={titleStyle}>(暂无真实排行数据)</span></div>
+    plotOverview = hasPlotOverviewData ? plotOverview : defaultPlotOverview
+    drAngleView = hasDrAngleViewData ? drAngleView : defaultDrAngleView
+    plotRank = hasPlotRankData ? plotRank : defaultPlotTopFive
     return (
       <div className="app-home">
         <Row gutter={15} style={{ marginBottom: '10px' }}>
@@ -113,9 +121,10 @@ class HomePage extends Component {
             <Card title={plotOverviewTitle}>
               {loading
                 ? <Spin size="large" />
-                : hasPlotOverviewData
-                  ? <PlotOverview plotOverview={plotOverview}></PlotOverview>
-                  : <PlotOverview plotOverview={plotOverview.map(item => 10 + Math.floor(Math.random() * 30))} />
+                : <PlotOverview plotOverview={plotOverview}></PlotOverview>
+                // : hasPlotOverviewData
+                //   ? <PlotOverview plotOverview={plotOverview}></PlotOverview>
+                //   : <PlotOverview plotOverview={plotOverview.map(item => 10 + Math.floor(Math.random() * 30))} />
               }
             </Card>
           </Col>
@@ -126,20 +135,19 @@ class HomePage extends Component {
             <Card title={drAngleViewTitle}>
               {loading
                 ? <Spin size="large" />
-                : hasDrAngleViewData
-                  ? <DrCount drViewData={drAngleView}></DrCount>
-                  : <DrCount drViewData={defaultDrAngleView}></DrCount>
+                : <DrCount drViewData={drAngleView}></DrCount>
+                // : hasDrAngleViewData
+                //   ? <DrCount drViewData={drAngleView}></DrCount>
+                //   : <DrCount drViewData={defaultDrAngleView}></DrCount>
               }
             </Card>
           </Col>
           {/* 在线标注排行榜 */}
           <Col xs={{ span: 24 }} md={{ span: 12 }}>
-            <Card title="在线标注排行榜(Top5)">
+            <Card title={plotRankDataTitle}>
               {loading
                 ? <Spin size="large" />
-                : plotRank.length > 0
-                  ? <PlotTop5 plotRank={plotRank} />
-                  : '暂无数据'
+                : <PlotTop5 plotRank={plotRank} />
               }
             </Card>
           </Col>

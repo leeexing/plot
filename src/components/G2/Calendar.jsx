@@ -136,10 +136,7 @@ function Calendar(props) {
     chart.render()
   }, [])
 
-  const stopChartRender = () => {
-    chart.clear()
-    chart = null
-  }
+  const stopChartRender = () => chart.clear()
 
   useEffect(() => stopChartRender, [])
 
