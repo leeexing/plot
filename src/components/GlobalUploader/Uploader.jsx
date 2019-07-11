@@ -99,17 +99,20 @@ class ImageUpload extends Component {
       started: true
     })
   }
+
   fileAdded = file => {
     this.computeMD5(file)
     if (file.ignored) { // is ignored, filter it
       return false
     }
   }
+
   filesAdded = (files, fileList) => {
     if (files.ignored || fileList.ignored) { // is ignored, filter it
       return false
     }
   }
+
   computeMD5(file) {
     let fileReader = new FileReader()
     let time = new Date().getTime()
@@ -150,6 +153,7 @@ class ImageUpload extends Component {
       file.cancel()
     }
   }
+
   extracrtMd5Blob(file) {
     let { size } = file
     if (size > 1024 * 1024 * 1024) {
@@ -157,6 +161,7 @@ class ImageUpload extends Component {
     }
     return file
   }
+
   statusSet(id, status) {
     let statusMap = {
       md5: {
@@ -174,15 +179,18 @@ class ImageUpload extends Component {
     }
     console.log(statusMap)
   }
+
   statusRemove(id) {
     // console.log(id)
   }
+
   fileRemoved = file => {
     this.setState({
       files: this.uploader.files,
       fileList: this.uploader.fileList
     })
   }
+
   filesSubmitted = (files, fileList) => {
     this.setState({
       files: this.uploader.files,
@@ -192,6 +200,7 @@ class ImageUpload extends Component {
       this.uploader.upload()
     }
   }
+
   allEvent = (...args) => {
     const name = args[0]
     const EVENTSMAP = {
@@ -209,12 +218,15 @@ class ImageUpload extends Component {
     args[0] = kebabCase(name)
     // console.log('allEvent:', args)
   }
+
   onFileProgress = (rootFile, file, chunk) => {
     console.log(`上传中 ${file.name}，chunk：${chunk.startByte / 1024 / 1024} ~ ${chunk.endByte / 1024 / 1024}`)
   }
+
   onFileError = (rootFile, file, response, chunk) => {
     message.error(response)
   }
+
   error = msg => {
     notification.error({
       message: '提示',
@@ -222,6 +234,7 @@ class ImageUpload extends Component {
       duration: 3000
     })
   }
+
   onFileSuccess = (rootFile, file, response, chunk) => {
     console.log('the file has been uploaded successfully')
     let res = JSON.parse(response)

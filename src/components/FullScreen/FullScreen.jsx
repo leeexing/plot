@@ -11,21 +11,26 @@ class FullScreen extends Component {
     this.fullScreenType = ['webkitRequestFullScreen', 'webkitCancelFullScreen']
     window.addEventListener('resize', this.checkFullScreenClose, false)
   }
+
   checkFullScreenClose = () => {
     if (!this.checkFull()) {
       this.closeFullScreen()
     }
   }
+
   openFullScreen() {
     this.docNsts[this.fullScreenType[0]]()
   }
+
   closeFullScreen = (type='esc') => {
     this.props.onCloseFullScreen(type)
     document[this.fullScreenType[1]]()
   }
+
   componentWillUnmount() {
     window.removeEventListener('resize', this.checkFullScreenClose, false)
   }
+
   checkFull() {
     let isFull = window.fullScreen || document.webkitIsFullScreen || document.msFullscreenEnabled
     if (isFull === undefined) {
@@ -33,6 +38,7 @@ class FullScreen extends Component {
     }
     return isFull
   }
+
   render() {
     return (
       <div id="fullscreen" ref="nsts">

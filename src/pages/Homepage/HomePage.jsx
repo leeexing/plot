@@ -10,23 +10,22 @@ import PlotOverview from 'components/G2/PlotOverview'
 
 const defaultPlotTopFive = [{
   name: 'John',
-  plot: 35654,
+  plot: 35654
 }, {
   name: 'Damon',
   plot: 65456,
 }, {
   name: 'Patrick',
-  plot: 45724,
+  plot: 45724
 }, {
   name: 'Mark',
-  plot: 13654,
+  plot: 13654
 }, {
   name: '示例',
-  plot: 23891,
+  plot: 23891
 }]
-
 const defaultDrAngleView = [10, 20]
-const defaultPlotOverview = Array.from({length: 4}, item => 10 + Math.floor(Math.random() * 30))
+const defaultPlotOverview = Array.from({length: 4}, _ => 10 + Math.floor(Math.random() * 30))
 
 
 class HomePage extends Component {
@@ -46,9 +45,11 @@ class HomePage extends Component {
       calendarLoading: true
     }
   }
+
   componentDidMount() {
     this.fetchData()
   }
+
   fetchData() {
     api.fetchHomePageinfo().then(res => {
       console.log(res)
@@ -122,9 +123,6 @@ class HomePage extends Component {
               {loading
                 ? <Spin size="large" />
                 : <PlotOverview plotOverview={plotOverview}></PlotOverview>
-                // : hasPlotOverviewData
-                //   ? <PlotOverview plotOverview={plotOverview}></PlotOverview>
-                //   : <PlotOverview plotOverview={plotOverview.map(item => 10 + Math.floor(Math.random() * 30))} />
               }
             </Card>
           </Col>
@@ -136,9 +134,6 @@ class HomePage extends Component {
               {loading
                 ? <Spin size="large" />
                 : <DrCount drViewData={drAngleView}></DrCount>
-                // : hasDrAngleViewData
-                //   ? <DrCount drViewData={drAngleView}></DrCount>
-                //   : <DrCount drViewData={defaultDrAngleView}></DrCount>
               }
             </Card>
           </Col>
