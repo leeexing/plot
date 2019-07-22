@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
-import { Avatar, Button, Divider, Input, Select, Progress,
+import { Avatar, Button, Divider, Input, Select, Progress, Tooltip,
  Table, Tag, Modal, message, Pagination } from 'antd'
 
 import './style.less'
@@ -28,12 +28,19 @@ class ImageBatchList extends Component {
           title: '序号',
           dataIndex: '_',
           key: '_',
-          render: (_, r, index) => <span>{index}</span>
+          render: (_, r, index) => <span>{index + 1}</span>
         }, {
           title: '文件名称',
           dataIndex: 'id',
           key: 'id',
-          render: (id, record) => <span>{record.uploadName}</span>
+          render: (_, record) => {
+            if (record.uploadName.length > 20) {
+              return <Tooltip title={record.uploadName}>
+                <span>{record.uploadName.slice(0, 20) + '...'}</span>
+              </Tooltip>
+            }
+            return <span>{record.uploadName}</span>
+          }
         }, {
           title: '文件大小',
           dataIndex: 'size',
