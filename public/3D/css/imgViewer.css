@@ -1974,7 +1974,7 @@ body {
   bottom: 150px;
   z-index: 1000;
   width: 250px;
-  padding-bottom: 32px; }
+  padding-bottom: 30px; }
   .map-menu-ct {
     bottom: 0; }
   .map-menu.map-record {
@@ -2039,15 +2039,14 @@ body {
     width: 100%;
     height: 30px;
     background: #f0f0f0;
-    border-left: 1px solid #ababac;
-    border-top: 1px solid #ababac; }
+    border-left: 1px solid #ababac; }
     .map-menu .pages a {
       flex: 1;
       display: flex;
       justify-content: center;
       align-items: center;
       color: #4c4c4c;
-      font-size: 14px;
+      font-size: 12px;
       transition: all .2s;
       cursor: pointer; }
       .map-menu .pages a:hover {

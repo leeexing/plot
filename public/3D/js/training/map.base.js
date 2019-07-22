@@ -302,4 +302,3 @@ function getUserInfo(key) {
         return ''
     }
 }
-

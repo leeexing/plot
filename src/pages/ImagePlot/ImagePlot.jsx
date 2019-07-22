@@ -163,7 +163,10 @@ class HomePage extends Component {
     })
   }
 
-  plotImage(item) {
+  plotImage(item, index) {
+    if (this.state.wantToDownload) {
+      return item.isSelected ? this.onHandleSelect(item, index, false) : this.onHandleSelect(item, index, true)
+    }
     let { batchId } = this.props.match.params
     let { imageName, plotStatus, total, currentPage, pageSize } = this.state
     let url = `api/upload/${batchId}`
@@ -257,7 +260,7 @@ class HomePage extends Component {
                           }
                         </div>
                       </div>
-                      <div className="image-wrap" onClick={this.plotImage.bind(this, item)}>
+                      <div className="image-wrap" onClick={this.plotImage.bind(this, item, index)}>
                         <img className="thumbnail" src={item.thumbnails.length > 0 ? item.thumbnails[0].url : item.dr[0].url} alt="" />
                       </div>
                       <div className="image-name">

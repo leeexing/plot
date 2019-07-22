@@ -34,7 +34,7 @@ class TrainingBaseDR  {
         this.submitBtn = $('.j-submit')
         this.userName = $('.j-username')
         this.userAvatar = $('.j-avatar')
-        this.userName.text(getUserInfo('userName'))
+        this.userName.text(localStorage.getItem('username'))
         this.userAvatar.attr('src', localStorage.getItem('avatar') || './images/avatar.png')
         // !上下图像切换
         this.prevImgBtn.click(() => {

@@ -25,7 +25,6 @@ class UserStore {
     localStorage.setItem('username', userInfo.username)
     localStorage.setItem('avatar', userInfo.avatar || '')
     localStorage.setItem('signalrToken', userInfo.signalrToken)
-    // Cookies.set('signalrToken', userInfo.signalrToken, {expires: userInfo.expires_in / (60 * 60 * 24), path: '/'})
   }
 
   @action('退出登录')
@@ -34,6 +33,7 @@ class UserStore {
     Auth.removeToken()
     localStorage.setItem('username', null)
     localStorage.setItem('avatar', null)
+    localStorage.setItem('signalrToken', null)
   }
 }
 

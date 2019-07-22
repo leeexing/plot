@@ -2494,7 +2494,7 @@ body {
   bottom: 150px;
   z-index: 1000;
   width: 250px;
-  padding-bottom: 32px;
+  padding-bottom: 30px;
   &-ct {
     bottom: 0;
   }
@@ -2584,14 +2584,14 @@ body {
     height: 30px;
     background: #f0f0f0;
     border-left: 1px solid #ababac;
-    border-top: 1px solid #ababac;
+    // border-top: 1px solid #ababac;
     a {
         flex: 1;
         display: flex;
         justify-content: center;
         align-items: center;
         color: #4c4c4c;
-        font-size: 14px;
+        font-size: 12px;
         transition: all .2s;
         cursor: pointer;
         &:hover {
