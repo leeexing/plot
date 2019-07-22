@@ -70,7 +70,6 @@ class MapMenu {
     let mapUl = `<ul class="map-content"></ul>`
     let pagesControl = `<div class="pages">
       <a class="j-prev">${lang.prev}</a><a class="j-next">${lang.next}</a>
-      <i class="nucfont inuc-prev j-prev disabled"></i><i class="nucfont inuc-next j-next"></i>
     </div>`
     $('body').append(this.fixTitle)
     this.mapOuter.append(title)

@@ -22,7 +22,10 @@
 
   &-upload-icon {
     position: relative;
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 68px;
     cursor: pointer;
 
     &,
@@ -277,4 +280,38 @@
     }
   }
 
+}
+
+/*
+* 动画
+*/
+//enter是入场前的刹那（点击按钮），appear指页面第一次加载前的一刹那（自动）
+.fadeup-enter, .fadeup-appear {
+  opacity: 0.8;
+  transform: translateY(30px) scale(.9);
+}
+//enter-active指入场后到入场结束的过程，appear-active则是页面第一次加载自动执行
+.fadeup-enter-active, .fadeup-appear-active {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  transition: all .5s linear;
+}
+//入场动画执行完毕后，保持状态
+.fadeup-enter-done {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+//同理，出场前的一刹那，以下就不详细解释了，一样的道理
+.fadeup-exit {
+  opacity: 0.8;
+}
+
+.fadeup-exit-active {
+  opacity: 0;
+  transform: translateY(0) scale(1);
+  transition: all .5s linear;
+}
+
+.fadeup-exit-done {
+  opacity: 0;
 }

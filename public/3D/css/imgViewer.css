@@ -538,7 +538,7 @@ body {
   .m-header .info-left {
     display: flex;
     align-items: center;
-    margin-left: 50px;
+    margin-left: 10px;
     color: #fff; }
     .m-header .info-left p {
       margin-right: 30px;
@@ -605,7 +605,7 @@ body {
       content: "\e668";
       position: absolute;
       left: -22px;
-      top: 1px;
+      top: 3px;
       width: 22px;
       height: 22px;
       font-size: 18px;
