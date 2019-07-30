@@ -5,10 +5,6 @@ import { notification  } from 'antd'
 
 class GlobalMessage extends Component {
 
-  handleMessage(data) {
-    console.log(data, 999)
-  }
-
   componentDidMount() {
     const socket = io.connect('http://localhost:5281/IMAGE_PLOT')
     socket.on('connect', () => {

@@ -36,6 +36,10 @@ class NavBar extends Component {
     }
   }
 
+  shouldComponentUpdate(props, preProps) {
+    return false
+  }
+
   render () {
     const menu = (
       <Menu onClick={this.onClick}>

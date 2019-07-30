@@ -248,7 +248,7 @@ class HomePage extends Component {
               ? <Skeleton loading={this.state.loading} rows="8">
                   <p className="no-match">暂无结果~</p>
                 </Skeleton>
-              : <QueueAnim delay={100}>
+              : <QueueAnim delay={100} type="top">
                 {
                   imageList.map((item, index) => (
                     <li className="image-list" key={index}>
@@ -282,48 +282,6 @@ class HomePage extends Component {
                   ))
                 }
               </QueueAnim>
-              // : <TransitionGroup>
-              //   {
-              //     imageList.map((item, index) => (
-              //       <CSSTransition
-              //         timeout={500}
-              //         classNames='fadeup'
-              //         unmountOnExit
-              //         appear={true}
-              //         key={index}
-              //       >
-              //         <li className="image-list" key={index}>
-              //           <div className="image-item">
-              //             <div className="image-operate">
-              //               <div className="image-check">
-              //                 {this.state.wantToDownload
-              //                   ? item.isSelected
-              //                     ? <PackIcon onClick={this.onHandleSelect.bind(this, item, index, false)} style={{ color: '#eb2f96' }} />
-              //                     : <PackIcon onClick={this.onHandleSelect.bind(this, item, index, true)} />
-              //                   : null
-              //                 }
-              //               </div>
-              //             </div>
-              //             <div className="image-wrap" onClick={this.plotImage.bind(this, item, index)}>
-              //               <img className="thumbnail" src={item.thumbnails.length > 0 ? item.thumbnails[0].url : item.dr[0].url} alt="" />
-              //             </div>
-              //             <div className="image-name">
-              //               <h3>
-              //                 {item.name.length > 10
-              //                   ? <Tooltip title={item.name} placement="top">
-              //                       {item.name.slice(0, 10) + '...'}
-              //                     </Tooltip>
-              //                   : item.name
-              //                 }
-              //               </h3>
-              //               {item.plot ? <div className="plot-status ploted">已标</div> : <div className="plot-status unplot">未标</div>}
-              //             </div>
-              //           </div>
-              //         </li>
-              //       </CSSTransition>
-              //     ))
-              //   }
-              //   </TransitionGroup>
             }
           </ul>
         </div>

@@ -13,15 +13,7 @@ import logoMini from 'assets/logo-mini.png'
 class MenuBar extends Component {
   constructor(props) {
     super(props)
-    this.state = {
-      collapsed: false,
-    }
-  }
-
-  toggleCollapsed = () => {
-    this.setState({
-      collapsed: !this.state.collapsed
-    })
+    this.state = {}
   }
 
   onMenuClick = ({ key }) => {
@@ -57,7 +49,7 @@ class MenuBar extends Component {
 
     return (
       <div className="app-menu-mini">
-        <div className="logo-con" onClick={this.toggleCollapsed}>
+        <div className="logo-con">
           <img src={logoMini} alt="logo-mini" />
         </div>
         <Dropdown overlay={menu} trigger={['click']}>
