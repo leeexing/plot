@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { Row, Col, Card, Spin } from 'antd'
 
-import './style.less'
 import api from '@/api'
 import DrCount from 'components/G2/DrCount'
 import Calendar from 'components/G2/Calendar'
@@ -103,6 +102,7 @@ class HomePage extends Component {
     plotOverview = hasPlotOverviewData ? plotOverview : defaultPlotOverview
     drAngleView = hasDrAngleViewData ? drAngleView : defaultDrAngleView
     plotRank = hasPlotRankData ? plotRank : defaultPlotTopFive
+
     return (
       <div className="app-home">
         <Row gutter={15} style={{ marginBottom: '10px' }}>

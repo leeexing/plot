@@ -1,5 +1,7 @@
 import React from 'react'
+import { Button } from 'antd'
 import { Link } from 'react-router-dom'
+
 
 import './style.less'
 import serverErrorImg from 'assets/500.png'
@@ -7,19 +9,14 @@ import serverErrorImg from 'assets/500.png'
 
 function ServerError(props)  {
 
-  const backToPrev = () => {
-    props.history.go(-1)
-  }
-
   return (
     <div className="server-error">
       <div className="server-error-img">
         <img src={serverErrorImg} alt=""/>
       </div>
       <div className="server-error-msg">
-        <p><Link className="server-error-back" to="/">返回首页</Link></p>
-        <p><a className="server-error-back" onClick={backToPrev}>返回上一页</a></p>
-        {/* <p>{this.state.remainTime}秒后 <Link className="server-error-back" to="/">返回首页</Link></p> */}
+        <Button type="primary" style={{ marginRight: '10px' }}><Link to="/">返回首页</Link></Button>
+        <Button type="primary" onClick={() => props.history.go(-1)}>返回上一页</Button>
       </div>
     </div>
   )

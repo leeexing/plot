@@ -34,6 +34,7 @@ class Signin extends Component {
 
   render () {
     const { getFieldDecorator } = this.props.form
+
     return (
       <div className="app-login app-signin" style={{ backgroundImage: `url(${logo})` }}>
         <div className="app-login-wrap" style={{ backgroundImage: `url(${login_bgi})` }}>

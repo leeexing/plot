@@ -187,6 +187,7 @@ class ImageBatchList extends Component {
     let local = {
       emptyText: <p className="m-plot-info">暂时没有标图数据，请先上传标图素材</p>
     }
+
     return (
       <div className="m-plot">
         {/* 查询、筛选、上传按钮 */}

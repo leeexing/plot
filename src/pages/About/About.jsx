@@ -8,7 +8,7 @@ import Directory from 'components/G2/Directory'
 const { Step } = Steps
 
 
-function AboutPlot(props) {
+function AboutPlot() {
 
   const [current, setCurrent] = useState(0)
   const [isShowDirectory, setShowDirectory] = useState(false)

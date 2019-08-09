@@ -17,7 +17,6 @@ class Download extends Component {
       currentPage: 1,
       total: 0,
       limit: 20,
-      isDeleting: false,
       columns: [{
         title: '序号',
         dataIndex: 'id',
@@ -36,9 +35,7 @@ class Download extends Component {
       }, {
         title: '打包时间',
         dataIndex: 'createTime',
-        key: 'createTime',
-        // sorter: (a, b) => new Date(a.createTime).getTime() - new Date(b.createTime).getTime(),
-        // defaultSortOrder : 'ascend',
+        key: 'createTime'
       }, {
         title: '下载次数',
         dataIndex: 'downloadCount',
@@ -74,8 +71,7 @@ class Download extends Component {
         </span>
       }],
       dataSource: [],
-      downloadName: '',
-      uploadStatus: 0
+      downloadName: ''
     }
   }
 
