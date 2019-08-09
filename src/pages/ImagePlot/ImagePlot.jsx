@@ -32,6 +32,7 @@ class HomePage extends Component {
   }
 
   componentDidMount() {
+    this.fullScreenDOM = document.getElementById('fullscreen')
     this.fetchData()
     window.onmessage = msgEvent => {
       let { type, id, postData } = msgEvent.data
@@ -181,7 +182,7 @@ class HomePage extends Component {
           &imageName=${encodeURI(imageName)}
           &plotStatus=${plotStatus}`.replace(/\s+/g, '')
     })
-    this.refs.fullScreen.openFullScreen()
+    this.fullScreenDOM['webkitRequestFullScreen']()
   }
 
   closeFullScreen = (type = 'esc') => {
@@ -303,7 +304,6 @@ class HomePage extends Component {
 
         {/* 全屏标图 */}
         <FullScreen
-          ref="fullScreen"
           isFull={this.state.isFull}
           onCloseFullScreen={this.closeFullScreen}
           src={this.state.src}
