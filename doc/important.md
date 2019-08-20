@@ -2,6 +2,7 @@
 
 TOC
 
+* 项目中使用的比较好的类库
 * webpack 相关配置
 * react-router 报错
 * axios 请求超时
@@ -11,6 +12,10 @@ TOC
 * mobx
 * 备份小头像地址
 * 关于页面文档
+
+## 项目中使用的比较好的类库
+
+1. rc-queue-anim：react 动画库
 
 ## webpack相关配置
 
