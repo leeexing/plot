@@ -25,7 +25,8 @@ export default {
         return http.get('/api/upload/file', data)
     },
     mergeSimpleUpload(data) {
-        return http.post('/api/upload/merge', data)
+        return http.post('/uploadApi/upload/merge', data)
+        // return http.post('/api/upload/merge', data)
     },
     // -上传文件列表
     fetchPlotUploads(data) {

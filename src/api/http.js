@@ -3,17 +3,11 @@
  */
 import qs from 'qs'
 import axios from 'axios'
+import { message } from 'antd'
 
-import {
-  message
-} from 'antd'
 import Auth from '@/util/auth'
-import {
-  baseURL
-} from './config'
-import {
-  BrowserRouter
-} from 'react-router-dom'
+import { baseURL } from './config'
+import { BrowserRouter } from 'react-router-dom'
 
 
 const router = new BrowserRouter()
@@ -30,6 +24,10 @@ const service = axios.create({
 
 // !请求拦截
 service.interceptors.request.use(config => {
+  // FIXME:这种做法太不安全了
+  if (config.url.includes('uploadApi')) {
+    config.baseURL = config.baseURL.replace('5281', '5284')
+  }
   let userTicket = Auth.getToken()
   if (userTicket) {
     config.headers.Authorization = `Bearer ${Auth.getToken()}`

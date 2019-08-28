@@ -8,7 +8,7 @@ import api from '@/api'
 import Auth from '@/util/auth'
 import { kebabCase } from '@/util'
 import UploadList from './UploadList'
-import { baseURL } from '@/api/config'
+import { UPLOAD_URL } from '@/api/config'
 import Uploader from 'simple-uploader.js'
 
 const FILE_ADDED_EVENT = 'fileAdded'
@@ -33,9 +33,9 @@ class ImageUpload extends Component {
     super(props)
     this.state = {
       options: {
-        target: baseURL + '/v1/api/upload/file',
+        target: UPLOAD_URL,
         chunkSize: '2048000',
-        fileParameterName: 'upfile',
+        fileParameterName: 'uploadFile',
         testChunks: true, // 是否开启秒传
         maxChunkRetries: 3,
         checkChunkUploadedByResponse: function (chunk, message) {
@@ -224,7 +224,7 @@ class ImageUpload extends Component {
   }
 
   onFileError = (rootFile, file, response, chunk) => {
-    message.error(response)
+    message.error(JSON.parse(response).msg)
   }
 
   error = msg => {

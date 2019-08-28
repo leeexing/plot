@@ -2,6 +2,7 @@
 
 TOC
 
+* 项目启动/打包
 * 项目中使用的比较好的类库
 * webpack 相关配置
 * react-router 报错
@@ -12,6 +13,14 @@ TOC
 * mobx
 * 备份小头像地址
 * 关于页面文档
+
+## 项目打包
+
+> 具体查看 scripts 文件
+
+1. npm start          开发环境打包
+2. npm run build      生产环境打包
+3. npm run build:test 测试环境打包
 
 ## 项目中使用的比较好的类库
 

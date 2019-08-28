@@ -129,7 +129,7 @@ class HomePage extends Component {
     }
     api.packPlotImages(data).then(res => {
       if (res.result) {
-        message.success('图像打包成功!')
+        message.success('图像开始打包中...')
       }
     }).catch(err => {
       message.error(err)
