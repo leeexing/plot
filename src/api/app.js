@@ -42,6 +42,10 @@ export default {
     updateImgSuspect(id, data) {
         return http.put('/api/plot/' + id, data)
     },
+    // -图像重命名
+    renameImage(id, data) {
+        return http.put('/api/plot/rename/' + id, data)
+    },
     // -图像打包
     packPlotImages(data) {
         return http.post('/api/plot/pack', data)

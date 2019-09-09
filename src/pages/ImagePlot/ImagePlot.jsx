@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import { Avatar, Button, Badge, Input, Pagination,
-  Tooltip, Skeleton, Select, message } from 'antd'
+import { Avatar, Button, Badge, Input, Icon, Modal,
+  Pagination, Tooltip, Skeleton, Select, message } from 'antd'
 import QueueAnim from 'rc-queue-anim'
 
 import './style.less'
@@ -26,7 +26,10 @@ class HomePage extends Component {
       selectedImageIds: new Set(),
       selectedImageCount: 0,
       plotStatus: 'all',
+      renameModal: false,
       imageName: '',
+      imageNewName: '',
+      renameImageId: null,
       loading: true
     }
   }
@@ -185,6 +188,48 @@ class HomePage extends Component {
     this.fullScreenDOM['webkitRequestFullScreen']()
   }
 
+  toggleShowRenameInput(item, index = -1) {
+    if (index !== -1) {
+      this.setState({
+        imageName: item.name,
+        renameImageId: item.id,
+        renameModal: true
+      })
+    } else {
+      this.setState({
+        renameModal: false
+      })
+    }
+  }
+
+  handleImageNewName(e) {
+    this.setState({
+      imageNewName: e.target.value.trim()
+    })
+  }
+
+  imageRenameSubmit = () => {
+    let putData = {
+      newName: this.state.imageNewName
+    }
+    api.renameImage(this.state.renameImageId, putData).then(res => {
+      console.log(res)
+      if (res.result) {
+        this.setState({
+          imageName: '',
+          imageNewName: '',
+          renameImageId: null,
+          renameModal: false
+        }, () => {
+          message.success('图像名称修改成功！')
+          this.fetchData()
+        })
+      }
+    }).catch(err => {
+      console.log(err)
+    })
+  }
+
   closeFullScreen = (type = 'esc') => {
     if (type === 'esc') {
       this.setState({
@@ -196,7 +241,7 @@ class HomePage extends Component {
   }
 
   render() {
-    let { currentPage, total, pageSize } = this.state
+    let { currentPage, total, pageSize, imageName, imageNewName } = this.state
     let imageList = this.state.imageList.slice((currentPage - 1) * pageSize, currentPage * pageSize)
 
     return (
@@ -269,6 +314,28 @@ class HomePage extends Component {
                           <img className="thumbnail" src={item.thumbnails.length > 0 ? item.thumbnails[0].url : item.dr[0].url} alt="" />
                         </div>
                         <div className="image-name">
+                          {/* {
+                            renameIndex === index
+                            ? <div style={{ display: 'flex' }}>
+                              <Input value={item.name} size="small" onChange={e => this.handleImageNewName(e)}></Input>
+                              <Button.Group style={{ display: 'flex' }}>
+                                <Button onClick={() => this.toggleShowRenameInput(-1)} size="small" style={{ fontSize: '12px'}}>取消</Button>
+                                <Button onClick={() => this.imageRenameSubmit(item)} size="small" style={{ fontSize: '12px'}}>确定</Button>
+                              </Button.Group>
+                            </div>
+                            : <React.Fragment>
+                                <h3>
+                                    {item.name.length > 10
+                                      ? <Tooltip title={item.name} placement="top">
+                                          {item.name.slice(0, 10) + '...'}
+                                        </Tooltip>
+                                      : item.name
+                                    }
+                                    <Icon onClick={() => this.toggleShowRenameInput(index)} style={{ marginLeft: '3px', cursor: 'pointer' }} type="edit" />
+                                  </h3>
+                                {item.plot ? <div className="plot-status ploted">已标</div> : <div className="plot-status unplot">未标</div>}
+                            </React.Fragment>
+                          } */}
                           <h3>
                             {item.name.length > 10
                               ? <Tooltip title={item.name} placement="top">
@@ -276,6 +343,7 @@ class HomePage extends Component {
                                 </Tooltip>
                               : item.name
                             }
+                            <Icon onClick={() => this.toggleShowRenameInput(item, index)} style={{ marginLeft: '3px', cursor: 'pointer' }} type="edit" />
                           </h3>
                           {item.plot ? <div className="plot-status ploted">已标</div> : <div className="plot-status unplot">未标</div>}
                         </div>
@@ -308,6 +376,19 @@ class HomePage extends Component {
           onCloseFullScreen={this.closeFullScreen}
           src={this.state.src}
         />
+
+        {/* 重命名 */}
+        <Modal
+          title="图像重命名"
+          visible={this.state.renameModal}
+          okText="确定"
+          cancelText="取消"
+          onOk={this.imageRenameSubmit}
+          onCancel={() => this.toggleShowRenameInput(null, -1)}
+        >
+          <p>{imageName}</p>
+          <Input value={imageNewName} onChange={e => this.handleImageNewName(e)} placeholder="请输入图像新名称"></Input>
+        </Modal>
       </div>
     )
   }
