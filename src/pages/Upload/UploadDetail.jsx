@@ -28,6 +28,7 @@ function UploadDetail(props) {
   const columns = [
     {
       title: '序号',
+      width: 150,
       dataIndex: '_',
       key: '_',
       render: (_, r, index) => <span>{index + 1}</span>
@@ -36,6 +37,7 @@ function UploadDetail(props) {
       title: '类型',
       dataIndex: 'level',
       key: 'level',
+      width: 150,
       filters: [{ text: '成功', value: 1 }, { text: '失败', value: 2 }],
       filteredValue: filteredInfo.level || null,
       onFilter: (value, record) => record.level === value,
