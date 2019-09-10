@@ -385,7 +385,7 @@ class HomePage extends Component {
           onOk={this.imageRenameSubmit}
           onCancel={() => this.toggleShowRenameInput(null, -1)}
         >
-          <p>{imageName}</p>
+          <p>原图像名称：{imageName}</p>
           <Input value={imageNewName} onChange={e => this.handleImageNewName(e)} placeholder="请输入图像新名称"></Input>
         </Modal>
       </div>
