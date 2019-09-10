@@ -213,7 +213,6 @@ class HomePage extends Component {
       newName: this.state.imageNewName
     }
     api.renameImage(this.state.renameImageId, putData).then(res => {
-      console.log(res)
       if (res.result) {
         this.setState({
           imageName: '',
@@ -337,13 +336,13 @@ class HomePage extends Component {
                             </React.Fragment>
                           } */}
                           <h3>
-                            {item.name.length > 10
+                            {item.name.length > 15
                               ? <Tooltip title={item.name} placement="top">
-                                  {item.name.slice(0, 10) + '...'}
+                                  {item.name.slice(0, 15) + '...'}
                                 </Tooltip>
                               : item.name
                             }
-                            <Icon onClick={() => this.toggleShowRenameInput(item, index)} style={{ marginLeft: '3px', cursor: 'pointer' }} type="edit" />
+                            <Icon onClick={() => this.toggleShowRenameInput(item, index)} style={{ marginLeft: '5px', cursor: 'pointer' }} type="edit" />
                           </h3>
                           {item.plot ? <div className="plot-status ploted">已标</div> : <div className="plot-status unplot">未标</div>}
                         </div>
@@ -377,7 +376,7 @@ class HomePage extends Component {
           src={this.state.src}
         />
 
-        {/* 重命名 */}
+        {/* 图像重命名 */}
         <Modal
           title="图像重命名"
           visible={this.state.renameModal}

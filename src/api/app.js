@@ -32,6 +32,10 @@ export default {
     fetchPlotUploads(data) {
         return http.get('/api/upload', data)
     },
+    // -上传过程的日志
+    fetchUploadProcessLog(id, data) {
+        return http.get('/api/upload/log/' + id, data)
+    },
     fetchPlotUploadBatchDetail(id, data) {
         return http.get('/api/upload/' + id, data)
     },

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import io from 'socket.io-client'
-import { notification  } from 'antd'
+import { notification, Icon } from 'antd'
 
 
 class GlobalMessage extends Component {
@@ -12,9 +12,16 @@ class GlobalMessage extends Component {
     })
     socket.on('server_response', data => {
       console.log(data)
-      notification.info({
-        message: data.data
-      })
+      if (data.type === 1) {
+        notification.info({
+          message: data.data
+        })
+      } else {
+        notification.warning({
+          message: data.data,
+          icon: <Icon type="frown" style={{ color: '#f90' }} />
+        })
+      }
     })
   }
 

@@ -65,7 +65,14 @@ class ImageBatchList extends Component {
           title: '状态',
           dataIndex: 'status',
           key: 'status',
-          render: status => <Tag color={statusColor[status]}>{statusText[status]}</Tag>
+          render: (status, record) => {
+            if (status >= 2) {
+              return <Tooltip title='点击查看详情'>
+                <Tag onClick={() => this.checkUploadDetail(record)} color={statusColor[status]}>{statusText[status]}</Tag>
+              </Tooltip>
+            }
+            return <Tag color={statusColor[status]}>{statusText[status]}</Tag>
+          }
         }, {
           title: '操作', // 0: 未转码；1：转码中；2：成功；3：失败
           width: 150,
@@ -110,6 +117,21 @@ class ImageBatchList extends Component {
         loading: false
       })
     })
+  }
+
+  checkUploadDetail = record => {
+    let name = record.uploadName.length > 10 ? `${record.uploadName.slice(0, 5)}....zip` : record.uploadName
+    this.props.appStore.updateNavBreadcrumb([
+      {
+        path: 'plot',
+        name: '标图素材'
+      },
+      {
+        path: 'plotDetail',
+        name: `${name}上传日志`
+      }
+    ])
+    this.props.history.push(`/upload/${record.id}`)
   }
 
   deleteUploadFile = id => {

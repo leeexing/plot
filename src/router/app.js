@@ -1,7 +1,7 @@
 import Layout from 'components/Layout'
 import Home from 'pages/Homepage'
 import { ImagePlot, ImagePlotList } from 'pages/ImagePlot'
-import Upload from 'components/GlobalUploader'
+import UploadDetail from 'pages/Upload'
 import NotFound from 'pages/404page'
 import ServerError from 'pages/500page'
 import Download from 'pages/Download'
@@ -24,7 +24,7 @@ export default {
     { path: '', name: '跳转到登录页', icon: 'swap', component: null },
     { path: 'refresh', name: '路由伪刷新', component: Refresh },
     { path: 'plot/:batchId', name: '标图详情', component: ImagePlot },
-    { path: 'upload', name: '图像上传', component: Upload },
+    { path: 'upload/:uploadId', name: '上传详情', component: UploadDetail },
     { path: '500', name: '错误页', component: ServerError },
     { path: '*', name: '未知页', component: NotFound }
   ]
