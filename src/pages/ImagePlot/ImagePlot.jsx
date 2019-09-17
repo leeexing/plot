@@ -209,6 +209,10 @@ class HomePage extends Component {
   }
 
   imageRenameSubmit = () => {
+    if (this.state.imageNewName.length === 0) {
+      message.warning('图像名称不能为空！')
+      return
+    }
     let putData = {
       newName: this.state.imageNewName
     }
@@ -335,15 +339,17 @@ class HomePage extends Component {
                                 {item.plot ? <div className="plot-status ploted">已标</div> : <div className="plot-status unplot">未标</div>}
                             </React.Fragment>
                           } */}
-                          <h3>
-                            {item.name.length > 15
-                              ? <Tooltip title={item.name} placement="top">
-                                  {item.name.slice(0, 15) + '...'}
-                                </Tooltip>
-                              : item.name
-                            }
+                          <div className="image-name-detail">
+                            <h3>
+                              {item.name.length > 15
+                                ? <Tooltip title={item.name} placement="top">
+                                    {item.name.slice(0, 15) + '...'}
+                                  </Tooltip>
+                                : item.name
+                              }
+                            </h3>
                             <Icon onClick={() => this.toggleShowRenameInput(item, index)} style={{ marginLeft: '5px', cursor: 'pointer' }} type="edit" />
-                          </h3>
+                          </div>
                           {item.plot ? <div className="plot-status ploted">已标</div> : <div className="plot-status unplot">未标</div>}
                         </div>
                       </div>

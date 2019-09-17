@@ -223,6 +223,7 @@
         justify-content: center;
         align-items: center;
         flex-direction: column;
+        overflow: hidden;
         cursor: pointer;
 
         img {
@@ -235,18 +236,27 @@
         flex-shrink: 0;
         display: flex;
         justify-content: space-between;
+        align-items: center;
         background: #F7F9FA;
         box-shadow: 0 0 4px 4px #F7F9FA;
         color: #888;
         z-index: 9;
 
-        h3 {
-          margin-right: 5px;
-          overflow: hidden;
-          white-space: nowrap;
-          text-overflow: ellipsis;
-          color: #666;
+        &-detail {
+          display: flex;
+          align-items: center;
+          max-width: 70%;
+          h3 {
+            flex: 1;
+            margin-right: 5px;
+            margin-bottom: 0;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            color: #666;
+          }
         }
+
 
         .plot-status {
           flex-shrink: 0;

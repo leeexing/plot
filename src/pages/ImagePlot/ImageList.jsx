@@ -66,9 +66,13 @@ class ImageBatchList extends Component {
           dataIndex: 'status',
           key: 'status',
           render: (status, record) => {
-            if (status >= 2) {
+            if (status >= 1) {
               return <Tooltip title='点击查看详情'>
-                <Tag onClick={() => this.checkUploadDetail(record)} color={statusColor[status]}>{statusText[status]}</Tag>
+                <Tag
+                  onClick={() => this.checkUploadDetail(record)}
+                  color={statusColor[status]} style={{ cursor: 'pointer'}}>
+                  {statusText[status]}
+                </Tag>
               </Tooltip>
             }
             return <Tag color={statusColor[status]}>{statusText[status]}</Tag>
@@ -131,7 +135,7 @@ class ImageBatchList extends Component {
         name: `${name}上传日志`
       }
     ])
-    this.props.history.push(`/upload/${record.id}`)
+    this.props.history.push(`/log/${record.id}?type=upload`)
   }
 
   deleteUploadFile = id => {

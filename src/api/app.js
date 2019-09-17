@@ -36,6 +36,10 @@ export default {
     fetchUploadProcessLog(id, data) {
         return http.get('/api/upload/log/' + id, data)
     },
+    // -下载过程的日志
+    fetchDownloadProcessLog(id, data) {
+        return http.get('/api/download/log/' + id, data)
+    },
     fetchPlotUploadBatchDetail(id, data) {
         return http.get('/api/upload/' + id, data)
     },

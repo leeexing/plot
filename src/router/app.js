@@ -24,7 +24,7 @@ export default {
     { path: '', name: '跳转到登录页', icon: 'swap', component: null },
     { path: 'refresh', name: '路由伪刷新', component: Refresh },
     { path: 'plot/:batchId', name: '标图详情', component: ImagePlot },
-    { path: 'upload/:uploadId', name: '上传详情', component: UploadDetail },
+    { path: 'log/:taskId', name: '日志详情', component: UploadDetail },
     { path: '500', name: '错误页', component: ServerError },
     { path: '*', name: '未知页', component: NotFound }
   ]

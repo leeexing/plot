@@ -12,6 +12,21 @@ export const setProp = (key, value) => ({
   key: value
 })
 
+export const getUrlSearch = search => {
+  let obj = {}
+  let pairs = search.slice(1).split("&")
+  for (let i = 0; i < pairs.length; i++) {
+    let pos = pairs[i].indexOf('=')
+    if (pos === -1) {
+      continue
+    }
+    let name = pairs[i].substring(0, pos)
+    let value = pairs[i].substring(pos + 1)
+    obj[name] = value
+  }
+  return obj
+}
+
 export const calculateSize = size => {
   if (size < 1024) {
     return size + 'KB'

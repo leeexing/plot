@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { inject, observer } from 'mobx-react'
 import { Divider, Input, Table, Tag, Button,
         Popconfirm, Pagination, Tooltip } from 'antd'
 
@@ -9,6 +10,8 @@ const statusText = ['失效', '打包中...', '打包完成']
 const statusColor = ['#666', 'geekblue', 'green']
 
 
+@inject('appStore')
+@observer
 class Download extends Component {
   constructor(props) {
     super(props)
@@ -21,7 +24,7 @@ class Download extends Component {
         title: '序号',
         dataIndex: 'id',
         key: 'id',
-        render: (_, r, index) => <span>{index}</span>
+        render: (_, r, index) => <span>{index + 1}</span>
       }, {
         title: '标签',
         dataIndex: 'tag',
@@ -44,13 +47,21 @@ class Download extends Component {
         title: '状态',
         dataIndex: 'status',
         key: 'status',
-        render: status => {
+        render: (status, record) => {
           if (status === 0) {
-            return <Tooltip title="创建时间超过一个月" placement="top">
+            return <Tooltip title="创建时间超过一个月，下载链接失效" placement="top">
               <Tag color={statusColor[status]}>{statusText[status]}</Tag>
             </Tooltip>
           }
-          return <Tag color={statusColor[status]}>{statusText[status]}</Tag>
+          if (status >= 1) {
+            return <Tooltip title='点击查看详情'>
+              <Tag
+                onClick={() => this.checkLogDetail(record)}
+                color={statusColor[status]} style={{ cursor: 'pointer'}}>
+                {statusText[status]}
+              </Tag>
+            </Tooltip>
+          }
         }
       }, {
         title: '操作',
@@ -73,6 +84,21 @@ class Download extends Component {
       dataSource: [],
       downloadName: ''
     }
+  }
+
+  checkLogDetail = record => {
+    let name = record.tag.length > 10 ? `${record.tag.slice(0, 5)}....zip` : record.tag
+    this.props.appStore.updateNavBreadcrumb([
+      {
+        path: 'download',
+        name: '标图下载'
+      },
+      {
+        path: 'plotDetail',
+        name: `${name}下载日志`
+      }
+    ])
+    this.props.history.push(`/log/${record.id}?type=download`)
   }
 
   componentDidMount() {
