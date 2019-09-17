@@ -2669,6 +2669,7 @@ body {
               height: 100%;
               transition: all .3s;
               opacity: 0;
+              background: rgba(0, 0, 0, .45);
               &:before, &::after {
                 content: "";
                 display: inline-block;
