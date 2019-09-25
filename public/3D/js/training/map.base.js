@@ -19,7 +19,6 @@ class MapMenu {
     this.pagesCount = Math.ceil(this.options.img_sql.count / 20)
     this.page = this.options.img_sql.page
     this.imgData = null
-    this.imgListHtml = {}
     this.initElement()
     this.attachEvent()
     this.bindDeleteEvent()
@@ -32,7 +31,6 @@ class MapMenu {
         that.imgCount = data.data.images.length
         that.pagesCount = that.pagesCount || Math.ceil(that.imgCount / 20)
         that.generateImgList(data.data.images)
-        that.renderImgList()
         that.initShow()
     },{
         traditional: true
@@ -44,26 +42,23 @@ class MapMenu {
       let liClassname = this.activeID && this.activeIndex === index ? 'active' : ''
       liClassname += item.plot ? ' ploted' : ''
       mapListHtml += `
-          <li
-            data-id="${item.id}"
-            data-isdanger="${item.isTip ? true : false}"
-            class="${liClassname}"
-          >
-            <div class="thumbnail">
-              <img src="${item.thumbnails.length > 0 && item.thumbnails[0].url ? item.thumbnails[0].url : item.dr[0].url || './images/common-icons/no-img.png'}" />
-              <i class="delete-image j-delete-plot-image" title="删除图像" data-deleteid="${item.id}"></i>
-            </div>
-            <div class="byname" title="${item.name}">${item.name}</div>
-          </li>
+        <li
+          data-id="${item.id}"
+          data-isdanger="${item.isTip ? true : false}"
+          class="${liClassname}"
+        >
+          <div class="thumbnail">
+            <img src="${item.thumbnails.length > 0 && item.thumbnails[0].url ? item.thumbnails[0].url : item.dr[0].url || './images/common-icons/no-img.png'}" />
+            <i class="delete-image j-delete-plot-image" title="删除图像" data-deleteid="${item.id}"></i>
+          </div>
+          <div class="byname" title="${item.name}">${item.name}</div>
+        </li>
       `
     })
-    this.imgListHtml[`page-${this.page}`] = mapListHtml
-  }
-  renderImgList () {
-    this.mapContent.html(this.imgListHtml[`page-${this.page}`])
+    this.mapContent.html(mapListHtml)
     this.checkPages()
   }
-  initElement (data) {
+  initElement () {
     this.mapOuter = $('.j-map-menu')
     this.fixTitle = $(`<div class="fix-title animated">${lang.imageMap}</div>`)
     let title = `<header class="map-title"><h3><i class="nucfont inuc-menu j-map-mini"></i></h3><i class="nucfont inuc-arrow-right j-map-hide"></i></header>`
@@ -166,34 +161,26 @@ class MapMenu {
         that.options.imgInstance.initShow(that.imgData[index])
       }
     })
-    // 点击上下页。切换上下页之前选记录当前图像的标注状态
+    // 点击上下页。切换上下页之前选记录当前图像的标注状态，同时清除标记状态，避免下一页的第一幅图像也被误标记上
     this.prevPage.on('click', function() {
       if ($(this).hasClass('disabled')) {
           return false
       }
-      this.options.imgInstance.updateImgSuspect()
+      that.options.imgInstance.updateImgSuspect()
+      that.options.imgInstance.clearUserSelectRegion()
       that.page -= 1
-      if (that.imgListHtml[`page-${this.page}`]) {
-          that.renderImgList(that.imgListHtml[`page-${that.page}`])
-          that.initShow()
-      } else {
-          that.options.img_sql.page -= 1
-          that.fetchImgData()
-      }
+      that.options.img_sql.page -= 1
+      that.fetchImgData()
     })
     this.nextPage.on('click', function() {
       if ($(this).hasClass('disabled')) {
           return false
       }
-      this.options.imgInstance.updateImgSuspect()
+      that.options.imgInstance.updateImgSuspect()
+      that.options.imgInstance.clearUserSelectRegion()
       that.page += 1
-      if (that.imgListHtml[`page-${this.page}`]) {
-          that.renderImgList(that.imgListHtml[`page-${that.page}`])
-          that.initShow()
-      } else {
-          that.options.img_sql.page += 1
-          that.fetchImgData()
-      }
+      that.options.img_sql.page += 1
+      that.fetchImgData()
     })
   }
   recordPlotAndRender (index) {

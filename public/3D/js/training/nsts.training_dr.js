@@ -177,8 +177,7 @@ class TrainingBaseDR  {
         this.activeImg.isPass = true
         this.resetJudgeBtnsStatus()
         if (this.formName !== 'Easy') { // ?重新选择安全会重置之前的标框数据
-            this.Viewer.clearUserSelectRegion()
-            // this.activeImg.signBox = null
+            this.clearUserSelectRegion()
         }
     }
     packageDanger () {
@@ -207,8 +206,11 @@ class TrainingBaseDR  {
         this.activeImg.dangerID = null
         this.resetJudgeBtnsStatus()
         if (this.formName !== 'Easy') {
-            this.Viewer.clearUserSelectRegion()
+            this.clearUserSelectRegion()
         }
+    }
+    clearUserSelectRegion() {
+        this.Viewer.clearUserSelectRegion()
     }
     resetJudgeBtnsStatus (type='safe') {
         if (type === 'safe') {
@@ -375,7 +377,6 @@ class MapPreviewDR extends TrainingBaseDR {
                     console.log(res.msg)
                 }
                 this.mapMenu.imgData.filter(item => item.id === id)[0].plot = true
-                console.log(this.mapMenu.activeDom(id))
                 this.mapMenu.activeDom(id).addClass('ploted')
             })
         }
@@ -386,13 +387,12 @@ class MapPreviewDR extends TrainingBaseDR {
         let { id, plot } = this.activeImageData
         let markPos = this.Viewer.userSelectRegion
         if (markPos.length > 0) {
-            this.Viewer.clearUserSelectRegion()
+            this.clearUserSelectRegion()
         }
         if (!plot) {
             return
         }
         let postData = {suspectNum: this.activeImageData.dr.length}
-        console.log(postData)
         $.NstsPOST(APIURI + 'api/plot/' + id, JSON.stringify(postData), res => {
             if (!res.result) {
                 NSTS.Plugin.Alert.Error(res.msg)
