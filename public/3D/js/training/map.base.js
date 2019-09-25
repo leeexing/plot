@@ -166,11 +166,12 @@ class MapMenu {
         that.options.imgInstance.initShow(that.imgData[index])
       }
     })
-    // 点击上下页
+    // 点击上下页。切换上下页之前选记录当前图像的标注状态
     this.prevPage.on('click', function() {
       if ($(this).hasClass('disabled')) {
           return false
       }
+      this.options.imgInstance.updateImgSuspect()
       that.page -= 1
       if (that.imgListHtml[`page-${this.page}`]) {
           that.renderImgList(that.imgListHtml[`page-${that.page}`])
@@ -184,6 +185,7 @@ class MapMenu {
       if ($(this).hasClass('disabled')) {
           return false
       }
+      this.options.imgInstance.updateImgSuspect()
       that.page += 1
       if (that.imgListHtml[`page-${this.page}`]) {
           that.renderImgList(that.imgListHtml[`page-${that.page}`])

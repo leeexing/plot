@@ -361,7 +361,7 @@ class MapPreviewDR extends TrainingBaseDR {
     }
     updateImgSuspect () {
         let renderData = this.mapMenu.activeRenderData()
-        // 如果是看到最后衣服图像时进行删除操作
+        // 如果是看到最后一副图像时进行删除操作
         if (!renderData) {
             return
         }
@@ -380,6 +380,7 @@ class MapPreviewDR extends TrainingBaseDR {
             })
         }
     }
+    // 恢复图像的标记
     backoutPlotImageSuspect() {
         // let renderData = this.mapMenu.activeRenderData()
         let { id, plot } = this.activeImageData
