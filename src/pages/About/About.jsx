@@ -44,7 +44,8 @@ function AboutPlot() {
 
   const plotImage = <div className="step-wrap">
     <div><Tag color="cyan">步骤：</Tag>素材列表——>详情——>点击图像——>图像全屏预览模式——>使用鼠标中键标记危险品位置即可；</div>
-    <div><Tag color="#f50">提醒</Tag>有双视角的图像尽量都进行标记</div>
+    <div><Tag color="#f50">提醒1</Tag>有双视角的图像尽量都进行标记</div>
+    <div><Tag color="#f50">提醒2</Tag>如果显示图像和实际图像相差180°，请点击 <Tag color="#108ee9">旋转图像</Tag>按钮对图像进行矫正</div>
   </div>
 
   const imageDownload = <div className="step-wrap">
