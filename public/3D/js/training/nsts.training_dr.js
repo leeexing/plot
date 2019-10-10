@@ -11,7 +11,7 @@ class TrainingBaseDR  {
         }
         Object.assign(this.options, options)
         this.initBaseElement()
-        this.initViewer();
+        this.initViewer()
     }
     initBaseElement () {
         this.title = $('.j-title')
@@ -38,25 +38,25 @@ class TrainingBaseDR  {
         this.userAvatar.attr('src', localStorage.getItem('avatar') || './images/avatar.png')
         // !上下图像切换
         this.prevImgBtn.click(() => {
-            this.prevImg();
-        });
+            this.prevImg()
+        })
         this.nextImgBtn.click(() => {
-            this.nextImg();
-        });
+            this.nextImg()
+        })
         // !退出键关闭监控
         let btnCloseDom = window.parent.document.getElementById('btn-close')
-        this.closeFullscreenBtn = $(btnCloseDom);
+        this.closeFullscreenBtn = $(btnCloseDom)
         this.closeFullscreenBtn.click(() => {
             this.beforeClose && this.beforeClose()
         })
 
 
-        this.isFull = true;
+        this.isFull = true
         // $(window).on('resize', event => {
         //     event.preventDefault()
         //     if (this.isFull) {
-        //         this.closeFullscreenBtn.click();
-        //         this.isFull = false;
+        //         this.closeFullscreenBtn.click()
+        //         this.isFull = false
         //     }
         // })
         // !确认是否显示快捷键
@@ -84,86 +84,86 @@ class TrainingBaseDR  {
         }
         this.options.DrHeight = Math.floor(this.drContainer.height())
         this.options.DrWidth = Math.floor(this.drContainer.width())
-        this.Viewer = new DrViewer(this.options);
+        this.Viewer = new DrViewer(this.options)
     }
     prevImg() {
         if (this.imgHasLoaded) {
-            this.index--;
-            this.show();
+            this.index--
+            this.show()
         }
     }
     nextImg() {
         if (this.imgHasLoaded) {
-            this.index++;
-            this.show();
+            this.index++
+            this.show()
         }
     }
     get imgHasLoaded () {
         return this.Viewer.hasLoaded
     }
     show() {
-        let anglesInfo = this.angles;
-        this.Viewer.initShowDR(anglesInfo);
-        this.doSubclassThing();
+        let anglesInfo = this.angles
+        this.Viewer.initShowDR(anglesInfo)
+        this.doSubclassThing()
     }
     doSubclassThing() {
-        throw new Error('抽象方法，必须由子类实现！');
+        throw new Error('抽象方法，必须由子类实现！')
     }
     showImgInfo(imgInfo) {
-        this.imgName.text(imgInfo.byName);
-        this.imgKnowledgeName.text(imgInfo.knowledgeName || `${lang.null}`);
-        this.imgItemname.text(imgInfo.typeName);
-        this.imgDesc.text(imgInfo.description != '' ? imgInfo.description : `${lang.null}`);
+        this.imgName.text(imgInfo.byName)
+        this.imgKnowledgeName.text(imgInfo.knowledgeName || `${lang.null}`)
+        this.imgItemname.text(imgInfo.typeName)
+        this.imgDesc.text(imgInfo.description != '' ? imgInfo.description : `${lang.null}`)
     }
     initCountdown(time) {
-        this.timeRemaingElem = $('.j-time');
-        this.time = time;
-        this.countdownID = null;
-        this.timeRemaingElem.html(formatSecondsNoUnit(this.time));
+        this.timeRemaingElem = $('.j-time')
+        this.time = time
+        this.countdownID = null
+        this.timeRemaingElem.html(formatSecondsNoUnit(this.time))
     }
     countdownStart(callback) {
-        let timeRemain = this.time;
+        let timeRemain = this.time
         this.timeUsed = 0; //用时
         const countTime = () => {
-            timeRemain -= 1;
-            this.timeRemaingElem.html(formatSecondsNoUnit(timeRemain));
-            this.timeUsed = (this.time - timeRemain);
+            timeRemain -= 1
+            this.timeRemaingElem.html(formatSecondsNoUnit(timeRemain))
+            this.timeUsed = (this.time - timeRemain)
             if (timeRemain < 1) {
                 //时间结束，后续操作业务类在覆盖
-                clearInterval(this.countdownID);
-                this.countdownID = null;
-                this.countdownEnd();
+                clearInterval(this.countdownID)
+                this.countdownID = null
+                this.countdownEnd()
                 return
             }
             callback && callback()
         }
-        this.countdownID = setInterval(countTime, 1000);
+        this.countdownID = setInterval(countTime, 1000)
     }
     resetCountdown () {
-        clearInterval(this.countdownID);
-        this.countdownID = null;
-        this.timeRemaingElem.html(formatSecondsNoUnit(this.time));
+        clearInterval(this.countdownID)
+        this.countdownID = null
+        this.timeRemaingElem.html(formatSecondsNoUnit(this.time))
     }
     cancelCountdown() {
-        clearInterval(this.countdownID);
-        this.countdownID = null;
-        this.timeWrap.hide();
-        this.timeRemaingElem.empty();
+        clearInterval(this.countdownID)
+        this.countdownID = null
+        this.timeWrap.hide()
+        this.timeRemaingElem.empty()
     }
     countdownEnd() {
-        throw new Error('抽象方法，必须由子类实现！');
+        throw new Error('抽象方法，必须由子类实现！')
     }
     checkPreNext() {
         if (this.allCount === 1) {
-            this.prevBtnWrap.hide();
-            this.nextBtnWrap.hide();
+            this.prevBtnWrap.hide()
+            this.nextBtnWrap.hide()
         } else {
-            this.prevBtnWrap.show();
-            this.nextBtnWrap.show();
+            this.prevBtnWrap.show()
+            this.nextBtnWrap.show()
             if (this.index === 0) {
-                this.prevBtnWrap.hide();
+                this.prevBtnWrap.hide()
             } else if (this.index === this.allCount - 1) {
-                this.nextBtnWrap.hide();
+                this.nextBtnWrap.hide()
             }
         }
     }
@@ -171,7 +171,7 @@ class TrainingBaseDR  {
         this.closeFullscreenBtn.click()
     }
     judgeBtnsShow () {
-        this.judgeBtnsWrap.css('display', 'flex');
+        this.judgeBtnsWrap.css('display', 'flex')
     }
     packageSafe () {
         this.activeImg.isPass = true
@@ -303,12 +303,12 @@ class TrainingBaseDR  {
  */
 class MapPreviewDR extends TrainingBaseDR {
     constructor() {
-        super({checkType: 'map'});
-        this.initElement();
+        super({ checkType: 'map' })
+        this.initElement()
     }
     initElement() {
         $('.main').append('<div class="map-menu j-map-menu"></div>')
-        this.title.text('DR在线标图');
+        this.title.text('DR在线标图')
         this.beforeClose = () => {
             let renderData = this.mapMenu.activeRenderData()
             let id = renderData.id
@@ -316,11 +316,14 @@ class MapPreviewDR extends TrainingBaseDR {
                 markPos: [...this.Viewer.userSelectRegion]
             }
             if (putData.markPos.length > 0) {
-                parent.postMessage({type: 'submitPlot', postData: JSON.stringify(putData), id}, location.origin)
+                parent.postMessage({ id, type: 'submitPlot', postData: JSON.stringify(putData) }, location.origin)
             }
         }
         $('.j-backout-plot').click(() => {
             this.backoutPlotImageSuspect()
+        })
+        $('.j-rotate-plot').click(() => {
+            this.rotatePlotImage()
         })
     }
     init(options) {
@@ -392,7 +395,13 @@ class MapPreviewDR extends TrainingBaseDR {
         if (!plot) {
             return
         }
-        let postData = {suspectNum: this.activeImageData.dr.length}
+        this.postPlot(id, { isRotate: false })
+    }
+    rotatePlotImage() {
+        let { id } = this.activeImageData
+        this.postPlot(id, { isRotate: true })
+    }
+    postPlot(id, postData) {
         $.NstsPOST(APIURI + 'api/plot/' + id, JSON.stringify(postData), res => {
             if (!res.result) {
                 NSTS.Plugin.Alert.Error(res.msg)
