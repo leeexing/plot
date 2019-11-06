@@ -6,7 +6,7 @@ import axios from 'axios'
 import { message } from 'antd'
 
 import Auth from '@/util/auth'
-import { baseURL } from './config'
+import { BASE_URL as baseURL } from './config'
 import { BrowserRouter } from 'react-router-dom'
 
 
@@ -18,7 +18,7 @@ const routeSkip = path => {
 
 // !创建axios实例
 const service = axios.create({
-  baseURL: baseURL + '/v1',
+  baseURL,
   timeout: 8000
 })
 

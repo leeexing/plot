@@ -242,7 +242,7 @@ class TrainingBaseDR  {
         }
     }
     attachKpLayerEvent () {
-        $.NstsGET(APIURI + 'api/Dropdown/Knowledge', {type: 'Image'}, data => {
+        $.NstsGET(APIURI + '/api/Dropdown/Knowledge', {type: 'Image'}, data => {
             if (!data.result) {
                 console.log('哎呦，报错了')
             }
@@ -375,7 +375,7 @@ class MapPreviewDR extends TrainingBaseDR {
             markPos: [...this.Viewer.userSelectRegion]
         }
         if (putData.markPos.length > 0) {
-            $.NstsPUT(APIURI + 'api/plot/' + id, JSON.stringify(putData), res => {
+            $.NstsPUT(APIURI + '/api/plot/' + id, JSON.stringify(putData), res => {
                 if (!res.result) {
                     console.log(res.msg)
                 }
@@ -402,7 +402,7 @@ class MapPreviewDR extends TrainingBaseDR {
         this.postPlot(id, { isRotate: true })
     }
     postPlot(id, postData) {
-        $.NstsPOST(APIURI + 'api/plot/' + id, JSON.stringify(postData), res => {
+        $.NstsPOST(APIURI + '/api/plot/' + id, JSON.stringify(postData), res => {
             if (!res.result) {
                 NSTS.Plugin.Alert.Error(res.msg)
                 return

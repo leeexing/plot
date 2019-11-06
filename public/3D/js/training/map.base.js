@@ -7,7 +7,7 @@ class MapMenu {
   constructor (options={}) {
     this.version = '1.0'
     this.options = {
-      url: 'v1/api/upload'
+      url: '/api/upload'
     }
     Object.assign(this.options, options)
     this.options.img_sql.page = this.options.img_sql.page ? Number(this.options.img_sql.page) : 1
@@ -123,7 +123,7 @@ class MapMenu {
         that.activeID = that.activeRenderData().id
       }
       NSTS.Plugin.Alert.Confirm('确定删除该图像吗？', () => {
-        $.NstsDEL(APIURI + 'api/plot/' + id, res => {
+        $.NstsDEL(APIURI + '/api/plot/' + id, res => {
           if (!res.result) {
             NSTS.Plugin.Alert.Error(res.msg)
             return

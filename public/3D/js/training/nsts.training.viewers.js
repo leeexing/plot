@@ -10,7 +10,7 @@
 
 
 // ! 1.后台接口baseUrl
-const APIURI = localStorage.getItem('app_api_url') || 'https://10.15.225.12:8080/'
+const APIURI = localStorage.getItem('app_api_url')
 
 // ! 2. 多语言词条。在单独加在此文件的时候不能获取lang.js里面的词条
 var LANGEntry = {

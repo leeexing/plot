@@ -174,7 +174,7 @@ class HomePage extends Component {
     }
     let { batchId } = this.props.match.params
     let { imageName, plotStatus, total, currentPage, pageSize } = this.state
-    let url = `api/upload/${batchId}`
+    let url = `/api/upload/${batchId}`
     this.setState({
       isFull: true,
       src: `/3D/DR_base.html?type=MAP_BROWSE
