@@ -12,8 +12,8 @@ const signalrUrlMap = {
   production: 'https://ws.anjianba.cn/browser'
 }
 const uploadUrlMap = {
-  test: 'http://127.0.0.1:5284/v1/uploadApi/upload/file',
-  development: 'https://stgplotapi.anjianba.cn/v1/uploadApi/upload/file',
+  test: 'https://stgplotapi.anjianba.cn/v1/uploadApi/upload/file',
+  development: 'http://localhost:5284/v1/uploadApi/upload/file',
   production: 'https://plotapi.anjianba.cn/v1/uploadApi/upload/file',
 }
 
