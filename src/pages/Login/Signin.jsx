@@ -19,7 +19,8 @@ class Signin extends Component {
     e.preventDefault()
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        api.loginByNuctech(values).then(res => {
+        // api.loginByNuctech(values).then(res => {
+        api.login(values).then(res => {
           console.log(res)
           if (res.result) {
             let expires = res.data.expires_in / (60 * 60 * 24)

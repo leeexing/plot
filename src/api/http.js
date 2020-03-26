@@ -24,10 +24,10 @@ const service = axios.create({
 
 // !请求拦截
 service.interceptors.request.use(config => {
-  // FIXME:这种做法太不安全了
-  if (config.url.includes('uploadApi')) {
-    config.baseURL = config.baseURL.replace('5281', '5284')
-  }
+  // FIXME:这种做法太不安全了.通过nginx配置
+  // if (config.url.includes('uploadApi')) {
+  //   config.baseURL = config.baseURL.replace('5381', '5384')
+  // }
   let userTicket = Auth.getToken()
   if (userTicket) {
     config.headers.Authorization = `Bearer ${Auth.getToken()}`
@@ -51,7 +51,7 @@ service.interceptors.response.use(response => {
   if (error.code === 'ECONNABORTED' && error.message.indexOf('timeout') !== -1 && !originalRequest._retry) {
     originalRequest._retry = true
     console.error(error)
-    message.error('请求超时~')
+    // message.error('请求超时~')
     return axios.request(originalRequest)
   }
   if (error.response) {
@@ -64,13 +64,13 @@ service.interceptors.response.use(response => {
         return Promise.reject(error.response)
       case 500:
         message.error('Server Error')
-        routeSkip('/500')
+        // routeSkip('/500')
         return Promise.reject(error.response)
       default:
         return Promise.reject(error.response)
     }
   } else {
-    message.error('Server Error')
+    message.error('请求超时')
     console.error(error)
   }
 })

@@ -72,7 +72,34 @@
   }
 
   &-image {
-    .m-plot {
+    .plot {
+
+      &-header {
+        margin-bottom: 10px;
+      }
+
+      &-search {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 8px;
+        min-height: 68px;
+        background: #F7F9FA;
+
+        .download {
+          margin-left: 8px;
+          background-color: #fde3cf;
+          color: #f56a00;
+          transition: all .3s;
+          cursor: pointer;
+
+          &:hover {
+            background: #A1C4FD;
+            transform: scale(1.01);
+          }
+        }
+      }
+
       &-download {
         flex: 1;
         display: flex;
@@ -91,15 +118,6 @@
           transform: scale(.9);
           cursor: pointer;
           animation: fadeIn .3s linear;
-        }
-
-        &:hover {
-          background: #A1C4FD;
-
-          >span {
-            transform: scale(1);
-          }
-
         }
 
         .download {

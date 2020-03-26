@@ -3,7 +3,8 @@
  */
 const baseUrlMap = {
   test: 'https://stgplotapi.anjianba.cn',
-  development: 'http://localhost:5281',
+  development: 'http://localhost:5380', // nginx反向代理到5381
+  // development: 'http://localhost:5381',
   production: 'https://plotapi.anjianba.cn'
 }
 const signalrUrlMap = {
@@ -13,7 +14,7 @@ const signalrUrlMap = {
 }
 const uploadUrlMap = {
   test: 'https://stgplotapi.anjianba.cn/v1/uploadApi/upload/file',
-  development: 'http://localhost:5284/v1/uploadApi/upload/file',
+  development: 'http://localhost:5384/v1/uploadApi/upload/file',
   production: 'https://plotapi.anjianba.cn/v1/uploadApi/upload/file',
 }
 

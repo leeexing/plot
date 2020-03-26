@@ -1,6 +1,19 @@
 import React, { Component } from 'react'
-import { Avatar, Button, Badge, Input, Icon, Modal,
-  Pagination, Tooltip, Skeleton, Select, message } from 'antd'
+import {
+  Avatar,
+  Button,
+  Badge,
+  Input,
+  Icon,
+  Modal,
+  Form,
+  TreeSelect,
+  Pagination,
+  Tooltip,
+  Skeleton,
+  Select,
+  message
+} from 'antd'
 import QueueAnim from 'rc-queue-anim'
 
 import './style.less'
@@ -30,13 +43,16 @@ class HomePage extends Component {
       imageName: '',
       imageNewName: '',
       renameImageId: null,
-      loading: true
+      loading: true,
+      kpValue: [],
+      treeData: []
     }
   }
 
   componentDidMount() {
     this.fullScreenDOM = document.getElementById('fullscreen')
     this.fetchData()
+    this.fetchImgKp()
     window.onmessage = msgEvent => {
       let { type, id, postData } = msgEvent.data
       if (type === 'submitPlot') {
@@ -73,6 +89,111 @@ class HomePage extends Component {
         this.setState(updateData)
       }
     }).catch(console.log)
+  }
+
+  fetchImgKp () {
+    this.setState({
+      treeData: [
+        {
+          title: '禁止随身和托运',
+          value: 'A',
+          key: 'A',
+          children: [
+            {
+              title: '枪支等武器（包括主要零部件）',
+              value: 'A1',
+              key: 'A1',
+            },
+            {
+              title: '爆炸或者燃烧物质和装置',
+              value: 'A2',
+              key: 'A2',
+            },
+            {
+              title: '危险物品',
+              value: 'A3',
+              key: 'A3',
+            },
+            {
+              title: '管制器具',
+              value: 'A4',
+              key: 'A4',
+            },
+            {
+              title: '其他物品',
+              value: 'A5',
+              key: 'A5',
+            },
+          ],
+        },
+        {
+          title: '禁止随身但可托运',
+          value: 'B',
+          key: 'B',
+          children: [
+            {
+              title: '锐气',
+              value: 'B1',
+              key: 'B1',
+            },
+            {
+              title: '钝器',
+              value: 'B2',
+              key: 'B2',
+            },
+            {
+              title: '工具',
+              value: 'B3',
+              key: 'B3',
+            },
+            {
+              title: '其他',
+              value: 'B4',
+              key: 'B4',
+            },
+          ],
+        },
+        {
+          title: '限制随身但可托运',
+          value: 'C',
+          key: 'C',
+          children: [
+            {
+              title: '化妆品、洗漱类生活液态物品',
+              value: 'C1',
+              key: 'C1',
+            },
+            {
+              title: '婴儿辅食',
+              value: 'C2',
+              key: 'C2',
+            },
+            {
+              title: '免税液态类物品',
+              value: 'C3',
+              key: 'C3',
+            }
+          ]
+        },
+        {
+          title: '限制随身禁止托运',
+          value: 'D',
+          key: 'D',
+          children: [
+            {
+              title: '充电宝',
+              value: 'D1',
+              key: 'D1',
+            },
+            {
+              title: '锂电池（含锂电池设备）',
+              value: 'D2',
+              key: 'D2',
+            }
+          ]
+        }
+      ]
+    })
   }
 
   handlePlotStatusChange = value => {
@@ -208,6 +329,11 @@ class HomePage extends Component {
     })
   }
 
+  onKpChange = value => {
+    console.log('onChange ', value)
+    this.setState({ kpValue: value })
+  }
+
   imageRenameSubmit = () => {
     if (this.state.imageNewName.length === 0) {
       message.warning('图像名称不能为空！')
@@ -246,22 +372,70 @@ class HomePage extends Component {
   render() {
     let { currentPage, total, pageSize, imageName, imageNewName } = this.state
     let imageList = this.state.imageList.slice((currentPage - 1) * pageSize, currentPage * pageSize)
+    const tProps = {
+      treeData: this.state.treeData,
+      value: this.state.kpValue,
+      onChange: this.onKpChange,
+      treeCheckable: true,
+      showCheckedStrategy: TreeSelect.SHOW_PARENT,
+      searchPlaceholder: '请选择',
+      style: {
+        width: '250px',
+        height: '32px',
+        'overflow-y': 'scroll'
+      },
+    }
 
     return (
       <div className="m-plot-image">
         {/* 查询、筛选、打包 */}
-        <div className="m-plot-header">
-          <div className="m-plot-search">
-            <Input.Search
-              style={{ width: '65%' }}
-              allowClear
-              enterButton
-              placeholder="请输入图像名称"
-              onPressEnter={e => this.search(e.target.value)}
-              onSearch={this.search}
-            />
-            <Select
-              style={{ width: '30%' }}
+        <div className="plot-header">
+          <div className="plot-search">
+            {/* 图像名称 */}
+            <Form layout="inline">
+              <Form.Item label="图像名称">
+                <Input
+                  allowClear
+                  placeholder="请输入"
+                  onPressEnter={e => this.search(e.target.value)}
+                  // onSearch={this.search}
+                />
+              </Form.Item>
+              <Form.Item label="标图状态">
+                <Select
+                  style={{ width: '100px' }}
+                  placeholder="请选择"
+                  // defaultValue="全部"
+                  onChange={this.handlePlotStatusChange}
+                >
+                  <Select.Option value="all" label="全部">全部</Select.Option>
+                  <Select.Option value="unplot" label="未标图">未标图</Select.Option>
+                  <Select.Option value="ploted" label="已标图">已标图</Select.Option>
+                </Select>
+              </Form.Item>
+              <Form.Item label="知识点">
+                <TreeSelect {...tProps}/>
+              </Form.Item>
+              {/* 这个是特有功能，仅限特定用户使用 */}
+              <Form.Item label="嫌疑框">
+                <Select
+                  style={{ width: '100px' }}
+                  placeholder="请选择"
+                  // defaultValue="全部"
+                  onChange={this.handlePlotStatusChange}
+                >
+                  <Select.Option value="all" label="全部">全部</Select.Option>
+                  <Select.Option value="unplot" label="single">一个</Select.Option>
+                  <Select.Option value="ploted" label="multi">多个</Select.Option>
+                </Select>
+              </Form.Item>
+              <Form.Item>
+                <Button type="primary">查询</Button>
+              </Form.Item>
+            </Form>
+            {/* 标记状态 */}
+            {/* <Select
+              style={{ width: '25%' }}
               placeholder="标图状态"
               defaultValue="全部"
               onChange={this.handlePlotStatusChange}
@@ -269,12 +443,36 @@ class HomePage extends Component {
               <Select.Option value="all" label="全部">全部</Select.Option>
               <Select.Option value="unplot" label="未标图">未标图</Select.Option>
               <Select.Option value="ploted" label="已标图">已标图</Select.Option>
-            </Select>
+            </Select> */}
+            {/* 标记状态 */}
+            {/* <Select
+              style={{ width: '25%', 'max-height': '30px' }}
+              mode="multiple"
+              placeholder="图像所属类型"
+              // defaultValue="全部"
+            >
+              <Select.Option value="all" label="全部">全部</Select.Option>
+              <Select.Option value="unplot" label="未标图">未标图</Select.Option>
+              <Select.Option value="ploted" label="已标图">已标图</Select.Option>
+              <Select.Option value="unplot1" label="未标图1">未标图</Select.Option>
+              <Select.Option value="ploted1" label="已标图1">已标图</Select.Option>
+              <Select.Option value="unplot2" label="未标图2">未标图</Select.Option>
+              <Select.Option value="ploted2" label="已标图2">已标图</Select.Option>
+              <Select.Option value="unplot3" label="未标图3">未标图</Select.Option>
+              <Select.Option value="ploted3" label="已标图3">已标图</Select.Option>
+            </Select> */}
+
+            {/* 下载图标 */}
+            <Avatar
+              onClick={this.onHandleWantToDownload}
+              className="download"
+              size={42}
+              icon="cloud-download"
+            />
           </div>
-          <div className="m-plot-download">
-            {!this.state.wantToDownload
-              ? <Avatar onClick={this.onHandleWantToDownload} size={64} icon="cloud-download" className="download" />
-              : <React.Fragment>
+          {this.state.wantToDownload
+            && <div className="plot-download">
+                <React.Fragment>
                   <Input onChange={this.onhandleTag} placeholder="请输入此次下载的标签名" style={{ width: '35%' }} />
                   <div className="download-btns">
                       <Button onClick={this.onHandleSelectAll.bind(this)} type="primary">全选</Button>
@@ -287,8 +485,9 @@ class HomePage extends Component {
                       <Button onClick={this.onHandleDownload.bind(this, false)} type="dashed">取消</Button>
                   </div>
                 </React.Fragment>
-            }
-          </div>
+              </div>
+          }
+
         </div>
 
         {/* 标图列表 */}
