@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { Button } from 'antd'
 
 import './style.less'
+import { debounce } from '@/util'
 
 const fullScreenType = ['webkitRequestFullScreen', 'webkitCancelFullScreen']
 
@@ -21,11 +22,11 @@ function FullScreen({ isFull, src, onCloseFullScreen }) {
     document[fullScreenType[1]]()
   }
 
-  const checkFullScreenClose = () => {
+  const checkFullScreenClose = debounce(() => {
     if (!isScreenFull()) {
       closeFullScreen()
     }
-  }
+  }, 300)
 
   useEffect(() => {
     window.addEventListener('resize', checkFullScreenClose, false)

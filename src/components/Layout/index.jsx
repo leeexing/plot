@@ -6,7 +6,7 @@ import './index.less'
 import Header from 'components/Header'
 import { MenuSider } from 'components/Sider'
 import Upload from 'components/GlobalUploader'
-import SignalrMessage from 'components/Signalr'
+// import SignalrMessage from 'components/Signalr' // FIXME: 这里也需要
 
 
 class WebLayout extends Component {

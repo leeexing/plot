@@ -72,3 +72,23 @@ export function secondsToStr(temp) {
     return (number > 1) ? 's' : ''
   }
 }
+
+// 函数防抖
+export const debounce = (f, wait = 100, immediate) => {
+  let context, timer
+  return function (...args) {
+    context = this
+    timer && clearTimeout(timer)
+    if (immediate) {
+      let callNow = !timer
+      timer = setTimeout(() => {
+        f.apply(context, args)
+      }, wait)
+      callNow && f.apply(context, args)
+    } else {
+      timer = setTimeout(() => {
+        f.apply(context, args)
+      }, wait)
+    }
+  }
+}

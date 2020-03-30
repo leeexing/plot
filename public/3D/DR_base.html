@@ -105,17 +105,26 @@
     <!-- 底部图像操作 -->
     <div class="m-dr-footer">
         <div class="shade j-shade j-loading"></div>
+        <div class="extra-info j-extra-info">
+            <p class="title">图像危险品类型：</p>
+            <p class="content">未选择</p>
+        </div>
         <div class="dr-oprate">
             <div class="oprate-left">
               <div class="angle-wrap">
-                <div class="dr-angles j-angles">
-                    <!-- <a class="main-view j-main-view" title="主视角模式">&nbsp;</a> -->
+                <!-- 在线标注不允许切换视角，必须是侧视角模式，防止用户忘记侧视角标记 -->
+                <!-- <div class="dr-angles j-angles">
+                    <a class="main-view j-main-view" title="主视角模式">&nbsp;</a>
                     <a class="side-view j-side-view" title="侧视角模式">&nbsp;</a>
-                </div>
+                </div> -->
                 <div>
-                    <a class="backout-plot j-backout-plot">撤销标注</a>
-                    <a class="backout-plot j-rotate-plot">旋转图像</a>
+                    <a class="oprate-btn j-backout-plot">撤销标注</a>
+                    <a class="oprate-btn j-rotate-plot">旋转图像</a>
                 </div>
+              </div>
+              <div class="img-info-add j-img-info-add">
+                <a class="oprate-btn j-img-kp">图像类型</a>
+                <a class="oprate-btn j-multi-suspect">含多嫌疑物</a>
               </div>
               <div class="entity-wrap j-entity-wrap">
                 <a class="entity-img" title="实物图"></a>
@@ -154,6 +163,7 @@
 
     <!-- 知识点弹层 -->
     <div class="nsts-layer j-layer animated">
+    <!-- <div class="nsts-layer j-layer animated" style="opacity: 1; pointer-events: auto;"> -->
         <div class="nsts-mask j-mask"></div>
         <div class="nsts-container">
             <a class="close j-layer-close">
@@ -163,9 +173,65 @@
                 <h3 class="nsts-header-inner j-header">知识点</h3>
             </div>
             <div class="nsts-body">
-                <div class="nsts-tag active" data-kpid="1">
+                <div class="nsts-tag-group">禁止随身和托运</div>
+                <div class="nsts-tag" data-kpid="A1">
                     <span class="nsts-tag-dot"></span>
-                    <span class="nsts-tag-text">枪支、军用或警用械具类(含主要零部件)物品</span>
+                    <span class="nsts-tag-text">枪支等武器（包括主要零部件）</span>
+                </div>
+                <div class="nsts-tag" data-kpid="A2">
+                    <span class="nsts-tag-dot"></span>
+                    <span class="nsts-tag-text">爆炸或者燃烧物质和装置</span>
+                </div>
+                <div class="nsts-tag" data-kpid="A3">
+                    <span class="nsts-tag-dot"></span>
+                    <span class="nsts-tag-text">危险物品</span>
+                </div>
+                <div class="nsts-tag" data-kpid="A4">
+                    <span class="nsts-tag-dot"></span>
+                    <span class="nsts-tag-text">管制器具</span>
+                </div>
+                <div class="nsts-tag" data-kpid="A5">
+                    <span class="nsts-tag-dot"></span>
+                    <span class="nsts-tag-text">其他物品</span>
+                </div>
+                <div class="nsts-tag-group">禁止随身但可托运</div>
+                <div class="nsts-tag" data-kpid="B1">
+                    <span class="nsts-tag-dot"></span>
+                    <span class="nsts-tag-text">锐气</span>
+                </div>
+                <div class="nsts-tag" data-kpid="B2">
+                    <span class="nsts-tag-dot"></span>
+                    <span class="nsts-tag-text">钝器</span>
+                </div>
+                <div class="nsts-tag" data-kpid="B3">
+                    <span class="nsts-tag-dot"></span>
+                    <span class="nsts-tag-text">工具</span>
+                </div>
+                <div class="nsts-tag" data-kpid="B4">
+                    <span class="nsts-tag-dot"></span>
+                    <span class="nsts-tag-text">其他</span>
+                </div>
+                <div class="nsts-tag-group">限制随身但可托运</div>
+                <div class="nsts-tag" data-kpid="C1">
+                    <span class="nsts-tag-dot"></span>
+                    <span class="nsts-tag-text">化妆品、洗漱类生活液态物品</span>
+                </div>
+                <div class="nsts-tag" data-kpid="C2">
+                    <span class="nsts-tag-dot"></span>
+                    <span class="nsts-tag-text">婴儿辅食</span>
+                </div>
+                <div class="nsts-tag" data-kpid="C3">
+                    <span class="nsts-tag-dot"></span>
+                    <span class="nsts-tag-text">免税液态类物品</span>
+                </div>
+                <div class="nsts-tag-group">限制随身禁止托运</div>
+                <div class="nsts-tag" data-kpid="D1">
+                    <span class="nsts-tag-dot"></span>
+                    <span class="nsts-tag-text">充电宝</span>
+                </div>
+                <div class="nsts-tag" data-kpid="D2">
+                    <span class="nsts-tag-dot"></span>
+                    <span class="nsts-tag-text">锂电池（含锂电池设备）</span>
                 </div>
             </div>
             <div class="nsts-footer">
@@ -186,7 +252,7 @@
                 <h3 class="nsts-header-inner j-info-header">提示</h3>
             </div>
             <div class="nsts-body">
-                <p>作答时间到</p>
+                <p>请在标注图像后选择图像危险品类型</p>
             </div>
             <div class="nsts-footer">
                 <button class="nsts-btn nsts-btn-primary j-info-layer-ensure" type="button">确定</button>

@@ -51,23 +51,20 @@ class TrainingBaseDR  {
         })
 
 
-        this.isFull = true
-        // $(window).on('resize', event => {
+        // !这里的逻辑不用监听了，不然会触发两次click。
+        // !但是如果通过esc关闭的话，就不能保证最后未提交的标注图像提交
+        // this.isFull = true
+        // const onHandleResize = event => {
         //     event.preventDefault()
         //     if (this.isFull) {
-        //         this.closeFullscreenBtn.click()
+        //         $(window).off('resize')
         //         this.isFull = false
+        //         this.closeFullscreenBtn.click()
         //     }
-        // })
+        // }
+        // $(window).on('resize', onHandleResize)
         // !确认是否显示快捷键
         this.checkUserShowShortcut()
-        // !判图逻辑.安全/危险
-        this.safeBtn.click(() => {
-            this.packageSafe()
-        })
-        this.dangerBtn.click(() => {
-            this.packageDanger()
-        })
         this.attachInfoLayerEvent()
     }
     initViewer() {
@@ -121,38 +118,6 @@ class TrainingBaseDR  {
         this.countdownID = null
         this.timeRemaingElem.html(formatSecondsNoUnit(this.time))
     }
-    countdownStart(callback) {
-        let timeRemain = this.time
-        this.timeUsed = 0; //用时
-        const countTime = () => {
-            timeRemain -= 1
-            this.timeRemaingElem.html(formatSecondsNoUnit(timeRemain))
-            this.timeUsed = (this.time - timeRemain)
-            if (timeRemain < 1) {
-                //时间结束，后续操作业务类在覆盖
-                clearInterval(this.countdownID)
-                this.countdownID = null
-                this.countdownEnd()
-                return
-            }
-            callback && callback()
-        }
-        this.countdownID = setInterval(countTime, 1000)
-    }
-    resetCountdown () {
-        clearInterval(this.countdownID)
-        this.countdownID = null
-        this.timeRemaingElem.html(formatSecondsNoUnit(this.time))
-    }
-    cancelCountdown() {
-        clearInterval(this.countdownID)
-        this.countdownID = null
-        this.timeWrap.hide()
-        this.timeRemaingElem.empty()
-    }
-    countdownEnd() {
-        throw new Error('抽象方法，必须由子类实现！')
-    }
     checkPreNext() {
         if (this.allCount === 1) {
             this.prevBtnWrap.hide()
@@ -176,9 +141,6 @@ class TrainingBaseDR  {
     packageSafe () {
         this.activeImg.isPass = true
         this.resetJudgeBtnsStatus()
-        if (this.formName !== 'Easy') { // ?重新选择安全会重置之前的标框数据
-            this.clearUserSelectRegion()
-        }
     }
     packageDanger () {
         if (this.formName === 'Easy') {
@@ -193,21 +155,24 @@ class TrainingBaseDR  {
     kpLayerHide () {
         this.isVisibleOfKpLayer = false
         this.layerContainer.removeClass('active fadeIn').addClass('fadeOut')
+    }
+    resetLayerState () {
         this.kpTags.removeClass('active').eq(0).addClass('active')
     }
-    packageDangerOfKp2Center () {
+    packageDangerOfKp2Ensure () {
         let selectedKpDom = this.kpTags.filter('.active')
-        let kpID = selectedKpDom.data('kpid')
-        this.activeImg.dangerID = Number(kpID)
-        this.activeImg.dangerName = selectedKpDom.text().trim()
+        if (selectedKpDom) {
+            let suspectKp = selectedKpDom.data('kpid')
+            // this.$imgKpAddBtn.addClass('active')
+            let suspectKpName = selectedKpDom.text()
+            this.doSomethingOfPickImgKp(suspectKp, suspectKpName)
+        }
     }
     packageDangerOfKp2Cancel () {
-        this.activeImg.isPass = true
-        this.activeImg.dangerID = null
         this.resetJudgeBtnsStatus()
-        if (this.formName !== 'Easy') {
-            this.clearUserSelectRegion()
-        }
+    }
+    doSomethingOfPickImgKp () {
+        throw new Error('抽象方法，必须由子类实现！')
     }
     clearUserSelectRegion() {
         this.Viewer.clearUserSelectRegion()
@@ -241,8 +206,10 @@ class TrainingBaseDR  {
             this.shortcutSwitchBtn.click()
         }
     }
+    // FIXME: 后期需要添加接口获取的方式
     attachKpLayerEvent () {
-        $.NstsGET(APIURI + '/api/Dropdown/Knowledge', {type: 'Image'}, data => {
+        // 正常需要知识点
+        /* $.NstsGET(APIURI + '/api/Dropdown/Knowledge', {type: 'Image'}, data => {
             if (!data.result) {
                 console.log('哎呦，报错了')
             }
@@ -257,12 +224,12 @@ class TrainingBaseDR  {
             })
             this.layerBody.html(kpTaglist.join(''))
             this.kpTags = this.layerBody.find('.nsts-tag')
-        })
+        }) */
         this.layerContainer = $('.j-layer')
         this.layerBody = this.layerContainer.find('.nsts-body')
+        this.kpTags = this.layerBody.find('.nsts-tag')
         this.isVisibleOfKpLayer = false
         $('.j-layer-close, .j-mask, .j-layer-cancel').click(() => {
-            this.packageDangerOfKp2Cancel()
             this.kpLayerHide()
         })
         this.layerBody.on('click', '.nsts-tag', function() {
@@ -270,7 +237,7 @@ class TrainingBaseDR  {
         })
         // !确认选择危险品知识点
         $('.j-layer-ensure').click(() => {
-            this.packageDangerOfKp2Center()
+            this.packageDangerOfKp2Ensure()
             this.kpLayerHide()
         })
     }
@@ -308,14 +275,34 @@ class MapPreviewDR extends TrainingBaseDR {
     }
     initElement() {
         $('.main').append('<div class="map-menu j-map-menu"></div>')
+        this.$imgInfoAddWrap = $('.j-img-info-add')
+        this.$imgKpAddBtn = $('.j-img-kp')
+        this.$imgRectangleNumBtn = $('.j-multi-suspect')
+        this.$extraInfo = $('.j-extra-info')
+        this.$imgSuspectName = this.$extraInfo.find('.content')
+        this.suspectKp = null
+        this.isMultiSuspect = false
+
         this.title.text('DR在线标图')
+        // -推出前将最后一幅图像保存
         this.beforeClose = () => {
             let renderData = this.mapMenu.activeRenderData()
             let id = renderData.id
             let putData = {
                 markPos: [...this.Viewer.userSelectRegion]
             }
+            if (this.suspectKp) {
+                putData.suspectKp = this.suspectKp
+            }
+            if (this.isMultiSuspect) {
+                putData.isMultiSuspect = true
+            }
+            // 如果退出前，需要选择图像类型却没有选择，就抛弃这次标记记录
             if (putData.markPos.length > 0) {
+                if (this.isNuctech && !this.suspectKp) {
+                    return
+                }
+                // 通过postMessage方式让标注列表组件内部进行提交
                 parent.postMessage({ id, type: 'submitPlot', postData: JSON.stringify(putData) }, location.origin)
             }
         }
@@ -325,9 +312,25 @@ class MapPreviewDR extends TrainingBaseDR {
         $('.j-rotate-plot').click(() => {
             this.rotatePlotImage()
         })
+        // 添加图像类型选择
+        this.$imgKpAddBtn.click(() => {
+            this.kpLayerShow()
+        })
+        // 添加判断是否为多嫌疑物
+        this.$imgRectangleNumBtn.click(() => {
+            this.isMultiSuspect = !this.$imgRectangleNumBtn.hasClass('active')
+            this.activeImageData.isMultiSuspect = this.isMultiSuspect
+            this.$imgRectangleNumBtn.toggleClass('active')
+        })
     }
     init(options) {
         let {img_sql, initShowId, url} = options
+        this.isNuctech = options.isNuctech
+        if (this.isNuctech) {
+            this.attachKpLayerEvent()
+            this.$imgInfoAddWrap.show()
+            this.$extraInfo.show()
+        }
         this.mapMenu = new MapMenu({imgInstance: this, img_sql, initShowId, url})
     }
     initShow(imgInfo) {
@@ -338,6 +341,45 @@ class MapPreviewDR extends TrainingBaseDR {
     doSubclassThing(imgInfo) {
         this.showImgInfo(imgInfo)
         this.checkPreNext()
+        if (this.isNuctech) {
+            this.suspectKp = null
+            this.isMultiSuspect = false
+            console.log(this.activeImageData)
+            if (this.activeImageData.suspectid) {
+                let selectedKpDom = this.kpTags.filter(`[data-kpid="${this.activeImageData.suspectid}"]`)
+                let suspectKpName = selectedKpDom.text().trim()
+                this.showImgSuspectName(suspectKpName)
+            } else {
+                this.showImgSuspectName('未选择')
+            }
+            if (this.activeImageData.isMultiSuspect) {
+                this.$imgRectangleNumBtn.addClass('active')
+            } else {
+                this.$imgRectangleNumBtn.removeClass('active')
+            }
+            this.resetLayerState()
+        }
+    }
+    doSomethingOfPickImgKp (suspectKp, suspectKpName) {
+        this.suspectKp = suspectKp
+        this.activeImageData.suspectid = suspectKp
+        this.showImgSuspectName(suspectKpName)
+    }
+    showImgSuspectName (name) {
+        this.$imgSuspectName.text(name)
+    }
+    // 切换下一副图像标注前，检查是否可以切换。是否已经选择图像类型
+    checkValidateBeforeClickNext () {
+        if (!this.Viewer.hasLoaded) {
+            return false
+        }
+        if (this.isNuctech) {
+            if (this.Viewer.userSelectRegion.length > 0 && !this.suspectKp) {
+                this.infoLayerShow()
+                return false
+            }
+        }
+        return true
     }
     checkPreNext() {
         if (this.mapMenu.imgCount == 1) {
@@ -355,12 +397,12 @@ class MapPreviewDR extends TrainingBaseDR {
         }
     }
     prevImg() {
-        if (this.imgHasLoaded) {
+        if (this.checkValidateBeforeClickNext()) {
             this.mapMenu.prevImgShow()
         }
     }
     nextImg() {
-        if (this.imgHasLoaded) {
+        if (this.checkValidateBeforeClickNext()) {
             this.mapMenu.nextImgShow()
         }
     }
@@ -374,6 +416,12 @@ class MapPreviewDR extends TrainingBaseDR {
         let putData = {
             markPos: [...this.Viewer.userSelectRegion]
         }
+        if (this.suspectKp) {
+            putData.suspectKp = this.suspectKp
+        }
+        if (this.isMultiSuspect) {
+            putData.isMultiSuspect = true
+        }
         if (putData.markPos.length > 0) {
             $.NstsPUT(APIURI + '/api/plot/' + id, JSON.stringify(putData), res => {
                 if (!res.result) {
@@ -386,7 +434,6 @@ class MapPreviewDR extends TrainingBaseDR {
     }
     // 恢复图像的标记
     backoutPlotImageSuspect() {
-        // let renderData = this.mapMenu.activeRenderData()
         let { id, plot } = this.activeImageData
         let markPos = this.Viewer.userSelectRegion
         if (markPos.length > 0) {
@@ -411,6 +458,12 @@ class MapPreviewDR extends TrainingBaseDR {
             this.doSubclassThing(this.activeImageData)
             this.activeImageData.plot = false
             this.mapMenu.activeDom(id).removeClass('ploted')
+            if (this.isNuctech) {
+                this.suspectKp = null
+                this.$imgSuspectName.text('未选择')
+                this.isMultiSuspect = false
+                this.$imgRectangleNumBtn.removeClass('active')
+            }
         }, {
             contentType: 'application/json'
         })

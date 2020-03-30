@@ -83,11 +83,10 @@ export default {
   get(url, data = {}, options = {}) {
     let config = {
       params: data,
-      paramsSerializer: params => {
-        return qs.stringify(params, {
-          arrayFormat: 'brackets'
-        })
-      },
+      paramsSerializer: params => (
+        // qs.stringify(params, {arrayFormat: 'brackets'})
+        qs.stringify(params, {indices: false})
+      ),
       ...options
     }
     return new Promise((resolve, reject) => {

@@ -20,13 +20,14 @@ import './style.less'
 import api from '@/api'
 import { PackIcon } from '@/icon'
 import FullScreen from 'components/FullScreen'
+import { inject, observer } from 'mobx-react'
 
-
-class HomePage extends Component {
+@inject('userStore')
+@observer
+class ImagePlot extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      isDataLoaded: false,
       imageList: [],
       currentPage: 1,
       pageSize: 20,
@@ -36,26 +37,36 @@ class HomePage extends Component {
       src: '',
       tag: '',
       wantToDownload: false,
+      isSelectQueryAll: false,
       selectedImageIds: new Set(),
       selectedImageCount: 0,
-      plotStatus: 'all',
+      plotStatus: 0,
       renameModal: false,
       imageName: '',
       imageNewName: '',
       renameImageId: null,
       loading: true,
-      kpValue: [],
-      treeData: []
+      suspectId: [],
+      treeData: [],
+      suspectNum: 0,
+      isNuctech: false
     }
   }
 
   componentDidMount() {
+    if (this.props.userStore.enterpriseCode === '00') {
+      this.setState({
+        isNuctech: true
+      })
+      this.fetchImgKp()
+    }
     this.fullScreenDOM = document.getElementById('fullscreen')
     this.fetchData()
-    this.fetchImgKp()
+    // 监听全屏界面传递过来的提交标注图像的消息
     window.onmessage = msgEvent => {
       let { type, id, postData } = msgEvent.data
       if (type === 'submitPlot') {
+        console.log(88888, msgEvent)
         api.updateImgSuspect(id, JSON.parse(postData)).then(res => {
           this.fetchData()
         }).catch(console.error)
@@ -63,15 +74,19 @@ class HomePage extends Component {
     }
   }
 
-  fetchData(updatePageNum=false) {
+  // 后端分页
+  fetchData = (updatePageNum = false) => {
     let { batchId } = this.props.match.params
-    let { limit, plotStatus, imageName } = this.state
+    let { currentPage, pageSize, plotStatus, imageName, suspectNum, suspectId } = this.state
     let data = {
-      page: 1,
-      limit,
       imageName,
-      plotStatus
+      plotStatus,
+      suspectNum,
+      suspectId,
+      limit: pageSize,
+      page: updatePageNum ? 1 : currentPage,
     }
+    console.log('查询参数', data)
     this.setState({
       loading: true
     })
@@ -91,6 +106,7 @@ class HomePage extends Component {
     }).catch(console.log)
   }
 
+  // 获取设置图像知识点树（列表）
   fetchImgKp () {
     this.setState({
       treeData: [
@@ -196,10 +212,23 @@ class HomePage extends Component {
     })
   }
 
+  // -标注状态
   handlePlotStatusChange = value => {
     this.setState({
       plotStatus: value
     }, this.fetchData.bind(this, true))
+  }
+
+  // -嫌疑物知识点
+  handleSuspectKpChange = (value) => {
+    console.log('嫌疑物知识点', value)
+    this.setState({ suspectId: value })
+  }
+
+  // -是否含多个嫌疑物
+  handleSuspectCountChange = (value) => {
+    console.log('是否含多个嫌疑物', value)
+    this.setState({ suspectNum: value }, this.fetchData.bind(this, true))
   }
 
   search = value => {
@@ -211,7 +240,7 @@ class HomePage extends Component {
   handlePageChange = currentPage => {
     this.setState({
       currentPage
-    })
+    }, this.fetchData)
   }
 
   onhandleTag = e => {
@@ -222,89 +251,120 @@ class HomePage extends Component {
 
   onHandleWantToDownload = () => {
     this.setState({
-      wantToDownload: true
+      wantToDownload: !this.state.wantToDownload
     })
   }
 
-  onHandleSelectAll = (value = true) => {
-    let imageList = this.state.imageList.slice()
-    imageList.map(item => {
-      item.isSelected = value ? true : !item.isSelected
-      item.isSelected ? this.state.selectedImageIds.add(item.id) : this.state.selectedImageIds.delete(item.id)
-      return item
+  // 全选。isSelectAllNotReverse: false 反选
+  onHandleSelectAll = (isSelectAllNotReverse = true) => {
+    let { imageList, selectedImageIds } = this.state
+    imageList.forEach(item => {
+      if (isSelectAllNotReverse) {
+        selectedImageIds.add(item.id)
+      } else {
+        // 反向选择
+        selectedImageIds.has(item.id)
+          ? selectedImageIds.delete(item.id)
+          : selectedImageIds.add(item.id)
+      }
     })
     this.setState({
-      imageList,
       selectedImageCount: this.state.selectedImageIds.size
     })
   }
 
+  // -选中所有查询出来的图像
+  onHandleSelectQueryAll = () => {
+    let isSelectQueryAll = !this.state.isSelectQueryAll
+    let selectedImageCount = isSelectQueryAll ? this.state.total : this.state.selectedImageIds.size
+    this.setState({
+      isSelectQueryAll,
+      selectedImageCount,
+    })
+  }
+
+  // 打包下载
   onHandleDownload(isPack = true)  {
     if (!isPack) {
       this.resetDownloadStatus()
       return
     }
-    let data = {
-      packIds: [...this.state.selectedImageIds],
-      tag: this.state.tag.trim()
-    }
     if (!this.state.tag.trim()) {
       return message.warn('标签名不能为空')
+    }
+    let data = {
+      tag: this.state.tag.trim(),
+      isPackBySearch: false
+    }
+    let { imageName, plotStatus, suspectId, suspectNum, total } = this.state
+    // -打包所有的话，只需要带上查询条件即可
+    if (this.state.isSelectQueryAll) {
+      data.isPackBySearch = true
+      let { batchId } = this.props.match.params
+      let uploadID = batchId
+      data.searchParams = { imageName, plotStatus, suspectId, suspectNum, total, uploadID }
+    } else {
+      data.packIds = [...this.state.selectedImageIds]
     }
     api.packPlotImages(data).then(res => {
       if (res.result) {
         message.success('图像开始打包中...')
       }
-    }).catch(err => {
-      message.error(err)
-    })
+    }).catch(console.log)
     .finally(() => {
       this.resetDownloadStatus()
     })
   }
 
+  // 重置取消下载按钮后的各变量状态
   resetDownloadStatus() {
-    let imageList = this.state.imageList.slice()
-    imageList.forEach(item => item.isSelected = false)
     this.setState({
-      imageList,
+      tag: '',
       wantToDownload: false,
-      selectedImageIds: new Set(),
+      isSelectQueryAll: false,
       selectedImageCount: 0,
-      tag: ''
+      selectedImageIds: new Set()
     })
   }
 
-  onHandleSelect(item, index, value) {
-    if (value) {
-      this.state.selectedImageIds.add(item.id)
+  onHandleSelect(item) {
+    let { selectedImageIds } = this.state
+    if (selectedImageIds.has(item.id)) {
+      selectedImageIds.delete(item.id)
     } else {
-      this.state.selectedImageIds.delete(item.id)
+      selectedImageIds.add(item.id)
     }
-    let imageList = this.state.imageList.slice()
-    imageList[index].isSelected = value
     this.setState({
-      imageList,
-      selectedImageCount: this.state.selectedImageIds.size
+      selectedImageIds,
+      selectedImageCount: selectedImageIds.size
     })
   }
 
-  plotImage(item, index) {
+  // 点击图像进行标注。如果是选择状态，不进行全屏标注
+  plotImage(item) {
+    if (this.state.isSelectQueryAll) {
+      return
+    }
     if (this.state.wantToDownload) {
-      return item.isSelected ? this.onHandleSelect(item, index, false) : this.onHandleSelect(item, index, true)
+      return this.onHandleSelect(item)
     }
     let { batchId } = this.props.match.params
-    let { imageName, plotStatus, total, currentPage, pageSize } = this.state
+    let { imageName, plotStatus, total, currentPage,
+      pageSize, suspectId, suspectNum, isNuctech } = this.state
     let url = `/api/upload/${batchId}`
     this.setState({
       isFull: true,
       src: `/3D/DR_base.html?type=MAP_BROWSE
+          &url=${url}
           &count=${total}
           &page=${currentPage}
-          &limit=${pageSize}&url=${url}
+          &limit=${pageSize}
           &initShowId=${item.id}
           &imageName=${encodeURI(imageName)}
-          &plotStatus=${plotStatus}`.replace(/\s+/g, '')
+          &plotStatus=${plotStatus}
+          &suspectId=${JSON.stringify(suspectId)}
+          &suspectNum=${suspectNum}
+          &isNuctech=${Number(isNuctech)}`.replace(/\s+/g, '')
     })
     this.fullScreenDOM['webkitRequestFullScreen']()
   }
@@ -329,11 +389,6 @@ class HomePage extends Component {
     })
   }
 
-  onKpChange = value => {
-    console.log('onChange ', value)
-    this.setState({ kpValue: value })
-  }
-
   imageRenameSubmit = () => {
     if (this.state.imageNewName.length === 0) {
       message.warning('图像名称不能为空！')
@@ -354,11 +409,10 @@ class HomePage extends Component {
           this.fetchData()
         })
       }
-    }).catch(err => {
-      console.log(err)
-    })
+    }).catch(console.log)
   }
 
+  // click关闭也会触发resize关闭。这里控制只有最后的esc才执行
   closeFullScreen = (type = 'esc') => {
     if (type === 'esc') {
       this.setState({
@@ -370,19 +424,31 @@ class HomePage extends Component {
   }
 
   render() {
-    let { currentPage, total, pageSize, imageName, imageNewName } = this.state
-    let imageList = this.state.imageList.slice((currentPage - 1) * pageSize, currentPage * pageSize)
+    let {
+      currentPage,
+      total,
+      pageSize,
+      imageName,
+      imageNewName,
+      imageList,
+      selectedImageIds,
+      isSelectQueryAll,
+      isNuctech
+    } = this.state
     const tProps = {
       treeData: this.state.treeData,
-      value: this.state.kpValue,
-      onChange: this.onKpChange,
+      value: this.state.suspectId,
+      onChange: this.handleSuspectKpChange,
       treeCheckable: true,
-      showCheckedStrategy: TreeSelect.SHOW_PARENT,
+      // showCheckedStrategy: TreeSelect.SHOW_ALL,
+      // showCheckedStrategy: TreeSelect.SHOW_PARENT,
       searchPlaceholder: '请选择',
+      allowClear: true,
+      maxTagCount: 1,
       style: {
         width: '250px',
         height: '32px',
-        'overflow-y': 'scroll'
+        'overflowY': 'scroll'
       },
     }
 
@@ -398,69 +464,45 @@ class HomePage extends Component {
                   allowClear
                   placeholder="请输入"
                   onPressEnter={e => this.search(e.target.value)}
-                  // onSearch={this.search}
                 />
               </Form.Item>
               <Form.Item label="标图状态">
                 <Select
+                  allowClear
                   style={{ width: '100px' }}
                   placeholder="请选择"
-                  // defaultValue="全部"
                   onChange={this.handlePlotStatusChange}
                 >
-                  <Select.Option value="all" label="全部">全部</Select.Option>
-                  <Select.Option value="unplot" label="未标图">未标图</Select.Option>
-                  <Select.Option value="ploted" label="已标图">已标图</Select.Option>
+                  <Select.Option value="0" label="全部">全部</Select.Option>
+                  <Select.Option value="1" label="未标图">未标图</Select.Option>
+                  <Select.Option value="2" label="已标图">已标图</Select.Option>
                 </Select>
               </Form.Item>
-              <Form.Item label="知识点">
-                <TreeSelect {...tProps}/>
-              </Form.Item>
+              {/* 图像知识点 */}
+              {isNuctech
+                && <Form.Item label="知识点" className="bugStyle">
+                    <TreeSelect {...tProps}/>
+                  </Form.Item>
+              }
               {/* 这个是特有功能，仅限特定用户使用 */}
-              <Form.Item label="嫌疑框">
-                <Select
-                  style={{ width: '100px' }}
-                  placeholder="请选择"
-                  // defaultValue="全部"
-                  onChange={this.handlePlotStatusChange}
-                >
-                  <Select.Option value="all" label="全部">全部</Select.Option>
-                  <Select.Option value="unplot" label="single">一个</Select.Option>
-                  <Select.Option value="ploted" label="multi">多个</Select.Option>
-                </Select>
-              </Form.Item>
+              {isNuctech
+                && <Form.Item label="嫌疑物">
+                    <Select
+                      allowClear
+                      style={{ width: '100px' }}
+                      placeholder="请选择"
+                      onChange={this.handleSuspectCountChange}
+                    >
+                      <Select.Option value="0" label="全部">全部</Select.Option>
+                      <Select.Option value="1" label="single">单个</Select.Option>
+                      <Select.Option value="2" label="multi">多个</Select.Option>
+                    </Select>
+                  </Form.Item>
+              }
               <Form.Item>
-                <Button type="primary">查询</Button>
+                <Button type="primary" onClick={this.fetchData.bind(this, true)}>查询</Button>
               </Form.Item>
             </Form>
-            {/* 标记状态 */}
-            {/* <Select
-              style={{ width: '25%' }}
-              placeholder="标图状态"
-              defaultValue="全部"
-              onChange={this.handlePlotStatusChange}
-            >
-              <Select.Option value="all" label="全部">全部</Select.Option>
-              <Select.Option value="unplot" label="未标图">未标图</Select.Option>
-              <Select.Option value="ploted" label="已标图">已标图</Select.Option>
-            </Select> */}
-            {/* 标记状态 */}
-            {/* <Select
-              style={{ width: '25%', 'max-height': '30px' }}
-              mode="multiple"
-              placeholder="图像所属类型"
-              // defaultValue="全部"
-            >
-              <Select.Option value="all" label="全部">全部</Select.Option>
-              <Select.Option value="unplot" label="未标图">未标图</Select.Option>
-              <Select.Option value="ploted" label="已标图">已标图</Select.Option>
-              <Select.Option value="unplot1" label="未标图1">未标图</Select.Option>
-              <Select.Option value="ploted1" label="已标图1">已标图</Select.Option>
-              <Select.Option value="unplot2" label="未标图2">未标图</Select.Option>
-              <Select.Option value="ploted2" label="已标图2">已标图</Select.Option>
-              <Select.Option value="unplot3" label="未标图3">未标图</Select.Option>
-              <Select.Option value="ploted3" label="已标图3">已标图</Select.Option>
-            </Select> */}
 
             {/* 下载图标 */}
             <Avatar
@@ -470,13 +512,20 @@ class HomePage extends Component {
               icon="cloud-download"
             />
           </div>
+
+          {/* 下载图像选择选项 */}
           {this.state.wantToDownload
             && <div className="plot-download">
                 <React.Fragment>
-                  <Input onChange={this.onhandleTag} placeholder="请输入此次下载的标签名" style={{ width: '35%' }} />
+                  <Input
+                    onChange={this.onhandleTag}
+                    placeholder="请输入此次下载的标签名"
+                    style={{ width: '350px' }}
+                  />
                   <div className="download-btns">
-                      <Button onClick={this.onHandleSelectAll.bind(this)} type="primary">全选</Button>
-                      <Button onClick={this.onHandleSelectAll.bind(this, false)} type="primary" ghost>反选</Button>
+                      <Button onClick={this.onHandleSelectAll.bind(this)} disabled={isSelectQueryAll} type="primary">全选</Button>
+                      <Button onClick={this.onHandleSelectAll.bind(this, false)} disabled={isSelectQueryAll} type="primary" ghost>反选</Button>
+                      <Button onClick={this.onHandleSelectQueryAll} type="primary" ghost={!isSelectQueryAll}>全选整个查询</Button>
                       <Button onClick={this.onHandleDownload.bind(this)} disabled={this.state.selectedImageCount === 0 } type="primary">
                         <Badge count={this.state.selectedImageCount} offset={[10, -10]}>
                           下 载
@@ -487,7 +536,6 @@ class HomePage extends Component {
                 </React.Fragment>
               </div>
           }
-
         </div>
 
         {/* 标图列表 */}
@@ -504,10 +552,11 @@ class HomePage extends Component {
                       <div className="image-item">
                         <div className="image-operate">
                           <div className="image-check">
-                            {this.state.wantToDownload
-                              ? item.isSelected
+                            {this.state.wantToDownload && !isSelectQueryAll
+                              ? (selectedImageIds.has(item.id)
                                 ? <PackIcon onClick={this.onHandleSelect.bind(this, item, index, false)} style={{ color: '#eb2f96' }} />
                                 : <PackIcon onClick={this.onHandleSelect.bind(this, item, index, true)} />
+                              )
                               : null
                             }
                           </div>
@@ -516,28 +565,6 @@ class HomePage extends Component {
                           <img className="thumbnail" src={item.thumbnails.length > 0 ? item.thumbnails[0].url : item.dr[0].url} alt="" />
                         </div>
                         <div className="image-name">
-                          {/* {
-                            renameIndex === index
-                            ? <div style={{ display: 'flex' }}>
-                              <Input value={item.name} size="small" onChange={e => this.handleImageNewName(e)}></Input>
-                              <Button.Group style={{ display: 'flex' }}>
-                                <Button onClick={() => this.toggleShowRenameInput(-1)} size="small" style={{ fontSize: '12px'}}>取消</Button>
-                                <Button onClick={() => this.imageRenameSubmit(item)} size="small" style={{ fontSize: '12px'}}>确定</Button>
-                              </Button.Group>
-                            </div>
-                            : <React.Fragment>
-                                <h3>
-                                    {item.name.length > 10
-                                      ? <Tooltip title={item.name} placement="top">
-                                          {item.name.slice(0, 10) + '...'}
-                                        </Tooltip>
-                                      : item.name
-                                    }
-                                    <Icon onClick={() => this.toggleShowRenameInput(index)} style={{ marginLeft: '3px', cursor: 'pointer' }} type="edit" />
-                                  </h3>
-                                {item.plot ? <div className="plot-status ploted">已标</div> : <div className="plot-status unplot">未标</div>}
-                            </React.Fragment>
-                          } */}
                           <div className="image-name-detail">
                             <h3>
                               {item.name.length > 15
@@ -598,4 +625,4 @@ class HomePage extends Component {
   }
 }
 
-export default HomePage
+export default ImagePlot

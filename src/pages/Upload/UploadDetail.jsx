@@ -33,6 +33,10 @@ function UploadDetail(props) {
     setFilteredInfo(filters)
   }
 
+  const goback = () => {
+    props.history.go(-1)
+  }
+
   const refresh = useCallback(() => {
     fetchLogData()
     message.destroy()
@@ -74,9 +78,14 @@ function UploadDetail(props) {
 
   return (
     <div>
-      <Tooltip title="手动刷新" placement="bottomLeft">
-        <Button onClick={refresh} icon="sync" style={{ float: 'right', marginBottom: '5px' }} />
-      </Tooltip>
+      <div style={{ marginBottom: '5px', textAlign: 'right' }}>
+        <Tooltip title="返回" placement="bottom">
+          <Button onClick={goback} icon="rollback" style={{ marginRight: '5px' }} />
+        </Tooltip>
+        <Tooltip title="手动刷新" placement="bottomLeft">
+          <Button onClick={refresh} icon="sync" />
+        </Tooltip>
+      </div>
       <Table dataSource={uploadLogs} columns={columns} loading={loading} onChange={handleChange} rowKey="id" />
     </div>
   )

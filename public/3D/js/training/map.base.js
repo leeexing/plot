@@ -153,7 +153,8 @@ class MapMenu {
     // 点击图像菜单
     this.mapOuter.on('click', 'li', function() {
       let index = $(this).index()
-      if (!$(this).hasClass('active') && that.options.imgInstance.Viewer.hasLoaded) {
+      if (!$(this).hasClass('active') && that.options.imgInstance.checkValidateBeforeClickNext()) {
+      // if (!$(this).hasClass('active') && that.options.imgInstance.Viewer.hasLoaded) {
         $(this).addClass('active').siblings().removeClass('active')
         that.shiftPosition()
         that.options.imgInstance.updateImgSuspect()
@@ -289,4 +290,24 @@ function getUserInfo(key) {
     } catch (error) {
         return ''
     }
+}
+
+// 函数防抖
+const debounce = (f, wait = 100, immediate) => {
+  let context, timer
+  return function (...args) {
+    context = this
+    timer && clearTimeout(timer)
+    if (immediate) {
+      let callNow = !timer
+      timer = setTimeout(() => {
+        f.apply(context, args)
+      }, wait)
+      callNow && f.apply(context, args)
+    } else {
+      timer = setTimeout(() => {
+        f.apply(context, args)
+      }, wait)
+    }
+  }
 }

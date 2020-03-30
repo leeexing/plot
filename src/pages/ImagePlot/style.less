@@ -82,11 +82,19 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 0 8px;
+        padding: 8px;
         min-height: 68px;
         background: #F7F9FA;
 
+        .bugStyle {
+          .ant-form-item-control {
+            height: 40px;
+            margin-top: 4px;
+          }
+        }
+
         .download {
+          flex-shrink: 0;
           margin-left: 8px;
           background-color: #fde3cf;
           color: #f56a00;
@@ -106,8 +114,9 @@
         justify-content: center;
         align-items: center;
         height: 68px;
-        padding: 2px;
+        padding: 5px;
         background: #E7F0FD;
+        animation: guide .5s;
 
         &,
         span {

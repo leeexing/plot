@@ -12,6 +12,7 @@ class UserStore {
   @observable username = localStorage.getItem('username') || ''
   @observable avatar = localStorage.getItem('avatar') || ''
   @observable isLogined = false || !!Auth.getToken()
+  @observable enterpriseCode = localStorage.getItem('enterpriseCode') || ''
 
   @computed get getUsername() {
     return this.username
@@ -22,9 +23,11 @@ class UserStore {
     this.username = userInfo.username
     this.avatar = userInfo.avatar
     this.isLogined = true
+    this.enterpriseCode = userInfo.enterpriseCode
     localStorage.setItem('username', userInfo.username)
     localStorage.setItem('avatar', userInfo.avatar || '')
     localStorage.setItem('signalrToken', userInfo.signalrToken)
+    localStorage.setItem('enterpriseCode', userInfo.enterpriseCode)
   }
 
   @action('退出登录')
@@ -34,6 +37,7 @@ class UserStore {
     localStorage.setItem('username', null)
     localStorage.setItem('avatar', null)
     localStorage.setItem('signalrToken', null)
+    localStorage.setItem('enterpriseCode', null)
   }
 }
 

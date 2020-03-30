@@ -19,8 +19,7 @@ class Signin extends Component {
     e.preventDefault()
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        // api.loginByNuctech(values).then(res => {
-        api.login(values).then(res => {
+        api.loginByNuctech(values).then(res => {
           console.log(res)
           if (res.result) {
             let expires = res.data.expires_in / (60 * 60 * 24)
@@ -61,10 +60,6 @@ class Signin extends Component {
                 <Button type="primary" shape="round" htmlType="submit" className="login-form-button">登录</Button>
               </FormItem>
             </Form>
-            {/* <div className="third-part">
-              第三方登录:
-              <Icon type="slack" theme="outlined" />
-            </div> */}
           </div>
         </div>
       </div>
