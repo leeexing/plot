@@ -50,6 +50,10 @@ export default {
     updateImgSuspect(id, data) {
         return http.put('/api/plot/' + id, data)
     },
+    // -更新图像标注的知识点和含多嫌疑物等信息
+    updatePlotInfo(id, data) {
+        return http.put('/api/plot/update/' + id, data)
+    },
     // -图像重命名
     renameImage(id, data) {
         return http.put('/api/plot/rename/' + id, data)

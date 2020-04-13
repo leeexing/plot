@@ -281,21 +281,21 @@ class MapPreviewDR extends TrainingBaseDR {
         this.$extraInfo = $('.j-extra-info')
         this.$imgSuspectName = this.$extraInfo.find('.content')
         this.suspectKp = null
-        this.isMultiSuspect = false
+        this.isMultiSuspect = null
 
         this.title.text('DR在线标图')
         // -推出前将最后一幅图像保存
         this.beforeClose = () => {
             let renderData = this.mapMenu.activeRenderData()
-            let id = renderData.id
+            let { id, plot } = renderData
             let putData = {
                 markPos: [...this.Viewer.userSelectRegion]
             }
-            if (this.suspectKp) {
+            if (this.suspectKp !== null) {
                 putData.suspectKp = this.suspectKp
             }
-            if (this.isMultiSuspect) {
-                putData.isMultiSuspect = true
+            if (this.isMultiSuspect !== null) {
+                putData.isMultiSuspect = this.isMultiSuspect
             }
             // 如果退出前，需要选择图像类型却没有选择，就抛弃这次标记记录
             if (putData.markPos.length > 0) {
@@ -304,6 +304,15 @@ class MapPreviewDR extends TrainingBaseDR {
                 }
                 // 通过postMessage方式让标注列表组件内部进行提交
                 parent.postMessage({ id, type: 'submitPlot', postData: JSON.stringify(putData) }, location.origin)
+            } else {
+                // -记录更新图像标记信息的操作
+                delete putData.markPos
+                if (!plot) {
+                    delete putData.suspectKp
+                }
+                if (Object.keys(putData).length > 0) {
+                    parent.postMessage({ id, type: 'updatePlot', postData: JSON.stringify(putData) }, location.origin)
+                }
             }
         }
         $('.j-backout-plot').click(() => {
@@ -315,6 +324,11 @@ class MapPreviewDR extends TrainingBaseDR {
         // 添加图像类型选择
         this.$imgKpAddBtn.click(() => {
             this.kpLayerShow()
+            if (this.activeImageData.suspectid) {
+                this.kpTags.filter(`[data-kpid="${this.activeImageData.suspectid}"]`)
+                    .addClass('active')
+                    .siblings().removeClass('active')
+            }
         })
         // 添加判断是否为多嫌疑物
         this.$imgRectangleNumBtn.click(() => {
@@ -343,8 +357,7 @@ class MapPreviewDR extends TrainingBaseDR {
         this.checkPreNext()
         if (this.isNuctech) {
             this.suspectKp = null
-            this.isMultiSuspect = false
-            console.log(this.activeImageData)
+            this.isMultiSuspect = null
             if (this.activeImageData.suspectid) {
                 let selectedKpDom = this.kpTags.filter(`[data-kpid="${this.activeImageData.suspectid}"]`)
                 let suspectKpName = selectedKpDom.text().trim()
@@ -362,7 +375,7 @@ class MapPreviewDR extends TrainingBaseDR {
     }
     doSomethingOfPickImgKp (suspectKp, suspectKpName) {
         this.suspectKp = suspectKp
-        this.activeImageData.suspectid = suspectKp
+        // this.activeImageData.suspectid = suspectKp
         this.showImgSuspectName(suspectKpName)
     }
     showImgSuspectName (name) {
@@ -412,16 +425,17 @@ class MapPreviewDR extends TrainingBaseDR {
         if (!renderData) {
             return
         }
-        let { id } = renderData
+        let { id, plot } = renderData
         let putData = {
             markPos: [...this.Viewer.userSelectRegion]
         }
         if (this.suspectKp) {
             putData.suspectKp = this.suspectKp
         }
-        if (this.isMultiSuspect) {
-            putData.isMultiSuspect = true
+        if (this.isMultiSuspect !== null) {
+            putData.isMultiSuspect = this.isMultiSuspect
         }
+        // -如果用户在该副图像做了画框操作，更新！
         if (putData.markPos.length > 0) {
             $.NstsPUT(APIURI + '/api/plot/' + id, JSON.stringify(putData), res => {
                 if (!res.result) {
@@ -429,7 +443,32 @@ class MapPreviewDR extends TrainingBaseDR {
                 }
                 this.mapMenu.imgData.filter(item => item.id === id)[0].plot = true
                 this.mapMenu.activeDom(id).addClass('ploted')
+                if (putData.suspectKp) {
+                    this.mapMenu.imgData.filter(item => item.id === id)[0].suspectid = putData.suspectKp
+                }
+                if (putData.isMultiSuspect !== undefined) {
+                    this.mapMenu.imgData.filter(item => item.id === id)[0].isMultiSuspect = putData.isMultiSuspect
+                }
             })
+        } else {
+            // 如果只是修改了图像嫌疑物的知识点或者是否含多个嫌疑物，直接更新
+            delete putData.markPos
+            if (!plot) {
+                delete putData.suspectKp
+            }
+            if (Object.keys(putData).length > 0) {
+                $.NstsPUT(APIURI + '/api/plot/update/' + id, JSON.stringify(putData), res => {
+                    if (!res.result) {
+                        console.log(res.msg)
+                    }
+                    if (putData.suspectKp) {
+                        this.mapMenu.imgData.filter(item => item.id === id)[0].suspectid = putData.suspectKp
+                    }
+                    if (putData.isMultiSuspect !== undefined) {
+                        this.mapMenu.imgData.filter(item => item.id === id)[0].isMultiSuspect = putData.isMultiSuspect
+                    }
+                })
+            }
         }
     }
     // 恢复图像的标记
@@ -438,6 +477,10 @@ class MapPreviewDR extends TrainingBaseDR {
         let markPos = this.Viewer.userSelectRegion
         if (markPos.length > 0) {
             this.clearUserSelectRegion()
+            if (this.isNuctech) {
+                this.suspectKp = null
+                this.$imgSuspectName.text('未选择')
+            }
         }
         if (!plot) {
             return
@@ -459,10 +502,9 @@ class MapPreviewDR extends TrainingBaseDR {
             this.activeImageData.plot = false
             this.mapMenu.activeDom(id).removeClass('ploted')
             if (this.isNuctech) {
+                this.activeImageData.suspectid = null
                 this.suspectKp = null
                 this.$imgSuspectName.text('未选择')
-                this.isMultiSuspect = false
-                this.$imgRectangleNumBtn.removeClass('active')
             }
         }, {
             contentType: 'application/json'

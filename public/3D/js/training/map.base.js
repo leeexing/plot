@@ -7,16 +7,19 @@ class MapMenu {
   constructor (options={}) {
     this.version = '1.0'
     this.options = {
-      url: '/api/upload'
+      url: '/api/upload',
+      limit: 20,
     }
     Object.assign(this.options, options)
     this.options.img_sql.page = this.options.img_sql.page ? Number(this.options.img_sql.page) : 1
+    this.options.img_sql.limit = this.options.img_sql.limit ? Number(this.options.img_sql.limit) : 20
+    this.options.limit = this.options.img_sql.limit
     this.init()
   }
   init () {
     this.activeIndex = 0
     this.activeID = null
-    this.pagesCount = Math.ceil(this.options.img_sql.count / 20)
+    this.pagesCount = Math.ceil(this.options.img_sql.count / this.options.limit)
     this.page = this.options.img_sql.page
     this.imgData = null
     this.initElement()
@@ -29,7 +32,7 @@ class MapMenu {
     $.NstsGET(APIURI + this.options.url, this.options.img_sql, function (data) {
         that.imgData = data.data.images
         that.imgCount = data.data.images.length
-        that.pagesCount = that.pagesCount || Math.ceil(that.imgCount / 20)
+        that.pagesCount = that.pagesCount || Math.ceil(that.imgCount / this.options.limit)
         that.generateImgList(data.data.images)
         that.initShow()
     },{

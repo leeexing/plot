@@ -62,12 +62,18 @@ class ImagePlot extends Component {
     }
     this.fullScreenDOM = document.getElementById('fullscreen')
     this.fetchData()
-    // 监听全屏界面传递过来的提交标注图像的消息
+    // 监听全屏界面传递过来的提交标注图像的消息，或者更新图像危险物相关信息
     window.onmessage = msgEvent => {
       let { type, id, postData } = msgEvent.data
       if (type === 'submitPlot') {
-        console.log(88888, msgEvent)
+        console.log('submitPlot', msgEvent)
         api.updateImgSuspect(id, JSON.parse(postData)).then(res => {
+          this.fetchData()
+        }).catch(console.error)
+      }
+      if (type === 'updatePlot') {
+        console.log('updatePlot', msgEvent)
+        api.updatePlotInfo(id, JSON.parse(postData)).then(res => {
           this.fetchData()
         }).catch(console.error)
       }
@@ -228,7 +234,7 @@ class ImagePlot extends Component {
   // -是否含多个嫌疑物
   handleSuspectCountChange = (value) => {
     console.log('是否含多个嫌疑物', value)
-    this.setState({ suspectNum: value }, this.fetchData.bind(this, true))
+    this.setState({ suspectNum: value === undefined ? 0 : value }, this.fetchData.bind(this, true))
   }
 
   search = value => {
@@ -372,7 +378,7 @@ class ImagePlot extends Component {
   toggleShowRenameInput(item, index = -1) {
     if (index !== -1) {
       this.setState({
-        imageName: item.name,
+        imageOldName: item.name,
         renameImageId: item.id,
         renameModal: true
       })
@@ -400,7 +406,7 @@ class ImagePlot extends Component {
     api.renameImage(this.state.renameImageId, putData).then(res => {
       if (res.result) {
         this.setState({
-          imageName: '',
+          imageOldName: '',
           imageNewName: '',
           renameImageId: null,
           renameModal: false
@@ -428,7 +434,7 @@ class ImagePlot extends Component {
       currentPage,
       total,
       pageSize,
-      imageName,
+      imageOldName,
       imageNewName,
       imageList,
       selectedImageIds,
@@ -617,7 +623,7 @@ class ImagePlot extends Component {
           onOk={this.imageRenameSubmit}
           onCancel={() => this.toggleShowRenameInput(null, -1)}
         >
-          <p>原图像名称：{imageName}</p>
+          <p>原图像名称：{imageOldName}</p>
           <Input value={imageNewName} onChange={e => this.handleImageNewName(e)} placeholder="请输入图像新名称"></Input>
         </Modal>
       </div>
