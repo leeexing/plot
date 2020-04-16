@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
-import { Divider, Input, Table, Tag, Button,
+import { Divider, Input, Table, Tag, Button, Modal,
         Popconfirm, Pagination, Tooltip } from 'antd'
 
 import api from '@/api'
-import { calculateSize } from '@/util'
+import { calculateSize, isExpire } from '@/util'
 
 const statusText = ['失效', '打包中...', '打包完成']
 const statusColor = ['#666', 'geekblue', 'green']
@@ -71,7 +71,10 @@ class Download extends Component {
         render: (src, record) => <span>
           {record.status === 2
             ? <React.Fragment>
-                <a href={src} onClick={() => this.recordDownloadCount(record.id)} >下载</a>
+                {isExpire(record.createTime)
+                  ? <a onClick={() => this.recordDownloadCount(record.id, record.createTime)} style={{color: '#999'}}>下载</a>
+                  : <a href={src} onClick={() => this.recordDownloadCount(record.id)}>下载</a>
+                }
                 <Divider type="vertical" />
                 {
                   this.confirmDelete(record)
@@ -150,7 +153,18 @@ class Download extends Component {
     })
   }
 
-  recordDownloadCount = id => {
+  recordDownloadCount = (id, createTime) => {
+    if (isExpire(createTime)) {
+      Modal.info({
+        title: '过期提醒',
+        content: (
+          <div>
+            <p>下载资源已失效（超过两个月），请重新打包下载</p>
+          </div>
+        ),
+        onOk() {},
+      })
+    }
     api.recordDownloadCount(id).then(res => {
       if (res.result) {
         this.fetchData()

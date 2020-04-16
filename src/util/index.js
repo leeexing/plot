@@ -73,6 +73,11 @@ export function secondsToStr(temp) {
   }
 }
 
+export const isExpire = (dateStr, expireMonth = 2) => {
+  let date = new Date(dateStr)
+  return (Date.now() - date.getTime()) > 3600 * 24 * 1000 * expireMonth
+}
+
 // 函数防抖
 export const debounce = (f, wait = 100, immediate) => {
   let context, timer
